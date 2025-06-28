@@ -1,0 +1,45 @@
+Created by Vadim Sorokolit.
+at: 28.06.2025
+
+
+============================================
+============ <<< "PinBoard" >>> ============
+============================================
+
+
+Authentication - (Face ID):
+---------------------------
+https://canopas.com/implement-face-id-authentication-in-the-ios-app-2f1160aadf1f
+
+
+Tab I - (Interactive Table):
+-----------------------------
+https://canopas.com/how-to-create-interactive-table-view-in-swiftui-68aad2f14811
+
+
+Tab II - (Map):
+------------------
+Map view with all Pin's on it.
+Search new location by long press on map - 
+API: https://openweathermap.org/api/geocoding-api
+
+
+Tab III - (Settings):
+--------------------
+"Pins color"
+🔴 🔵 🟡 🟣 🟢 
+
+
+
+
+Animations:
+
+1. Tab bar SF Symbols should be animated:
+	a) https://www.youtube.com/watch?v=NBPBe7MmPJ0
+	b) https://www.youtube.com/watch?v=l9OF-4A7ewI
+
+2. Tap on Map Pin should show frame with location name, with bubble effect.
+
+3. Border of Settings colors should move animated to the selected color.
+
+
