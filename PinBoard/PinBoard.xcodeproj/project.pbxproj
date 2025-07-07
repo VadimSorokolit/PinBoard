@@ -10,6 +10,7 @@
 		DD8E79862E1BA4E6001CF2D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD8E79822E1BA4E6001CF2D4 /* Assets.xcassets */; };
 		DD8E79872E1BA4E6001CF2D4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79832E1BA4E6001CF2D4 /* ContentView.swift */; };
 		DD8E79882E1BA4E6001CF2D4 /* PinBoardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79842E1BA4E6001CF2D4 /* PinBoardApp.swift */; };
+		DD8E79902E1BB414001CF2D4 /* Untitled.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E798F2E1BB413001CF2D4 /* Untitled.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -17,6 +18,7 @@
 		DD8E79822E1BA4E6001CF2D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DD8E79832E1BA4E6001CF2D4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		DD8E79842E1BA4E6001CF2D4 /* PinBoardApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinBoardApp.swift; sourceTree = "<group>"; };
+		DD8E798F2E1BB413001CF2D4 /* Untitled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Untitled.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +53,7 @@
 			children = (
 				DD8E79892E1BA52F001CF2D4 /* MainView */,
 				DD8E798A2E1BA578001CF2D4 /* MVVM */,
+				DD8E798E2E1BB3F1001CF2D4 /* Extensions */,
 				DD8E79822E1BA4E6001CF2D4 /* Assets.xcassets */,
 			);
 			path = PinBoard;
@@ -86,6 +89,14 @@
 				DD8E79832E1BA4E6001CF2D4 /* ContentView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		DD8E798E2E1BB3F1001CF2D4 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				DD8E798F2E1BB413001CF2D4 /* Untitled.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -160,6 +171,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD8E79902E1BB414001CF2D4 /* Untitled.swift in Sources */,
 				DD8E79872E1BA4E6001CF2D4 /* ContentView.swift in Sources */,
 				DD8E79882E1BA4E6001CF2D4 /* PinBoardApp.swift in Sources */,
 			);
@@ -299,6 +311,7 @@
 				DEVELOPMENT_TEAM = D28SS25G7Y;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Use Face ID for quick and secure app access";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -327,6 +340,7 @@
 				DEVELOPMENT_TEAM = D28SS25G7Y;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Use Face ID for quick and secure app access";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
