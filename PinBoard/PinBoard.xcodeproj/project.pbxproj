@@ -13,6 +13,8 @@
 		DD728AC82E1D917F00984BD5 /* NumberPadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728AC72E1D917E00984BD5 /* NumberPadView.swift */; };
 		DD728ACA2E1D921500984BD5 /* PasscodeIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728AC92E1D921400984BD5 /* PasscodeIndicatorView.swift */; };
 		DD728ACE2E1D945600984BD5 /* PasscodeTemplateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728ACD2E1D945500984BD5 /* PasscodeTemplateView.swift */; };
+		DD728AD02E1D965000984BD5 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728ACF2E1D964700984BD5 /* SignInView.swift */; };
+		DD728AD22E1D967E00984BD5 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728AD12E1D967500984BD5 /* SignUpView.swift */; };
 		DD8E79862E1BA4E6001CF2D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD8E79822E1BA4E6001CF2D4 /* Assets.xcassets */; };
 		DD8E79872E1BA4E6001CF2D4 /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79832E1BA4E6001CF2D4 /* TableView.swift */; };
 		DD8E79882E1BA4E6001CF2D4 /* PinBoardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79842E1BA4E6001CF2D4 /* PinBoardApp.swift */; };
@@ -30,6 +32,8 @@
 		DD728AC72E1D917E00984BD5 /* NumberPadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberPadView.swift; sourceTree = "<group>"; };
 		DD728AC92E1D921400984BD5 /* PasscodeIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeIndicatorView.swift; sourceTree = "<group>"; };
 		DD728ACD2E1D945500984BD5 /* PasscodeTemplateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeTemplateView.swift; sourceTree = "<group>"; };
+		DD728ACF2E1D964700984BD5 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
+		DD728AD12E1D967500984BD5 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		DD8E79622E1BA2D0001CF2D4 /* PinBoard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PinBoard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD8E79822E1BA4E6001CF2D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DD8E79832E1BA4E6001CF2D4 /* TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableView.swift; sourceTree = "<group>"; };
@@ -110,6 +114,8 @@
 		DD8E798C2E1BA5CF001CF2D4 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				DD728AD12E1D967500984BD5 /* SignUpView.swift */,
+				DD728ACF2E1D964700984BD5 /* SignInView.swift */,
 				DD728ACD2E1D945500984BD5 /* PasscodeTemplateView.swift */,
 				DD728AC72E1D917E00984BD5 /* NumberPadView.swift */,
 				DD728AC92E1D921400984BD5 /* PasscodeIndicatorView.swift */,
@@ -226,6 +232,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD8E799A2E1BBF01001CF2D4 /* Data+padWithZeros.swift in Sources */,
+				DD728AD22E1D967E00984BD5 /* SignUpView.swift in Sources */,
 				DD728AC62E1D8F9C00984BD5 /* PinBoardViewModel.swift in Sources */,
 				DD8E79922E1BB685001CF2D4 /* LAContext+biometricType.swift in Sources */,
 				DD728AC22E1D8CD300984BD5 /* SettingsView.swift in Sources */,
@@ -233,6 +240,7 @@
 				DD8E79982E1BBE79001CF2D4 /* AESEncryptionManager.swift in Sources */,
 				DD728ACA2E1D921500984BD5 /* PasscodeIndicatorView.swift in Sources */,
 				DD8E79872E1BA4E6001CF2D4 /* TableView.swift in Sources */,
+				DD728AD02E1D965000984BD5 /* SignInView.swift in Sources */,
 				DD728AC82E1D917F00984BD5 /* NumberPadView.swift in Sources */,
 				DD8E79A52E1BF11D001CF2D4 /* GlobalConstants.swift in Sources */,
 				DD728ACE2E1D945600984BD5 /* PasscodeTemplateView.swift in Sources */,
