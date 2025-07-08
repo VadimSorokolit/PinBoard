@@ -11,6 +11,10 @@
 		DD8E79872E1BA4E6001CF2D4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79832E1BA4E6001CF2D4 /* ContentView.swift */; };
 		DD8E79882E1BA4E6001CF2D4 /* PinBoardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79842E1BA4E6001CF2D4 /* PinBoardApp.swift */; };
 		DD8E79922E1BB685001CF2D4 /* LAContext+biometricType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79912E1BB684001CF2D4 /* LAContext+biometricType.swift */; };
+		DD8E79952E1BBD7D001CF2D4 /* Authenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79942E1BBD7B001CF2D4 /* Authenticator.swift */; };
+		DD8E79982E1BBE79001CF2D4 /* AESEncryptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79972E1BBE77001CF2D4 /* AESEncryptionManager.swift */; };
+		DD8E799A2E1BBF01001CF2D4 /* Data+padWithZeros.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79992E1BBF00001CF2D4 /* Data+padWithZeros.swift */; };
+		DD8E79A52E1BF11D001CF2D4 /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79A42E1BF114001CF2D4 /* GlobalConstants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +23,10 @@
 		DD8E79832E1BA4E6001CF2D4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		DD8E79842E1BA4E6001CF2D4 /* PinBoardApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinBoardApp.swift; sourceTree = "<group>"; };
 		DD8E79912E1BB684001CF2D4 /* LAContext+biometricType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LAContext+biometricType.swift"; sourceTree = "<group>"; };
+		DD8E79942E1BBD7B001CF2D4 /* Authenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authenticator.swift; sourceTree = "<group>"; };
+		DD8E79972E1BBE77001CF2D4 /* AESEncryptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AESEncryptionManager.swift; sourceTree = "<group>"; };
+		DD8E79992E1BBF00001CF2D4 /* Data+padWithZeros.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+padWithZeros.swift"; sourceTree = "<group>"; };
+		DD8E79A42E1BF114001CF2D4 /* GlobalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +61,9 @@
 			children = (
 				DD8E79892E1BA52F001CF2D4 /* MainView */,
 				DD8E798A2E1BA578001CF2D4 /* MVVM */,
+				DD8E79962E1BBE63001CF2D4 /* Manager */,
+				DD8E79932E1BBD39001CF2D4 /* Service */,
+				DD8E799F2E1BF023001CF2D4 /* Resources */,
 				DD8E798E2E1BB3F1001CF2D4 /* Extensions */,
 				DD8E79822E1BA4E6001CF2D4 /* Assets.xcassets */,
 			);
@@ -94,9 +105,34 @@
 		DD8E798E2E1BB3F1001CF2D4 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				DD8E79992E1BBF00001CF2D4 /* Data+padWithZeros.swift */,
 				DD8E79912E1BB684001CF2D4 /* LAContext+biometricType.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		DD8E79932E1BBD39001CF2D4 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				DD8E79942E1BBD7B001CF2D4 /* Authenticator.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		DD8E79962E1BBE63001CF2D4 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				DD8E79972E1BBE77001CF2D4 /* AESEncryptionManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		DD8E799F2E1BF023001CF2D4 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				DD8E79A42E1BF114001CF2D4 /* GlobalConstants.swift */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -171,8 +207,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD8E799A2E1BBF01001CF2D4 /* Data+padWithZeros.swift in Sources */,
 				DD8E79922E1BB685001CF2D4 /* LAContext+biometricType.swift in Sources */,
+				DD8E79982E1BBE79001CF2D4 /* AESEncryptionManager.swift in Sources */,
 				DD8E79872E1BA4E6001CF2D4 /* ContentView.swift in Sources */,
+				DD8E79A52E1BF11D001CF2D4 /* GlobalConstants.swift in Sources */,
+				DD8E79952E1BBD7D001CF2D4 /* Authenticator.swift in Sources */,
 				DD8E79882E1BA4E6001CF2D4 /* PinBoardApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
