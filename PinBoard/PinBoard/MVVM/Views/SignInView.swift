@@ -8,9 +8,68 @@
 import SwiftUI
 
 struct SignInView: View {
+    @Environment(PinBoardViewModel.self) private var viewModel
+    @State var isWrongPassword:Bool = false
     
     var body: some View {
-        Text("SignInView")
+        PasscodeTemplateView(isWrongPassword: $isWrongPassword, title: "Enter", titleText: "for Sign In", onComplete: {
+            let success = viewModel.verifyPasscode()
+            if !success {
+                isWrongPassword = true
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    isWrongPassword = false
+                    viewModel.passcode = ""
+                }
+            } else {
+                viewModel.passcode = ""
+            }
+        }) {
+            VStack {
+                HStack(spacing: 20.0) {
+                    if !viewModel.authenticator.isBiometricLocked {
+                        if viewModel.authenticator.biometryType == .faceID {
+                            
+                            Button(action: {
+                                viewModel.authenticator.unlockWithFaceId() }) {
+                                    Image(systemName: "faceid")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 40.0)
+                                }
+                        }
+                        if viewModel.authenticator.biometryType == .touchID {
+                            
+                            Button(action: {
+                                
+                                viewModel.authenticator.unlockWithFaceId() }) {
+                                    Image(systemName: "touchid")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 40.0)
+                                }
+                        }
+                    }
+                    
+                    Button(action: {
+                        
+                        viewModel.showNumPad()
+                    }) {
+                        Image(systemName: "keyboard")
+                            .font(.title)
+                            .padding(.vertical, 16.0)
+                            .contentShape(Rectangle())
+                    }
+                }
+                if !viewModel.hideNumberPad {
+                    NumberPadView(
+                        onAdd: viewModel.onAddValue,
+                        onRemoveLast: viewModel.onRemoveValue,
+                        onDissmis: viewModel.onDissmis
+                    )
+                }
+            }
+        }
     }
     
 }
