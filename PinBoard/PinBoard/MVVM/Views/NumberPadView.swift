@@ -1,5 +1,5 @@
 //
-//  NumberPad.swift
+//  NumberPadView.swift
 //  PinBoard
 //
 //  Created by Vadim Sorokolit on 08.07.2025.
@@ -7,7 +7,7 @@
     
 import SwiftUI
 
-struct NumberPad: View {
+struct NumberPadView: View {
     let onAdd: (_ value: Int) -> Void
     let onRemoveLast: () -> Void
     let onDissmis: () -> Void
