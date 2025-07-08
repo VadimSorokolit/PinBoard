@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		DD728AC22E1D8CD300984BD5 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728AC12E1D8CCB00984BD5 /* SettingsView.swift */; };
 		DD728AC42E1D8E2B00984BD5 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728AC32E1D8E2A00984BD5 /* MapView.swift */; };
+		DD728AC62E1D8F9C00984BD5 /* PinBoardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728AC52E1D8F8800984BD5 /* PinBoardViewModel.swift */; };
 		DD8E79862E1BA4E6001CF2D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD8E79822E1BA4E6001CF2D4 /* Assets.xcassets */; };
 		DD8E79872E1BA4E6001CF2D4 /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79832E1BA4E6001CF2D4 /* TableView.swift */; };
 		DD8E79882E1BA4E6001CF2D4 /* PinBoardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79842E1BA4E6001CF2D4 /* PinBoardApp.swift */; };
@@ -22,6 +23,7 @@
 /* Begin PBXFileReference section */
 		DD728AC12E1D8CCB00984BD5 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		DD728AC32E1D8E2A00984BD5 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		DD728AC52E1D8F8800984BD5 /* PinBoardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinBoardViewModel.swift; sourceTree = "<group>"; };
 		DD8E79622E1BA2D0001CF2D4 /* PinBoard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PinBoard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD8E79822E1BA4E6001CF2D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DD8E79832E1BA4E6001CF2D4 /* TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableView.swift; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 		DD8E798B2E1BA5C4001CF2D4 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				DD728AC52E1D8F8800984BD5 /* PinBoardViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -214,6 +217,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD8E799A2E1BBF01001CF2D4 /* Data+padWithZeros.swift in Sources */,
+				DD728AC62E1D8F9C00984BD5 /* PinBoardViewModel.swift in Sources */,
 				DD8E79922E1BB685001CF2D4 /* LAContext+biometricType.swift in Sources */,
 				DD728AC22E1D8CD300984BD5 /* SettingsView.swift in Sources */,
 				DD728AC42E1D8E2B00984BD5 /* MapView.swift in Sources */,
