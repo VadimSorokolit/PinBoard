@@ -11,6 +11,7 @@
 		DD728AC42E1D8E2B00984BD5 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728AC32E1D8E2A00984BD5 /* MapView.swift */; };
 		DD728AC62E1D8F9C00984BD5 /* PinBoardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728AC52E1D8F8800984BD5 /* PinBoardViewModel.swift */; };
 		DD728AC82E1D917F00984BD5 /* NumberPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728AC72E1D917E00984BD5 /* NumberPad.swift */; };
+		DD728ACA2E1D921500984BD5 /* PasscodeIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728AC92E1D921400984BD5 /* PasscodeIndicatorView.swift */; };
 		DD8E79862E1BA4E6001CF2D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD8E79822E1BA4E6001CF2D4 /* Assets.xcassets */; };
 		DD8E79872E1BA4E6001CF2D4 /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79832E1BA4E6001CF2D4 /* TableView.swift */; };
 		DD8E79882E1BA4E6001CF2D4 /* PinBoardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79842E1BA4E6001CF2D4 /* PinBoardApp.swift */; };
@@ -26,6 +27,7 @@
 		DD728AC32E1D8E2A00984BD5 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		DD728AC52E1D8F8800984BD5 /* PinBoardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinBoardViewModel.swift; sourceTree = "<group>"; };
 		DD728AC72E1D917E00984BD5 /* NumberPad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberPad.swift; sourceTree = "<group>"; };
+		DD728AC92E1D921400984BD5 /* PasscodeIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeIndicatorView.swift; sourceTree = "<group>"; };
 		DD8E79622E1BA2D0001CF2D4 /* PinBoard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PinBoard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD8E79822E1BA4E6001CF2D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DD8E79832E1BA4E6001CF2D4 /* TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableView.swift; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 			isa = PBXGroup;
 			children = (
 				DD728AC72E1D917E00984BD5 /* NumberPad.swift */,
+				DD728AC92E1D921400984BD5 /* PasscodeIndicatorView.swift */,
 				DD728AC32E1D8E2A00984BD5 /* MapView.swift */,
 				DD728AC12E1D8CCB00984BD5 /* SettingsView.swift */,
 				DD8E79832E1BA4E6001CF2D4 /* TableView.swift */,
@@ -225,6 +228,7 @@
 				DD728AC22E1D8CD300984BD5 /* SettingsView.swift in Sources */,
 				DD728AC42E1D8E2B00984BD5 /* MapView.swift in Sources */,
 				DD8E79982E1BBE79001CF2D4 /* AESEncryptionManager.swift in Sources */,
+				DD728ACA2E1D921500984BD5 /* PasscodeIndicatorView.swift in Sources */,
 				DD8E79872E1BA4E6001CF2D4 /* TableView.swift in Sources */,
 				DD728AC82E1D917F00984BD5 /* NumberPad.swift in Sources */,
 				DD8E79A52E1BF11D001CF2D4 /* GlobalConstants.swift in Sources */,
