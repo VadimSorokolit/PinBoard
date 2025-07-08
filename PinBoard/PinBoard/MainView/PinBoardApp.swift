@@ -9,7 +9,25 @@ import SwiftUI
 
 @main
 struct PinBoardApp: App {
+    
+    // MARK: - Properties
+    
+    @State private var viewModel = PinBoardViewModel(authenticator: Authenticator())
+    @AppStorage(GlobalConstants.userDefaultPasscodeKey) private var passcode: String?
+
+    // MARK: - Root Scene
+    
     var body: some Scene {
-        WindowGroup {}
+        WindowGroup {
+            if viewModel.isUnlocked {
+                TableView()
+            } else if passcode != nil {
+                SignInView()
+            } else {
+                SignUpView()
+            }
+        }
+        .environment(viewModel)
     }
+    
 }
