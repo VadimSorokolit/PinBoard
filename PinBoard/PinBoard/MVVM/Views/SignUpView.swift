@@ -8,9 +8,15 @@
 import SwiftUI
 
 struct SignUpView: View {
+    @Environment(PinBoardViewModel.self) private var viewModel
     
     var body: some View {
-        Text("SignUpView")
+        PasscodeTemplateView(isWrongPassword: .constant(false), title: "Register", titleText: "for Sign Up", onComplete: {
+            viewModel.registerPasscode()
+        }) {
+            
+            NumberPadView(onAdd: viewModel.onAddValue, onRemoveLast: viewModel.onRemoveValue, onDissmis: viewModel.onDissmis)
+        }
     }
     
 }
