@@ -7,10 +7,10 @@
     
 import SwiftUI
 
-struct TableView: View {
+struct ListView: View {
     
     var body: some View {
-        Text("TableView")
+        Text("ListView")
     }
     
 }

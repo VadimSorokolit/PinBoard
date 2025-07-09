@@ -9,23 +9,17 @@ import SwiftUI
 
 @Observable
 class PinBoardViewModel {
-    
-    // Objects
-    
-    struct Constants {
-        static let passcodeLength: Int = 4
-    }
-    
+
     // MARK: - Properties. Public
     
-    @ObservationIgnored let passcodeLength: Int = Constants.passcodeLength
     var passcode = ""
     var isUnlocked: Bool {
       get { authenticator.isAuthenticated }
       set { authenticator.isAuthenticated = newValue }
     }
     var hideNumberPad: Bool = true
-    var authenticator: Authenticator
+    
+    let authenticator: Authenticator
     private let dataStorage: LocalStorage
     
     // MARK: - Inititializer
@@ -38,50 +32,50 @@ class PinBoardViewModel {
     // MARK: - Methods. Public
     
     func registerPasscode() {
-        guard self.passcode.count == self.passcodeLength else { return }
+        guard self.passcode.count == GlobalConstants.passcodeLength else { return }
         
-        authenticator.setPasscodeWith(self.passcode)
+        self.authenticator.setPasscodeWith(self.passcode)
     }
 
     func verifyPasscode() -> Bool {
-        guard passcode.count == passcodeLength else {
+        guard self.passcode.count == GlobalConstants.passcodeLength else {
             return false
         }
         
-        let success = self.authenticator.verifyPin(pin: passcode)
+        let success = self.authenticator.verifyPin(pin: self.passcode)
         
         return success
     }
     
     func onAddValue(_ value: Int) {
-        if passcode.count < passcodeLength {
-            passcode += "\(value)"
+        if self.passcode.count < GlobalConstants.passcodeLength {
+            self.passcode += "\(value)"
         }
     }
     
     func onRemoveValue() {
-        if !passcode.isEmpty{
-            passcode.removeLast()
+        if !self.passcode.isEmpty{
+            self.passcode.removeLast()
         }
     }
     
     func onDissmis() {
         withAnimation {
-            hideNumberPad = true
+            self.hideNumberPad = true
         }
     }
     
     func showNumPad() {
         withAnimation {
-            hideNumberPad = false
+            self.hideNumberPad = false
         }
     }
     
     func resetAuthenticationState() {
-        passcode = ""
-        hideNumberPad = true
-        isUnlocked = false
-        authenticator.isAuthenticated = false
+        self.passcode = ""
+        self.hideNumberPad = true
+        self.isUnlocked = false
+        self.authenticator.isAuthenticated = false
     }
     
 }

@@ -17,12 +17,12 @@ struct PasscodeTemplateView<Content: View>: View {
 
     var body: some View {
         VStack(spacing: 48.0) {
-            TitleView(passcodeLength: viewModel.passcodeLength, title: title, titleText: titleText)
+            TitleView(title: title, titleText: titleText)
             
             PasscodeWithContentView(isWrongPassword: $isWrongPassword, content: content)
         }
         .onChange(of: viewModel.passcode) { oldValue, newValue in
-            guard newValue.count == viewModel.passcodeLength else {
+            guard newValue.count == GlobalConstants.passcodeLength else {
                 return
             }
             onComplete()
@@ -30,7 +30,6 @@ struct PasscodeTemplateView<Content: View>: View {
     }
     
     private struct TitleView: View {
-        let passcodeLength: Int
         let title: String
         let titleText: String
         
@@ -40,7 +39,7 @@ struct PasscodeTemplateView<Content: View>: View {
                     .font(.largeTitle)
                     .fontWeight(.heavy)
                 
-                Text("Please enter \(passcodeLength)-digit PIN \(titleText)")
+                Text("Please enter \(GlobalConstants.passcodeLength) digit PIN \(titleText)")
                     .font(.subheadline)
                     .multilineTextAlignment(.center)
             }

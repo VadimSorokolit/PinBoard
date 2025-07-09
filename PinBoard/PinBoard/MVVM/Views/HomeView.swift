@@ -27,7 +27,7 @@ struct HomeView: View {
                 NavigationStack {
                     switch activeTab {
                         case .list:
-                            TableView()
+                            ListView()
                         case .map:
                             MapView()
                         case .settings:

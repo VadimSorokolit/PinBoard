@@ -20,7 +20,13 @@ final class StorageLocation {
     
     // MARK: - Initializer
     
-    init(id: String = UUID().uuidString, name: String = "", longitude: Double = 0.0, latitude: Double  = 0.0) {
+    init(
+        id: String = UUID().uuidString,
+        index:Int = 0,
+        name: String = "",
+        longitude: Double = 0.0,
+        latitude: Double  = 0.0
+    ) {
         self.id        = id
         self.name      = name
         self.longitude = longitude

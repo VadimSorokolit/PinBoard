@@ -9,4 +9,5 @@ import Foundation
 
 struct GlobalConstants {
     static let userDefaultPasscodeKey: String = "passcode"
+    static let passcodeLength: Int = 4
 }

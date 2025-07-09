@@ -21,7 +21,7 @@
 		DD728B882E1EA30400984BD5 /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728B872E1EA30400984BD5 /* LocalStorage.swift */; };
 		DD728B8A2E1EA3DF00984BD5 /* StorageLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728B892E1EA3DE00984BD5 /* StorageLocation.swift */; };
 		DD8E79862E1BA4E6001CF2D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD8E79822E1BA4E6001CF2D4 /* Assets.xcassets */; };
-		DD8E79872E1BA4E6001CF2D4 /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79832E1BA4E6001CF2D4 /* TableView.swift */; };
+		DD8E79872E1BA4E6001CF2D4 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79832E1BA4E6001CF2D4 /* ListView.swift */; };
 		DD8E79882E1BA4E6001CF2D4 /* PinBoardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79842E1BA4E6001CF2D4 /* PinBoardApp.swift */; };
 		DD8E79922E1BB685001CF2D4 /* LAContext+biometricType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79912E1BB684001CF2D4 /* LAContext+biometricType.swift */; };
 		DD8E79952E1BBD7D001CF2D4 /* Authenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79942E1BBD7B001CF2D4 /* Authenticator.swift */; };
@@ -46,7 +46,7 @@
 		DD728B892E1EA3DE00984BD5 /* StorageLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageLocation.swift; sourceTree = "<group>"; };
 		DD8E79622E1BA2D0001CF2D4 /* PinBoard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PinBoard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD8E79822E1BA4E6001CF2D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		DD8E79832E1BA4E6001CF2D4 /* TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableView.swift; sourceTree = "<group>"; };
+		DD8E79832E1BA4E6001CF2D4 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		DD8E79842E1BA4E6001CF2D4 /* PinBoardApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinBoardApp.swift; sourceTree = "<group>"; };
 		DD8E79912E1BB684001CF2D4 /* LAContext+biometricType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LAContext+biometricType.swift"; sourceTree = "<group>"; };
 		DD8E79942E1BBD7B001CF2D4 /* Authenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authenticator.swift; sourceTree = "<group>"; };
@@ -152,7 +152,7 @@
 				DD728AC12E1D8CCB00984BD5 /* SettingsView.swift */,
 				DD728ACF2E1D964700984BD5 /* SignInView.swift */,
 				DD728AD12E1D967500984BD5 /* SignUpView.swift */,
-				DD8E79832E1BA4E6001CF2D4 /* TableView.swift */,
+				DD8E79832E1BA4E6001CF2D4 /* ListView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -278,7 +278,7 @@
 				DD728AC42E1D8E2B00984BD5 /* MapView.swift in Sources */,
 				DD8E79982E1BBE79001CF2D4 /* AESEncryptionManager.swift in Sources */,
 				DD728ACA2E1D921500984BD5 /* PasscodeIndicatorView.swift in Sources */,
-				DD8E79872E1BA4E6001CF2D4 /* TableView.swift in Sources */,
+				DD8E79872E1BA4E6001CF2D4 /* ListView.swift in Sources */,
 				DD728AD02E1D965000984BD5 /* SignInView.swift in Sources */,
 				DD728B882E1EA30400984BD5 /* LocalStorage.swift in Sources */,
 				DD728AC82E1D917F00984BD5 /* NumberPadView.swift in Sources */,
