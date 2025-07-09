@@ -5,8 +5,7 @@
 //  Created by Vadim Sorokolit on 08.07.2025.
 //
 
-import SwiftUI
-import LocalAuthentication
+import Foundation
 
 @Observable
 class PinBoardViewModel {
@@ -67,15 +66,11 @@ class PinBoardViewModel {
     }
     
     func onDissmis() {
-        withAnimation {
-            self.hideNumberPad = true
-        }
+        self.hideNumberPad = true
     }
     
     func showNumPad() {
-        withAnimation {
-            self.hideNumberPad = false
-        }
+        self.hideNumberPad = false
     }
     
     func unlockWithFaceId() {
@@ -87,6 +82,27 @@ class PinBoardViewModel {
         self.hideNumberPad = true
         self.isUnlocked = false
         self.authenticator.isAuthenticated = false
+    }
+    
+    func clearLocalStorage() {
+        let fileManager = FileManager.default
+        
+        let baseURL = FileManager.default
+            .urls(for: .applicationSupportDirectory, in: .userDomainMask)
+            .first!
+        
+        let storeURL = baseURL.appendingPathComponent("default.store")
+        
+        if fileManager.fileExists(atPath: storeURL.path) {
+            do {
+                try fileManager.removeItem(at: storeURL)
+                print("SwiftData cleaned: \(storeURL.path)")
+            } catch {
+                print(error)
+            }
+        } else {
+            print(storeURL.path)
+        }
     }
     
 }

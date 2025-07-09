@@ -4,7 +4,8 @@
 //
 //  Created by Vadim Sorokolit on 07.07.2025.
 //
-    
+
+import Foundation
 import LocalAuthentication
 
 extension LAContext {

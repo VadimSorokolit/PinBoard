@@ -4,7 +4,8 @@
 //
 //  Created by Vadim Sorokolit on 07.07.2025.
 //
-    
+
+import Foundation
 import SwiftUI
 import SwiftData
 
@@ -20,6 +21,10 @@ struct PinBoardApp: App {
     // MARK: - Initializer
     
     init() {
+// MARK: - For testing
+#if DEBUG
+//        viewModel.clearLocalStorage()
+#endif
         let schema = Schema([StorageLocation.self])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
         

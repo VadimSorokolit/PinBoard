@@ -53,7 +53,9 @@ struct SignInView: View {
                     
                     Button(action: {
                         
-                        viewModel.showNumPad()
+                        withAnimation {
+                            viewModel.showNumPad()
+                        }
                     }) {
                         Image(systemName: "keyboard")
                             .font(.title)

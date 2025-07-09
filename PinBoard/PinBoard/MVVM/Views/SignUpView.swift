@@ -11,12 +11,20 @@ struct SignUpView: View {
     @Environment(PinBoardViewModel.self) private var viewModel
     
     var body: some View {
-        PasscodeTemplateView(isWrongPassword: .constant(false), title: "Register", titleText: "for Sign Up", onComplete: {
-            viewModel.registerPasscode()
-        }) {
-            
-            NumberPadView(onAdd: viewModel.onAddValue, onRemoveLast: viewModel.onRemoveValue, onDissmis: viewModel.onDissmis)
-        }
+        PasscodeTemplateView(
+            isWrongPassword: .constant(false),
+            title: "Register",
+            titleText: "for Sign Up",
+            onComplete: {
+                viewModel.registerPasscode()
+            }) {
+                
+                NumberPadView(
+                    onAdd: viewModel.onAddValue,
+                    onRemoveLast: viewModel.onRemoveValue,
+                    onDissmis: viewModel.onDissmis
+                )
+            }
     }
     
 }

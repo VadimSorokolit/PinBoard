@@ -5,7 +5,7 @@
 //  Created by Vadim Sorokolit on 09.07.2025.
 //
     
-import SwiftUI
+import Foundation
 
 enum Tab: String, CaseIterable {
     case list
