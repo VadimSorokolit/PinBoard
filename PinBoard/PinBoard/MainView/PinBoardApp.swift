@@ -20,7 +20,7 @@ struct PinBoardApp: App {
     var body: some Scene {
         WindowGroup {
             if viewModel.isUnlocked {
-                TableView()
+                HomeView()
             } else if passcode != nil {
                 SignInView()
             } else {

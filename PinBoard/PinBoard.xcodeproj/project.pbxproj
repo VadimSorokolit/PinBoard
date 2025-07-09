@@ -15,6 +15,8 @@
 		DD728ACE2E1D945600984BD5 /* PasscodeTemplateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728ACD2E1D945500984BD5 /* PasscodeTemplateView.swift */; };
 		DD728AD02E1D965000984BD5 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728ACF2E1D964700984BD5 /* SignInView.swift */; };
 		DD728AD22E1D967E00984BD5 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728AD12E1D967500984BD5 /* SignUpView.swift */; };
+		DD728AD42E1E417300984BD5 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728AD32E1E417200984BD5 /* Tab.swift */; };
+		DD728ADB2E1E676800984BD5 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728ADA2E1E676200984BD5 /* HomeView.swift */; };
 		DD8E79862E1BA4E6001CF2D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD8E79822E1BA4E6001CF2D4 /* Assets.xcassets */; };
 		DD8E79872E1BA4E6001CF2D4 /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79832E1BA4E6001CF2D4 /* TableView.swift */; };
 		DD8E79882E1BA4E6001CF2D4 /* PinBoardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79842E1BA4E6001CF2D4 /* PinBoardApp.swift */; };
@@ -34,6 +36,8 @@
 		DD728ACD2E1D945500984BD5 /* PasscodeTemplateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeTemplateView.swift; sourceTree = "<group>"; };
 		DD728ACF2E1D964700984BD5 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		DD728AD12E1D967500984BD5 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		DD728AD32E1E417200984BD5 /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
+		DD728ADA2E1E676200984BD5 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		DD8E79622E1BA2D0001CF2D4 /* PinBoard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PinBoard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD8E79822E1BA4E6001CF2D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DD8E79832E1BA4E6001CF2D4 /* TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableView.swift; sourceTree = "<group>"; };
@@ -56,6 +60,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DD728AD72E1E467000984BD5 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				DD728AD32E1E417200984BD5 /* Tab.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		DD8E79592E1BA2D0001CF2D4 = {
 			isa = PBXGroup;
 			children = (
@@ -97,6 +109,7 @@
 		DD8E798A2E1BA578001CF2D4 /* MVVM */ = {
 			isa = PBXGroup;
 			children = (
+				DD728AD72E1E467000984BD5 /* Models */,
 				DD8E798C2E1BA5CF001CF2D4 /* Views */,
 				DD8E798B2E1BA5C4001CF2D4 /* ViewModel */,
 			);
@@ -114,13 +127,14 @@
 		DD8E798C2E1BA5CF001CF2D4 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				DD728AD12E1D967500984BD5 /* SignUpView.swift */,
-				DD728ACF2E1D964700984BD5 /* SignInView.swift */,
-				DD728ACD2E1D945500984BD5 /* PasscodeTemplateView.swift */,
-				DD728AC72E1D917E00984BD5 /* NumberPadView.swift */,
+				DD728ADA2E1E676200984BD5 /* HomeView.swift */,
 				DD728AC92E1D921400984BD5 /* PasscodeIndicatorView.swift */,
+				DD728ACD2E1D945500984BD5 /* PasscodeTemplateView.swift */,
 				DD728AC32E1D8E2A00984BD5 /* MapView.swift */,
+				DD728AC72E1D917E00984BD5 /* NumberPadView.swift */,
 				DD728AC12E1D8CCB00984BD5 /* SettingsView.swift */,
+				DD728ACF2E1D964700984BD5 /* SignInView.swift */,
+				DD728AD12E1D967500984BD5 /* SignUpView.swift */,
 				DD8E79832E1BA4E6001CF2D4 /* TableView.swift */,
 			);
 			path = Views;
@@ -232,7 +246,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD8E799A2E1BBF01001CF2D4 /* Data+padWithZeros.swift in Sources */,
+				DD728ADB2E1E676800984BD5 /* HomeView.swift in Sources */,
 				DD728AD22E1D967E00984BD5 /* SignUpView.swift in Sources */,
+				DD728AD42E1E417300984BD5 /* Tab.swift in Sources */,
 				DD728AC62E1D8F9C00984BD5 /* PinBoardViewModel.swift in Sources */,
 				DD8E79922E1BB685001CF2D4 /* LAContext+biometricType.swift in Sources */,
 				DD728AC22E1D8CD300984BD5 /* SettingsView.swift in Sources */,
@@ -378,6 +394,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D28SS25G7Y;
@@ -396,6 +413,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.PinBoard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -407,6 +425,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D28SS25G7Y;
@@ -425,6 +444,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.PinBoard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
