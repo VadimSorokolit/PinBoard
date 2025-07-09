@@ -5,3 +5,17 @@
 //  Created by Vadim Sorokolit on 09.07.2025.
 //
     
+import SwiftData
+
+class LocalStorage {
+    
+    // MARK: - Properties
+    
+    private let context: ModelContext
+    
+    // MARK: - Initializer
+    
+    init(context: ModelContext) {
+        self.context = context
+    }
+}

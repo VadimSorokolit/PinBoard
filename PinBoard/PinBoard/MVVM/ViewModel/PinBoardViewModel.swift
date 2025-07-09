@@ -24,13 +24,15 @@ class PinBoardViewModel {
       get { authenticator.isAuthenticated }
       set { authenticator.isAuthenticated = newValue }
     }
-    var authenticator: Authenticator
     var hideNumberPad: Bool = true
+    var authenticator: Authenticator
+    private let dataStorage: LocalStorage
     
     // MARK: - Inititializer
 
-    init(authenticator: Authenticator) {
+    init(authenticator: Authenticator, dataStorage: LocalStorage) {
         self.authenticator = authenticator
+        self.dataStorage = dataStorage
     }
     
     // MARK: - Methods. Public
