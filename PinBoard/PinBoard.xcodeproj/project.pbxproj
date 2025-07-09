@@ -17,6 +17,9 @@
 		DD728AD22E1D967E00984BD5 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728AD12E1D967500984BD5 /* SignUpView.swift */; };
 		DD728AD42E1E417300984BD5 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728AD32E1E417200984BD5 /* Tab.swift */; };
 		DD728ADB2E1E676800984BD5 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728ADA2E1E676200984BD5 /* HomeView.swift */; };
+		DD728B7F2E1E9F8900984BD5 /* Testing in Frameworks */ = {isa = PBXBuildFile; productRef = DD728B7E2E1E9F8900984BD5 /* Testing */; };
+		DD728B882E1EA30400984BD5 /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728B872E1EA30400984BD5 /* LocalStorage.swift */; };
+		DD728B8A2E1EA3DF00984BD5 /* StorageLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728B892E1EA3DE00984BD5 /* StorageLocation.swift */; };
 		DD8E79862E1BA4E6001CF2D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD8E79822E1BA4E6001CF2D4 /* Assets.xcassets */; };
 		DD8E79872E1BA4E6001CF2D4 /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79832E1BA4E6001CF2D4 /* TableView.swift */; };
 		DD8E79882E1BA4E6001CF2D4 /* PinBoardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79842E1BA4E6001CF2D4 /* PinBoardApp.swift */; };
@@ -38,6 +41,9 @@
 		DD728AD12E1D967500984BD5 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		DD728AD32E1E417200984BD5 /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
 		DD728ADA2E1E676200984BD5 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		DD728B822E1EA0E100984BD5 /* LocalStorageUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorageUnitTests.swift; sourceTree = "<group>"; };
+		DD728B872E1EA30400984BD5 /* LocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
+		DD728B892E1EA3DE00984BD5 /* StorageLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageLocation.swift; sourceTree = "<group>"; };
 		DD8E79622E1BA2D0001CF2D4 /* PinBoard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PinBoard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD8E79822E1BA4E6001CF2D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DD8E79832E1BA4E6001CF2D4 /* TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableView.swift; sourceTree = "<group>"; };
@@ -54,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD728B7F2E1E9F8900984BD5 /* Testing in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,15 +70,25 @@
 		DD728AD72E1E467000984BD5 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				DD728B892E1EA3DE00984BD5 /* StorageLocation.swift */,
 				DD728AD32E1E417200984BD5 /* Tab.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		DD728B802E1EA0D500984BD5 /* BinBoardUnitTest */ = {
+			isa = PBXGroup;
+			children = (
+				DD728B822E1EA0E100984BD5 /* LocalStorageUnitTests.swift */,
+			);
+			path = BinBoardUnitTest;
 			sourceTree = "<group>";
 		};
 		DD8E79592E1BA2D0001CF2D4 = {
 			isa = PBXGroup;
 			children = (
 				DD8E79852E1BA4E6001CF2D4 /* PinBoard */,
+				DD728B802E1EA0D500984BD5 /* BinBoardUnitTest */,
 				DD8E79632E1BA2D0001CF2D4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -152,6 +169,7 @@
 		DD8E79932E1BBD39001CF2D4 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				DD728B872E1EA30400984BD5 /* LocalStorage.swift */,
 				DD8E79942E1BBD7B001CF2D4 /* Authenticator.swift */,
 			);
 			path = Service;
@@ -190,6 +208,7 @@
 			);
 			name = PinBoard;
 			packageProductDependencies = (
+				DD728B7E2E1E9F8900984BD5 /* Testing */,
 			);
 			productName = PinBoard;
 			productReference = DD8E79622E1BA2D0001CF2D4 /* PinBoard.app */;
@@ -219,6 +238,9 @@
 			);
 			mainGroup = DD8E79592E1BA2D0001CF2D4;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				DD728B7D2E1E9F8900984BD5 /* XCRemoteSwiftPackageReference "swift-testing" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = DD8E79632E1BA2D0001CF2D4 /* Products */;
 			projectDirPath = "";
@@ -252,11 +274,13 @@
 				DD728AC62E1D8F9C00984BD5 /* PinBoardViewModel.swift in Sources */,
 				DD8E79922E1BB685001CF2D4 /* LAContext+biometricType.swift in Sources */,
 				DD728AC22E1D8CD300984BD5 /* SettingsView.swift in Sources */,
+				DD728B8A2E1EA3DF00984BD5 /* StorageLocation.swift in Sources */,
 				DD728AC42E1D8E2B00984BD5 /* MapView.swift in Sources */,
 				DD8E79982E1BBE79001CF2D4 /* AESEncryptionManager.swift in Sources */,
 				DD728ACA2E1D921500984BD5 /* PasscodeIndicatorView.swift in Sources */,
 				DD8E79872E1BA4E6001CF2D4 /* TableView.swift in Sources */,
 				DD728AD02E1D965000984BD5 /* SignInView.swift in Sources */,
+				DD728B882E1EA30400984BD5 /* LocalStorage.swift in Sources */,
 				DD728AC82E1D917F00984BD5 /* NumberPadView.swift in Sources */,
 				DD8E79A52E1BF11D001CF2D4 /* GlobalConstants.swift in Sources */,
 				DD728ACE2E1D945600984BD5 /* PasscodeTemplateView.swift in Sources */,
@@ -411,7 +435,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.PinBoard;
+				PRODUCT_BUNDLE_IDENTIFIER = com.PinBoard1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -442,7 +466,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.PinBoard;
+				PRODUCT_BUNDLE_IDENTIFIER = com.PinBoard1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -473,6 +497,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		DD728B7D2E1E9F8900984BD5 /* XCRemoteSwiftPackageReference "swift-testing" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/swiftlang/swift-testing";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.1.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		DD728B7E2E1E9F8900984BD5 /* Testing */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DD728B7D2E1E9F8900984BD5 /* XCRemoteSwiftPackageReference "swift-testing" */;
+			productName = Testing;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = DD8E795A2E1BA2D0001CF2D4 /* Project object */;
 }
