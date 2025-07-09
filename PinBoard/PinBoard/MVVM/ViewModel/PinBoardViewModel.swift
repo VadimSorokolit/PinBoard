@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import LocalAuthentication
 
 @Observable
 class PinBoardViewModel {
@@ -17,9 +18,15 @@ class PinBoardViewModel {
       get { authenticator.isAuthenticated }
       set { authenticator.isAuthenticated = newValue }
     }
+    var isBiometricLocked: Bool {
+        get { authenticator.isBiometricLocked }
+    }
+    var biometryType: BiometricType? {
+        get { authenticator.biometryType }
+    }
     var hideNumberPad: Bool = true
     
-    let authenticator: Authenticator
+    private let authenticator: AuthenticatorProtocol
     private let dataStorage: LocalStorage
     
     // MARK: - Inititializer
@@ -69,6 +76,10 @@ class PinBoardViewModel {
         withAnimation {
             self.hideNumberPad = false
         }
+    }
+    
+    func unlockWithFaceId() {
+        self.authenticator.unlockWithFaceId()
     }
     
     func resetAuthenticationState() {

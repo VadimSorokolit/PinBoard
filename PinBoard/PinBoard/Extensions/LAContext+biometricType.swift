@@ -9,13 +9,6 @@ import LocalAuthentication
 
 extension LAContext {
     
-    enum BiometricType: String {
-        case none
-        case touchID
-        case faceID
-        case opticID
-    }
-    
     var biometricType: BiometricType {
         var error: NSError?
         

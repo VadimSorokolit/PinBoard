@@ -27,22 +27,22 @@ struct SignInView: View {
         }) {
             VStack {
                 HStack(spacing: 20.0) {
-                    if !viewModel.authenticator.isBiometricLocked {
-                        if viewModel.authenticator.biometryType == .faceID {
+                    if !viewModel.isBiometricLocked {
+                        if viewModel.biometryType == .faceID {
                             
                             Button(action: {
-                                viewModel.authenticator.unlockWithFaceId() }) {
+                                viewModel.unlockWithFaceId() }) {
                                     Image(systemName: "faceid")
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
                                         .frame(width: 40.0)
                                 }
                         }
-                        if viewModel.authenticator.biometryType == .touchID {
+                        if viewModel.biometryType == .touchID {
                             
                             Button(action: {
                                 
-                                viewModel.authenticator.unlockWithFaceId() }) {
+                                viewModel.unlockWithFaceId() }) {
                                     Image(systemName: "touchid")
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)

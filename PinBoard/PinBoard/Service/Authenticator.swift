@@ -8,23 +8,55 @@
 import Foundation
 import LocalAuthentication
 
+enum BiometricType: String {
+    case none
+    case touchID
+    case faceID
+    case opticID
+}
+
+protocol AuthenticatorProtocol: AnyObject {
+    var isAuthenticated: Bool { get set }
+    var isPassCodeSet: Bool { get }
+    var isBiometricLocked: Bool { get }
+    var biometryType: BiometricType { get }
+    
+    func setPasscodeWith(_ code: String)
+    func unlockWithFaceId()
+    func verifyPin(pin: String) -> Bool
+    func logOut()
+}
+
 @Observable
-class Authenticator {
+class Authenticator: AuthenticatorProtocol {
     
     // MARK: - Properties. Public
     
     var isAuthenticated: Bool = false
-    var isLoading: Bool = false
-    var biometryType: LAContext.BiometricType
     var isPassCodeSet: Bool = false
     var isBiometricLocked: Bool = false
+    var biometryType: BiometricType {
+        switch context.biometryType {
+            case .touchID:
+                return .touchID
+            case .faceID:
+                return .faceID
+            case .opticID:
+                return .opticID
+            default:
+                return .none
+        }
+    }
     
     // MARK: - Properties. Private
     
+    
+    // MARK: - Properties. Private
+    
+    private let context = LAContext()
     private let userDefaultSecretKey: String = "secret_key"
     private let maxFailedAttemptAllowed: Int = 3
     private var failedAttempt: Int = 0
-    private let context = LAContext()
     private let userDefault: UserDefaults = .standard
     
     // MARK: - Initializer
@@ -34,7 +66,6 @@ class Authenticator {
         context.localizedFallbackTitle = ""
         
         isPassCodeSet = !context.isCredentialSet(.applicationPassword)
-        biometryType = context.biometricType
     }
     
     // MARK: - Methods. Public
@@ -61,19 +92,6 @@ class Authenticator {
         authenticate()
     }
     
-    func decryptUserPasscode() -> String? {
-        guard let encryptedPasscode = userDefault.value(forKey: GlobalConstants.userDefaultPasscodeKey) as? String else {
-            return nil
-        }
-        var passcode: String?
-        
-        if let key = userDefault.value(forKey: userDefaultSecretKey) as? String {
-            passcode = AESEncryptionManager.decrypt(encryptedText: encryptedPasscode, key: key)
-        }
-        
-        return passcode
-    }
-    
     func verifyPin(pin: String) -> Bool {
         guard let storedPasscode = decryptUserPasscode() else {
             isAuthenticated = false
@@ -92,11 +110,6 @@ class Authenticator {
         userDefault.removeObject(forKey: userDefaultSecretKey)
         
         resetFailCount()
-    }
-    
-    func resetFailCount() {
-        failedAttempt = 0
-        isBiometricLocked = false
     }
     
     // MARK: - Methods. Private
@@ -122,7 +135,6 @@ class Authenticator {
                     failedAttempt += 1
                     isBiometricLocked = failedAttempt >= maxFailedAttemptAllowed
                 }
-                self.isLoading = false
             }
         } else {
             if let error = error {
@@ -131,6 +143,24 @@ class Authenticator {
                 
             }
         }
+    }
+    
+    private func decryptUserPasscode() -> String? {
+        guard let encryptedPasscode = userDefault.value(forKey: GlobalConstants.userDefaultPasscodeKey) as? String else {
+            return nil
+        }
+        var passcode: String?
+        
+        if let key = userDefault.value(forKey: userDefaultSecretKey) as? String {
+            passcode = AESEncryptionManager.decrypt(encryptedText: encryptedPasscode, key: key)
+        }
+        
+        return passcode
+    }
+    
+    private func resetFailCount() {
+        failedAttempt = 0
+        isBiometricLocked = false
     }
     
     private func isBiometricAvailable() -> Bool {
@@ -156,3 +186,5 @@ class Authenticator {
     }
     
 }
+
+
