@@ -21,10 +21,6 @@ struct PinBoardApp: App {
     // MARK: - Initializer
     
     init() {
-// MARK: - For testing
-#if DEBUG
-//        viewModel.clearLocalStorage()
-#endif
         let schema = Schema([StorageLocation.self])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
         
@@ -32,10 +28,8 @@ struct PinBoardApp: App {
             let container = try ModelContainer(for: schema, configurations: [modelConfiguration])
             self.sharedModelContainer = container
             
-            let context = container.mainContext
             let authenticator = Authenticator()
-            let dataStorage = LocalStorage(context: context)
-            let viewModel = PinBoardViewModel(authenticator: authenticator, dataStorage: dataStorage)
+            let viewModel = PinBoardViewModel(authenticator: authenticator)
             
             self.viewModel = viewModel
         } catch {
@@ -47,16 +41,19 @@ struct PinBoardApp: App {
     
     var body: some Scene {
         WindowGroup {
-            if viewModel.isUnlocked {
-                HomeView()
-            } else if passcode != nil {
-                SignInView()
-            } else {
-                SignUpView()
-            }
+//            Group {
+//                if viewModel.isAuthenticated {
+                    HomeView()
+                        .modelContainer(sharedModelContainer)
+//                } else if passcode != nil {
+//                    SignInView()
+//                } else {
+//                    SignUpView()
+//                }
+//            }
+            .statusBar(hidden: true)
+            .environment(viewModel)
         }
-        .environment(viewModel)
-        .modelContainer(sharedModelContainer)
     }
     
 }

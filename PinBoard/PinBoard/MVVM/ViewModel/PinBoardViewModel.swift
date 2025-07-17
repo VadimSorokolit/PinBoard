@@ -13,7 +13,7 @@ class PinBoardViewModel {
     // MARK: - Properties. Public
     
     var passcode = ""
-    var isUnlocked: Bool {
+    var isAuthenticated: Bool {
       get { authenticator.isAuthenticated }
       set { authenticator.isAuthenticated = newValue }
     }
@@ -26,13 +26,11 @@ class PinBoardViewModel {
     var hideNumberPad: Bool = true
     
     private let authenticator: AuthenticatorProtocol
-    private let dataStorage: LocalStorage
     
     // MARK: - Inititializer
 
-    init(authenticator: Authenticator, dataStorage: LocalStorage) {
+    init(authenticator: AuthenticatorProtocol) {
         self.authenticator = authenticator
-        self.dataStorage = dataStorage
     }
     
     // MARK: - Methods. Public
@@ -80,29 +78,7 @@ class PinBoardViewModel {
     func resetAuthenticationState() {
         self.passcode = ""
         self.hideNumberPad = true
-        self.isUnlocked = false
         self.authenticator.isAuthenticated = false
-    }
-    
-    func clearLocalStorage() {
-        let fileManager = FileManager.default
-        
-        let baseURL = FileManager.default
-            .urls(for: .applicationSupportDirectory, in: .userDomainMask)
-            .first!
-        
-        let storeURL = baseURL.appendingPathComponent("default.store")
-        
-        if fileManager.fileExists(atPath: storeURL.path) {
-            do {
-                try fileManager.removeItem(at: storeURL)
-                print("SwiftData cleaned: \(storeURL.path)")
-            } catch {
-                print(error)
-            }
-        } else {
-            print(storeURL.path)
-        }
     }
     
 }

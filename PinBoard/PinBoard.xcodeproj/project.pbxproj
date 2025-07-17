@@ -18,8 +18,8 @@
 		DD728AD42E1E417300984BD5 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728AD32E1E417200984BD5 /* Tab.swift */; };
 		DD728ADB2E1E676800984BD5 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728ADA2E1E676200984BD5 /* HomeView.swift */; };
 		DD728B7F2E1E9F8900984BD5 /* Testing in Frameworks */ = {isa = PBXBuildFile; productRef = DD728B7E2E1E9F8900984BD5 /* Testing */; };
-		DD728B882E1EA30400984BD5 /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728B872E1EA30400984BD5 /* LocalStorage.swift */; };
 		DD728B8A2E1EA3DF00984BD5 /* StorageLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728B892E1EA3DE00984BD5 /* StorageLocation.swift */; };
+		DD728B8C2E1F27DD00984BD5 /*  Color+hexInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728B8B2E1F27DC00984BD5 /*  Color+hexInt.swift */; };
 		DD8E79862E1BA4E6001CF2D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD8E79822E1BA4E6001CF2D4 /* Assets.xcassets */; };
 		DD8E79872E1BA4E6001CF2D4 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79832E1BA4E6001CF2D4 /* ListView.swift */; };
 		DD8E79882E1BA4E6001CF2D4 /* PinBoardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79842E1BA4E6001CF2D4 /* PinBoardApp.swift */; };
@@ -28,6 +28,11 @@
 		DD8E79982E1BBE79001CF2D4 /* AESEncryptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79972E1BBE77001CF2D4 /* AESEncryptionManager.swift */; };
 		DD8E799A2E1BBF01001CF2D4 /* Data+padWithZeros.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79992E1BBF00001CF2D4 /* Data+padWithZeros.swift */; };
 		DD8E79A52E1BF11D001CF2D4 /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79A42E1BF114001CF2D4 /* GlobalConstants.swift */; };
+		DDD764DB2E27F85900EE5A1F /* View+verticalColumnDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDD764DA2E27F85800EE5A1F /* View+verticalColumnDivider.swift */; };
+		DDD764F82E290C6E00EE5A1F /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DDD764F72E290C6E00EE5A1F /* Inter-Bold.ttf */; };
+		DDD764FA2E290D8A00EE5A1F /* Inter-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DDD764F92E290D8A00EE5A1F /* Inter-SemiBold.ttf */; };
+		DDD764FC2E290E4D00EE5A1F /* Inter-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DDD764FB2E290E4D00EE5A1F /* Inter-Medium.ttf */; };
+		DDD764FE2E290E5A00EE5A1F /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DDD764FD2E290E5A00EE5A1F /* Inter-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,8 +47,8 @@
 		DD728AD32E1E417200984BD5 /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
 		DD728ADA2E1E676200984BD5 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		DD728B822E1EA0E100984BD5 /* LocalStorageUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorageUnitTests.swift; sourceTree = "<group>"; };
-		DD728B872E1EA30400984BD5 /* LocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
 		DD728B892E1EA3DE00984BD5 /* StorageLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageLocation.swift; sourceTree = "<group>"; };
+		DD728B8B2E1F27DC00984BD5 /*  Color+hexInt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = " Color+hexInt.swift"; sourceTree = "<group>"; };
 		DD8E79622E1BA2D0001CF2D4 /* PinBoard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PinBoard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD8E79822E1BA4E6001CF2D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DD8E79832E1BA4E6001CF2D4 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
@@ -53,6 +58,12 @@
 		DD8E79972E1BBE77001CF2D4 /* AESEncryptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AESEncryptionManager.swift; sourceTree = "<group>"; };
 		DD8E79992E1BBF00001CF2D4 /* Data+padWithZeros.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+padWithZeros.swift"; sourceTree = "<group>"; };
 		DD8E79A42E1BF114001CF2D4 /* GlobalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
+		DDD764DA2E27F85800EE5A1F /* View+verticalColumnDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+verticalColumnDivider.swift"; sourceTree = "<group>"; };
+		DDD764F72E290C6E00EE5A1F /* Inter-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Bold.ttf"; sourceTree = "<group>"; };
+		DDD764F92E290D8A00EE5A1F /* Inter-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-SemiBold.ttf"; sourceTree = "<group>"; };
+		DDD764FB2E290E4D00EE5A1F /* Inter-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Medium.ttf"; sourceTree = "<group>"; };
+		DDD764FD2E290E5A00EE5A1F /* Inter-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Regular.ttf"; sourceTree = "<group>"; };
+		DDF120982E257F020084DD5C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +122,7 @@
 				DD8E799F2E1BF023001CF2D4 /* Resources */,
 				DD8E798E2E1BB3F1001CF2D4 /* Extensions */,
 				DD8E79822E1BA4E6001CF2D4 /* Assets.xcassets */,
+				DDF120982E257F020084DD5C /* Info.plist */,
 			);
 			path = PinBoard;
 			sourceTree = "<group>";
@@ -160,6 +172,8 @@
 		DD8E798E2E1BB3F1001CF2D4 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				DDD764DA2E27F85800EE5A1F /* View+verticalColumnDivider.swift */,
+				DD728B8B2E1F27DC00984BD5 /*  Color+hexInt.swift */,
 				DD8E79992E1BBF00001CF2D4 /* Data+padWithZeros.swift */,
 				DD8E79912E1BB684001CF2D4 /* LAContext+biometricType.swift */,
 			);
@@ -169,7 +183,6 @@
 		DD8E79932E1BBD39001CF2D4 /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				DD728B872E1EA30400984BD5 /* LocalStorage.swift */,
 				DD8E79942E1BBD7B001CF2D4 /* Authenticator.swift */,
 			);
 			path = Service;
@@ -186,9 +199,21 @@
 		DD8E799F2E1BF023001CF2D4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				DDD764DC2E28452400EE5A1F /* Fonts */,
 				DD8E79A42E1BF114001CF2D4 /* GlobalConstants.swift */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		DDD764DC2E28452400EE5A1F /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				DDD764FD2E290E5A00EE5A1F /* Inter-Regular.ttf */,
+				DDD764F92E290D8A00EE5A1F /* Inter-SemiBold.ttf */,
+				DDD764F72E290C6E00EE5A1F /* Inter-Bold.ttf */,
+				DDD764FB2E290E4D00EE5A1F /* Inter-Medium.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -256,6 +281,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DDD764FA2E290D8A00EE5A1F /* Inter-SemiBold.ttf in Resources */,
+				DDD764F82E290C6E00EE5A1F /* Inter-Bold.ttf in Resources */,
+				DDD764FE2E290E5A00EE5A1F /* Inter-Regular.ttf in Resources */,
+				DDD764FC2E290E4D00EE5A1F /* Inter-Medium.ttf in Resources */,
 				DD8E79862E1BA4E6001CF2D4 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -273,14 +302,15 @@
 				DD728AD42E1E417300984BD5 /* Tab.swift in Sources */,
 				DD728AC62E1D8F9C00984BD5 /* PinBoardViewModel.swift in Sources */,
 				DD8E79922E1BB685001CF2D4 /* LAContext+biometricType.swift in Sources */,
+				DD728B8C2E1F27DD00984BD5 /*  Color+hexInt.swift in Sources */,
 				DD728AC22E1D8CD300984BD5 /* SettingsView.swift in Sources */,
 				DD728B8A2E1EA3DF00984BD5 /* StorageLocation.swift in Sources */,
+				DDD764DB2E27F85900EE5A1F /* View+verticalColumnDivider.swift in Sources */,
 				DD728AC42E1D8E2B00984BD5 /* MapView.swift in Sources */,
 				DD8E79982E1BBE79001CF2D4 /* AESEncryptionManager.swift in Sources */,
 				DD728ACA2E1D921500984BD5 /* PasscodeIndicatorView.swift in Sources */,
 				DD8E79872E1BA4E6001CF2D4 /* ListView.swift in Sources */,
 				DD728AD02E1D965000984BD5 /* SignInView.swift in Sources */,
-				DD728B882E1EA30400984BD5 /* LocalStorage.swift in Sources */,
 				DD728AC82E1D917F00984BD5 /* NumberPadView.swift in Sources */,
 				DD8E79A52E1BF11D001CF2D4 /* GlobalConstants.swift in Sources */,
 				DD728ACE2E1D945600984BD5 /* PasscodeTemplateView.swift in Sources */,
@@ -424,12 +454,13 @@
 				DEVELOPMENT_TEAM = D28SS25G7Y;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PinBoard/Info.plist;
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "Use Face ID for quick and secure app access";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -455,12 +486,13 @@
 				DEVELOPMENT_TEAM = D28SS25G7Y;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PinBoard/Info.plist;
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "Use Face ID for quick and secure app access";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

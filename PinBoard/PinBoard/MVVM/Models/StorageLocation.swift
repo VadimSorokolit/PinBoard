@@ -9,11 +9,12 @@ import Foundation
 import SwiftData
 
 @Model
-final class StorageLocation {
+final class StorageLocation: Identifiable {
     
     // MARK: - Properties
     
-    @Attribute(.unique) var id: String
+    @Attribute(.unique) var id: String = UUID().uuidString
+    var index:Int
     var name: String
     var longitude: Double
     var latitude: Double
@@ -21,15 +22,15 @@ final class StorageLocation {
     // MARK: - Initializer
     
     init(
-        id: String = UUID().uuidString,
-        index:Int = 0,
+        index:Int = 1,
         name: String = "",
         longitude: Double = 0.0,
         latitude: Double  = 0.0
     ) {
-        self.id        = id
-        self.name      = name
+        self.index = index
+        self.name = name
         self.longitude = longitude
         self.latitude  = latitude
     }
+    
 }

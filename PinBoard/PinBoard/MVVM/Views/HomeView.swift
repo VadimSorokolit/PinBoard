@@ -4,7 +4,7 @@
 //
 //  Created by Vadim Sorokolit on 09.07.2025.
 //
-    
+
 import SwiftUI
 
 struct HomeView: View {
@@ -82,9 +82,7 @@ struct HomeView: View {
                         .symbolEffect(.bounce.down.wholeSymbol, value: animatedTab.isAnimation)
                     
                     Text(tab.title)
-                        .font(.caption2)
-                        .textScale(.secondary)
-                    
+                        .font(.custom(GlobalConstants.regularFont, size: 10.0))
                 }
             }
             
