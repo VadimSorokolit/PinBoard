@@ -45,21 +45,21 @@ struct ListView: View {
     
     var body: some View {
         VStack(spacing: 0.0) {
-//            Button(action: {
-//                let names = ["KyvivKyvivKyvivKyvivKyvivKyvivKyviv", "Kharkiv", "Dnipro", "Odesa", "Lviv"]
-//                for name in names {
-//                    self.createNewLocation(name: name, longitude: 36.2304, latitude: 49.9935)
-//                }
-//            }) {
-//                ZStack {
-//                    Rectangle()
-//                        .foregroundStyle(.green)
-//                    
-//                    Text("Add")
-//                        .foregroundStyle(.black)
-//                }
-//                .frame(width: 50.0, height: 50.0)
-//            }
+            Button(action: {
+                let names = ["KyvivKyvivKyvivKyvivKyvivKyvivKyviv", "Kharkiv", "Dnipro", "Odesa", "Lviv"]
+                for name in names {
+                    self.createNewLocation(name: name, longitude: 36.2304, latitude: 49.9935)
+                }
+            }) {
+                ZStack {
+                    Rectangle()
+                        .foregroundStyle(.green)
+                    
+                    Text("Add")
+                        .foregroundStyle(.black)
+                }
+                .frame(width: 50.0, height: 50.0)
+            }
             
             Text("Locations")
                 .font(.custom(GlobalConstants.boldFont, size: 30.0))
@@ -88,11 +88,11 @@ struct ListView: View {
                         HeaderView(isEditing: $isEditing, headerColorHex: headerColorHex)
                         
                         ScrollView(.vertical, showsIndicators: false) {
-                            LazyVStack(spacing: 0.0) {
+                            VStack(spacing: 0.0) {
                                 ForEach(locations) { location in
                                     let isDragging = targetedId == location.id
                                     
-                                    let editing = CellView(
+                                    let cell = CellView(
                                         isAnimation: $isAnimation,
                                         isEditing: $isEditing,
                                         location: location,
@@ -103,20 +103,20 @@ struct ListView: View {
                                         }
                                     )
                                     
-                                    Group {
-                                        if isEditing {
-                                            editing
+                                    cell
+                                        .overlay(
+                                            isEditing ?
+                                            Color.clear
+                                                .contentShape(Rectangle())
                                                 .draggable(location.id)
                                                 .dropDestination(for: String.self) { droppedIds, _ in
                                                     handleDrop(droppedIds: droppedIds, to: location)
                                                 } isTargeted: { isOver in
                                                     targetedId = isOver ? location.id : nil
                                                 }
-                                                .animation(.easeInOut, value: locations)
-                                        } else {
-                                            editing
-                                        }
-                                    }
+                                            : nil
+                                        )
+                                        .animation(.easeInOut, value: locations)
                                 }
                             }
                         }
@@ -232,12 +232,12 @@ struct ListView: View {
                             )
                             .resizable()
                             .scaledToFit()
-//                            .contentTransition(
-//                                .symbolEffect(
-//                                    .replace.magic(fallback: .downUp.wholeSymbol),
-//                                    options: .nonRepeating
-//                                )
-//                            )
+                            .contentTransition(
+                                .symbolEffect(
+                                    .replace.magic(fallback: .downUp.wholeSymbol),
+                                    options: .nonRepeating
+                                )
+                            )
                             .frame(width: Constants.gridImageWidth, height: Constants.gridImageWidth)
                         }
                         .frame(width: Constants.indexTitleWidth, height: Constants.gridIndexTitleWidth, alignment: .center)
@@ -287,21 +287,22 @@ struct ListView: View {
         // MARK: - Methods. Private
         
         private func deleteLocation(_ location: StorageLocation) {
-            modelContext.delete(location)
-            
-            let remaining = locations
-                .filter { $0.id != location.id }
-            for (i, loc) in remaining.enumerated() {
-                loc.index = i + 1
+
+            withAnimation(.easeInOut) {
+                modelContext.delete(location)
+
+                let deletedIndex = location.index
+                for loc in locations where loc.index > deletedIndex {
+                    loc.index -= 1
+                }
             }
-            
+
             do {
                 try modelContext.save()
             } catch {
-                print("Error", error)
+                print("Error: \(error)")
             }
         }
-        
         private func handleDrop(droppedIds: [String], to location: StorageLocation) -> Bool {
             guard
                 let droppedId = droppedIds.first,
