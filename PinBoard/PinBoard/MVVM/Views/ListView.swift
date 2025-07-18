@@ -231,6 +231,7 @@ struct ListView: View {
                                   : Constants.iconDeleteName
                             )
                             .resizable()
+                            .foregroundColor(Color(hex: 0x000000))
                             .scaledToFit()
                             .contentTransition(
                                 .symbolEffect(
