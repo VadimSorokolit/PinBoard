@@ -45,22 +45,22 @@ struct ListView: View {
     
     var body: some View {
         VStack(spacing: 0.0) {
-            Button(action: {
-                let names = ["KyvivKyvivKyvivKyvivKyvivKyvivKyviv", "Kharkiv", "Dnipro", "Odesa", "Lviv"]
-                for name in names {
-                    self.createNewLocation(name: name, longitude: 36.2304, latitude: 49.9935)
-                }
-            }) {
-                ZStack {
-                    Rectangle()
-                        .foregroundStyle(.green)
-                    
-                    Text("Add")
-                        .foregroundStyle(.black)
-                }
-                .frame(width: 50.0, height: 50.0)
-            }
-            
+//            Button(action: {
+//                let names = ["KyvivKyvivKyvivKyvivKyvivKyvivKyviv", "Kharkiv", "Dnipro", "Odesa", "Lviv"]
+//                for name in names {
+//                    self.createNewLocation(name: name, longitude: 36.2304, latitude: 49.9935)
+//                }
+//            }) {
+//                ZStack {
+//                    Rectangle()
+//                        .foregroundStyle(.green)
+//                    
+//                    Text("Add")
+//                        .foregroundStyle(.black)
+//                }
+//                .frame(width: 50.0, height: 50.0)
+//            }
+//            
             Text("Locations")
                 .font(.custom(GlobalConstants.boldFont, size: 30.0))
             
