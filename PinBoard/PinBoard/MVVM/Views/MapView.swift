@@ -12,7 +12,7 @@ import MapKit
 struct MapView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(PinBoardViewModel.self) private var viewModel
-    @Query(sort: \StorageLocation.index) var locations: [StorageLocation]
+    @Query(sort: \StorageLocation.index) private var locations: [StorageLocation]
     @State private var camera = MapCameraPosition.region(
         MKCoordinateRegion(
             center: CLLocationCoordinate2D(latitude: 50.4501, longitude: 30.5234),
@@ -73,20 +73,18 @@ struct MapView: View {
                 Text(alertMessage)
             }
         }
-        .onChange(of: viewModel.isLoading) {
-            //            if let location = viewModel.selectedLocation {
-            //                print(location.longitude)
-            //                withAnimation(.easeInOut) {
-            //                    camera = .region(
-            //                        MKCoordinateRegion(
-            //                            center: CLLocationCoordinate2D(latitude: location.latitude,
-            //                                                           longitude: location.longitude),
-            //                            span: MKCoordinateSpan(latitudeDelta: 0.05,
-            //                                                   longitudeDelta: 0.05)
-            //                        )
-            //                    )
-            //                }
-            //            }
+        .onAppear {
+            if let loc = viewModel.selectedLocation {
+                print(loc)
+                withAnimation(.easeInOut) {
+                    camera = .region(
+                        MKCoordinateRegion(
+                            center: .init(latitude: loc.latitude, longitude: loc.longitude),
+                            span: .init(latitudeDelta: 0.5, longitudeDelta: 0.5)
+                        )
+                    )
+                }
+            }
         }
     }
     

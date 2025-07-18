@@ -34,8 +34,7 @@ struct ListView: View {
     // MARK: - Properties
     
     @Environment(\.modelContext) private var modelContext
-    @Environment(PinBoardViewModel.self) private var viewModel
-    @Query(sort: \StorageLocation.index) var locations: [StorageLocation]
+    @Query(sort: \StorageLocation.index) private var locations: [StorageLocation]
     @State private var targetedId: String? = nil
     @State private var isEditing: Bool = false
     @State private var isAnimation: Bool = false
@@ -72,6 +71,7 @@ struct ListView: View {
     }
     
     private struct GridView: View {
+        @Environment(PinBoardViewModel.self) private var viewModel
         @Binding var targetedId: String?
         @Binding var isEditing: Bool
         @Binding var isAnimation: Bool
@@ -103,6 +103,10 @@ struct ListView: View {
                                             deleteLocation(location)
                                         }
                                     )
+                                    .contentShape(Rectangle())
+                                    .onTapGesture {  
+                                        viewModel.selectedLocation = location
+                                    }
                                     
                                     cell
                                         .overlay(
