@@ -33,6 +33,9 @@
 		DDD765CD2E29B43700EE5A1F /* Archivo-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DDD765CC2E29B43700EE5A1F /* Archivo-SemiBold.ttf */; };
 		DDD765CF2E29B44900EE5A1F /* Archivo-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DDD765CE2E29B44900EE5A1F /* Archivo-Regular.ttf */; };
 		DDD765D12E29B47D00EE5A1F /* Archivo-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DDD765D02E29B47D00EE5A1F /* Archivo-Medium.ttf */; };
+		DDD765D52E2A469900EE5A1F /* NetworkSerivce.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDD765D42E2A467E00EE5A1F /* NetworkSerivce.swift */; };
+		DDD765D72E2A636B00EE5A1F /* Location+asStorageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDD765D62E2A636A00EE5A1F /* Location+asStorageModel.swift */; };
+		DDFFEBA72E2ACA7B005D8469 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDFFEBA62E2ACA7B005D8469 /* Location.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,7 +66,10 @@
 		DDD765CC2E29B43700EE5A1F /* Archivo-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Archivo-SemiBold.ttf"; sourceTree = "<group>"; };
 		DDD765CE2E29B44900EE5A1F /* Archivo-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Archivo-Regular.ttf"; sourceTree = "<group>"; };
 		DDD765D02E29B47D00EE5A1F /* Archivo-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Archivo-Medium.ttf"; sourceTree = "<group>"; };
+		DDD765D42E2A467E00EE5A1F /* NetworkSerivce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkSerivce.swift; sourceTree = "<group>"; };
+		DDD765D62E2A636A00EE5A1F /* Location+asStorageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Location+asStorageModel.swift"; sourceTree = "<group>"; };
 		DDF120982E257F020084DD5C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DDFFEBA62E2ACA7B005D8469 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +87,7 @@
 		DD728AD72E1E467000984BD5 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				DDFFEBA62E2ACA7B005D8469 /* Location.swift */,
 				DD728B892E1EA3DE00984BD5 /* StorageLocation.swift */,
 				DD728AD32E1E417200984BD5 /* Tab.swift */,
 			);
@@ -172,6 +179,7 @@
 		DD8E798E2E1BB3F1001CF2D4 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				DDD765D62E2A636A00EE5A1F /* Location+asStorageModel.swift */,
 				DDD764DA2E27F85800EE5A1F /* View+verticalColumnDivider.swift */,
 				DD728B8B2E1F27DC00984BD5 /*  Color+hexInt.swift */,
 				DD8E79992E1BBF00001CF2D4 /* Data+padWithZeros.swift */,
@@ -183,6 +191,7 @@
 		DD8E79932E1BBD39001CF2D4 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				DDD765D42E2A467E00EE5A1F /* NetworkSerivce.swift */,
 				DD8E79942E1BBD7B001CF2D4 /* Authenticator.swift */,
 			);
 			path = Service;
@@ -298,6 +307,7 @@
 			files = (
 				DD8E799A2E1BBF01001CF2D4 /* Data+padWithZeros.swift in Sources */,
 				DD728ADB2E1E676800984BD5 /* HomeView.swift in Sources */,
+				DDD765D52E2A469900EE5A1F /* NetworkSerivce.swift in Sources */,
 				DD728AD22E1D967E00984BD5 /* SignUpView.swift in Sources */,
 				DD728AD42E1E417300984BD5 /* Tab.swift in Sources */,
 				DD728AC62E1D8F9C00984BD5 /* PinBoardViewModel.swift in Sources */,
@@ -307,7 +317,9 @@
 				DD728B8A2E1EA3DF00984BD5 /* StorageLocation.swift in Sources */,
 				DDD764DB2E27F85900EE5A1F /* View+verticalColumnDivider.swift in Sources */,
 				DD728AC42E1D8E2B00984BD5 /* MapView.swift in Sources */,
+				DDD765D72E2A636B00EE5A1F /* Location+asStorageModel.swift in Sources */,
 				DD8E79982E1BBE79001CF2D4 /* AESEncryptionManager.swift in Sources */,
+				DDFFEBA72E2ACA7B005D8469 /* Location.swift in Sources */,
 				DD728ACA2E1D921500984BD5 /* PasscodeIndicatorView.swift in Sources */,
 				DD8E79872E1BA4E6001CF2D4 /* ListView.swift in Sources */,
 				DD728AD02E1D965000984BD5 /* SignInView.swift in Sources */,

@@ -9,9 +9,10 @@ import Foundation
 
 @Observable
 class PinBoardViewModel {
-
+    
     // MARK: - Properties. Public
     
+    var selectedLocation: StorageLocation? = nil
     var passcode = ""
     var isAuthenticated: Bool {
       get { authenticator.isAuthenticated }
@@ -24,13 +25,16 @@ class PinBoardViewModel {
         get { authenticator.biometryType }
     }
     var hideNumberPad: Bool = true
+    var isLoading: Bool = false
     
     private let authenticator: AuthenticatorProtocol
+    private let networkService: NetworkServiceProtocol
     
     // MARK: - Inititializer
 
-    init(authenticator: AuthenticatorProtocol) {
+    init(authenticator: AuthenticatorProtocol, networkService: NetworkServiceProtocol) {
         self.authenticator = authenticator
+        self.networkService = networkService
     }
     
     // MARK: - Methods. Public
@@ -81,4 +85,23 @@ class PinBoardViewModel {
         self.authenticator.isAuthenticated = false
     }
     
+    func loadLocation(for latitude: Double, longitude: Double) async -> Location? {
+        isLoading = true
+        defer { isLoading = false }
+
+        do {
+            let location = try await networkService.fetchLocation(lat: latitude, lon: longitude)
+            return location
+        } catch let error as URLError {
+            if case URLError.badServerResponse = error {
+                print("Server error")
+            } else {
+                print(error.localizedDescription)
+            }
+        } catch {
+            print("Error: Unexpected error")
+        }
+
+        return nil
+    }
 }

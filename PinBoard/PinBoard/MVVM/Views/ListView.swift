@@ -45,22 +45,22 @@ struct ListView: View {
     
     var body: some View {
         VStack(spacing: 0.0) {
-//            Button(action: {
-//                let names = ["KyvivKyvivKyvivKyvivKyvivKyvivKyviv", "Kharkiv", "Dnipro", "Odesa", "Lviv"]
-//                for name in names {
-//                    self.createNewLocation(name: name, longitude: 36.2304, latitude: 49.9935)
-//                }
-//            }) {
-//                ZStack {
-//                    Rectangle()
-//                        .foregroundStyle(.green)
-//                    
-//                    Text("Add")
-//                        .foregroundStyle(.black)
-//                }
-//                .frame(width: 50.0, height: 50.0)
-//            }
-//            
+            //            Button(action: {
+            //                let names = ["KyvivKyvivKyvivKyvivKyvivKyvivKyviv", "Kharkiv", "Dnipro", "Odesa", "Lviv"]
+            //                for name in names {
+            //                    self.createNewLocation(name: name, longitude: 36.2304, latitude: 49.9935)
+            //                }
+            //            }) {
+            //                ZStack {
+            //                    Rectangle()
+            //                        .foregroundStyle(.green)
+            //                    
+            //                    Text("Add")
+            //                        .foregroundStyle(.black)
+            //                }
+            //                .frame(width: 50.0, height: 50.0)
+            //            }
+            //            
             Text("Locations")
                 .font(.custom(GlobalConstants.boldFont, size: 30.0))
             
@@ -80,6 +80,7 @@ struct ListView: View {
         let headerColorHex: Int
         
         var body: some View {
+            
             VStack(alignment: .leading, spacing: 0.0) {
                 EditButtonView(isEditing: $isEditing, isAnimation: $isAnimation)
                 
@@ -176,7 +177,7 @@ struct ListView: View {
                     
                     Grid(horizontalSpacing: GlobalConstants.gridHorizontalSpacing) {
                         GridRow {
-                                Text(isEditing ? "Edit" : "Menu")
+                            Text(isEditing ? "Edit" : "Menu")
                                 .font(.custom(GlobalConstants.semiBoldFont, size: Constants.headerFontSize))
                                 .frame(width: Constants.gridIndexTitleWidth, alignment: .center)
                                 .verticalColumnDivider()
@@ -288,22 +289,23 @@ struct ListView: View {
         // MARK: - Methods. Private
         
         private func deleteLocation(_ location: StorageLocation) {
-
             withAnimation(.easeInOut) {
                 modelContext.delete(location)
-
+                
                 let deletedIndex = location.index
+                
                 for loc in locations where loc.index > deletedIndex {
                     loc.index -= 1
                 }
             }
-
+            
             do {
                 try modelContext.save()
             } catch {
                 print("Error: \(error)")
             }
         }
+        
         private func handleDrop(droppedIds: [String], to location: StorageLocation) -> Bool {
             guard
                 let droppedId = droppedIds.first,

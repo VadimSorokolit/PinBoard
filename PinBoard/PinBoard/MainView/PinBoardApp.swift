@@ -29,7 +29,8 @@ struct PinBoardApp: App {
             self.sharedModelContainer = container
             
             let authenticator = Authenticator()
-            let viewModel = PinBoardViewModel(authenticator: authenticator)
+            let networkService = NetworkService()
+            let viewModel = PinBoardViewModel(authenticator: authenticator, networkService: networkService)
             
             self.viewModel = viewModel
         } catch {
