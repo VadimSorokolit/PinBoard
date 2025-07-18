@@ -6,10 +6,10 @@
 	<string></string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Inter-Bold.ttf</string>
-		<string>Inter-SemiBold.ttf</string>
-		<string>Inter-Medium.ttf</string>
-		<string>Inter-Regular.ttf</string>
+		<string>Archivo-Bold.ttf</string>
+		<string>Archivo-Medium.ttf</string>
+		<string>Archivo-Regular.ttf</string>
+		<string>Archivo-SemiBold.ttf</string>
 	</array>
 </dict>
 </plist>

@@ -29,10 +29,10 @@
 		DD8E799A2E1BBF01001CF2D4 /* Data+padWithZeros.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79992E1BBF00001CF2D4 /* Data+padWithZeros.swift */; };
 		DD8E79A52E1BF11D001CF2D4 /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79A42E1BF114001CF2D4 /* GlobalConstants.swift */; };
 		DDD764DB2E27F85900EE5A1F /* View+verticalColumnDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDD764DA2E27F85800EE5A1F /* View+verticalColumnDivider.swift */; };
-		DDD764F82E290C6E00EE5A1F /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DDD764F72E290C6E00EE5A1F /* Inter-Bold.ttf */; };
-		DDD764FA2E290D8A00EE5A1F /* Inter-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DDD764F92E290D8A00EE5A1F /* Inter-SemiBold.ttf */; };
-		DDD764FC2E290E4D00EE5A1F /* Inter-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DDD764FB2E290E4D00EE5A1F /* Inter-Medium.ttf */; };
-		DDD764FE2E290E5A00EE5A1F /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DDD764FD2E290E5A00EE5A1F /* Inter-Regular.ttf */; };
+		DDD765CB2E29B3F200EE5A1F /* Archivo-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DDD765CA2E29B3F200EE5A1F /* Archivo-Bold.ttf */; };
+		DDD765CD2E29B43700EE5A1F /* Archivo-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DDD765CC2E29B43700EE5A1F /* Archivo-SemiBold.ttf */; };
+		DDD765CF2E29B44900EE5A1F /* Archivo-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DDD765CE2E29B44900EE5A1F /* Archivo-Regular.ttf */; };
+		DDD765D12E29B47D00EE5A1F /* Archivo-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DDD765D02E29B47D00EE5A1F /* Archivo-Medium.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,10 +59,10 @@
 		DD8E79992E1BBF00001CF2D4 /* Data+padWithZeros.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+padWithZeros.swift"; sourceTree = "<group>"; };
 		DD8E79A42E1BF114001CF2D4 /* GlobalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
 		DDD764DA2E27F85800EE5A1F /* View+verticalColumnDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+verticalColumnDivider.swift"; sourceTree = "<group>"; };
-		DDD764F72E290C6E00EE5A1F /* Inter-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Bold.ttf"; sourceTree = "<group>"; };
-		DDD764F92E290D8A00EE5A1F /* Inter-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-SemiBold.ttf"; sourceTree = "<group>"; };
-		DDD764FB2E290E4D00EE5A1F /* Inter-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Medium.ttf"; sourceTree = "<group>"; };
-		DDD764FD2E290E5A00EE5A1F /* Inter-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Regular.ttf"; sourceTree = "<group>"; };
+		DDD765CA2E29B3F200EE5A1F /* Archivo-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Archivo-Bold.ttf"; sourceTree = "<group>"; };
+		DDD765CC2E29B43700EE5A1F /* Archivo-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Archivo-SemiBold.ttf"; sourceTree = "<group>"; };
+		DDD765CE2E29B44900EE5A1F /* Archivo-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Archivo-Regular.ttf"; sourceTree = "<group>"; };
+		DDD765D02E29B47D00EE5A1F /* Archivo-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Archivo-Medium.ttf"; sourceTree = "<group>"; };
 		DDF120982E257F020084DD5C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -208,10 +208,10 @@
 		DDD764DC2E28452400EE5A1F /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				DDD764FD2E290E5A00EE5A1F /* Inter-Regular.ttf */,
-				DDD764F92E290D8A00EE5A1F /* Inter-SemiBold.ttf */,
-				DDD764F72E290C6E00EE5A1F /* Inter-Bold.ttf */,
-				DDD764FB2E290E4D00EE5A1F /* Inter-Medium.ttf */,
+				DDD765CA2E29B3F200EE5A1F /* Archivo-Bold.ttf */,
+				DDD765CC2E29B43700EE5A1F /* Archivo-SemiBold.ttf */,
+				DDD765D02E29B47D00EE5A1F /* Archivo-Medium.ttf */,
+				DDD765CE2E29B44900EE5A1F /* Archivo-Regular.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -281,11 +281,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DDD764FA2E290D8A00EE5A1F /* Inter-SemiBold.ttf in Resources */,
-				DDD764F82E290C6E00EE5A1F /* Inter-Bold.ttf in Resources */,
-				DDD764FE2E290E5A00EE5A1F /* Inter-Regular.ttf in Resources */,
-				DDD764FC2E290E4D00EE5A1F /* Inter-Medium.ttf in Resources */,
+				DDD765D12E29B47D00EE5A1F /* Archivo-Medium.ttf in Resources */,
+				DDD765CF2E29B44900EE5A1F /* Archivo-Regular.ttf in Resources */,
+				DDD765CB2E29B3F200EE5A1F /* Archivo-Bold.ttf in Resources */,
 				DD8E79862E1BA4E6001CF2D4 /* Assets.xcassets in Resources */,
+				DDD765CD2E29B43700EE5A1F /* Archivo-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
