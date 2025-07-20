@@ -15,6 +15,7 @@ struct PinBoardApp: App {
     // MARK: - Properties
     
     @State private var viewModel: PinBoardViewModel
+    @State private var isOverlayShown: Bool = false
     @AppStorage(GlobalConstants.userDefaultPasscodeKey) private var passcode: String?
     private let sharedModelContainer: ModelContainer
     
@@ -42,16 +43,30 @@ struct PinBoardApp: App {
     
     var body: some Scene {
         WindowGroup {
-//            Group {
-//                if viewModel.isAuthenticated {
-                    HomeView()
-                        .modelContainer(sharedModelContainer)
-//                } else if passcode != nil {
-//                    SignInView()
-//                } else {
-//                    SignUpView()
-//                }
-//            }
+            Group {
+                if viewModel.isAuthenticated {
+                    ZStack {
+                        HomeView()
+                            .modelContainer(sharedModelContainer)
+                        
+                        if isOverlayShown {
+                            Color.white
+                                .edgesIgnoringSafeArea(.all)
+                        }
+                    }
+                    // Need to fix Tab Bar animation
+                    .onAppear() {
+                        isOverlayShown = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                            isOverlayShown = false
+                        }
+                    }
+                } else if passcode != nil {
+                    SignInView()
+                } else {
+                    SignUpView()
+                }
+            }
             .statusBar(hidden: true)
             .environment(viewModel)
         }

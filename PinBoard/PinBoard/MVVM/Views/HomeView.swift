@@ -17,6 +17,27 @@ struct HomeView: View {
             
             CustomTabBar(allTabs: $allTabs, activeTab: $activeTab)
         }
+        .onAppear {
+            Task {
+                // Need to fix sharing view model state between tabs
+                await showEachTab()
+            }
+        }
+    }
+    
+    // Fix sharing view model state between tabs
+    private func showEachTab() async {
+        let tabs = Tab.allCases
+        
+        guard let startIndex = tabs.firstIndex(of: activeTab) else {
+            return
+        }
+
+        for offset in 1...tabs.count {
+            try? await Task.sleep(nanoseconds: 100_000_000)
+            let next = tabs[(startIndex + offset) % tabs.count]
+            await MainActor.run { activeTab = next }
+        }
     }
     
     struct TabContentView: View {
@@ -24,25 +45,30 @@ struct HomeView: View {
         
         var body: some View {
             TabView(selection: $activeTab) {
-                NavigationStack {
-                    switch activeTab {
-                        case .list:
-                            ListView()
-                        case .map:
-                            MapView()
-                        case .settings:
-                            SettingsView()
-                    }
+                ForEach(Tab.allCases, id: \.self) { tab in
+                    viewFor(tab)
                 }
             }
         }
         
+        private func viewFor(_ tab: Tab) -> some View {
+            NavigationStack {
+                switch tab {
+                    case .list:
+                        ListView()
+                    case .map:
+                        MapView()
+                    case .settings:
+                        SettingsView()
+                }
+            }
+        }
     }
     
     struct CustomTabBar: View {
         @Binding var allTabs: [AnimatedTab]
         @Binding var activeTab: Tab
-        
+
         var body: some View {
             HStack {
                 ForEach($allTabs) { $animatedTab in

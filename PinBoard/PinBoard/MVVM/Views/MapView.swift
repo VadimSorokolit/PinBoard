@@ -10,6 +10,9 @@ import SwiftData
 import MapKit
 
 struct MapView: View {
+    
+    // MARK: - Properites
+    
     @Environment(\.modelContext) private var modelContext
     @Environment(PinBoardViewModel.self) private var viewModel
     @Query(sort: \StorageLocation.index) private var locations: [StorageLocation]
@@ -22,6 +25,8 @@ struct MapView: View {
     @State private var showAlert = false
     @State private var alertMessage = ""
     @State private var newLocation: Location? = nil
+    
+    // MARK: - Main View
     
     var body: some View {
         NavigationStack {
@@ -73,9 +78,8 @@ struct MapView: View {
                 Text(alertMessage)
             }
         }
-        .onAppear {
+        .onChange(of: viewModel.selectedLocation) {
             if let loc = viewModel.selectedLocation {
-                print(loc)
                 withAnimation(.easeInOut) {
                     camera = .region(
                         MKCoordinateRegion(
@@ -86,6 +90,7 @@ struct MapView: View {
                 }
             }
         }
+        
     }
     
     // MARK: - Methods. Private

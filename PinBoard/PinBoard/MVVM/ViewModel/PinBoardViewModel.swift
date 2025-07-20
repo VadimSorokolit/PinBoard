@@ -15,8 +15,8 @@ class PinBoardViewModel {
     var selectedLocation: StorageLocation? = nil
     var passcode = ""
     var isAuthenticated: Bool {
-      get { authenticator.isAuthenticated }
-      set { authenticator.isAuthenticated = newValue }
+        get { authenticator.isAuthenticated }
+        set { authenticator.isAuthenticated = newValue }
     }
     var isBiometricLocked: Bool {
         get { authenticator.isBiometricLocked }
