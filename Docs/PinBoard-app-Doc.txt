@@ -29,8 +29,10 @@ Tab III - (Settings):
 "Pins color"
 🔴 🔵 🟡 🟣 🟢 
 
+"Locations"
+Add new location /n without approving tru/false 
 
-
+Button logout
 
 Animations:
 
