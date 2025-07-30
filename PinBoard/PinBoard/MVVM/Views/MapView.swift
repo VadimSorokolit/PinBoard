@@ -39,14 +39,15 @@ struct MapView: View {
                         }
                         
                         ForEach(sorted) { storage in
-                            Marker(
-                                "\(storage.index)",
-                                coordinate: CLLocationCoordinate2D(
-                                    latitude: storage.latitude,
-                                    longitude: storage.longitude
-                                )
-                            )
-                            .tint(.green)
+                            let maxIndex = locations
+                                .filter { $0.latitude == storage.latitude && $0.longitude == storage.longitude }
+                                .map(\.index)
+                                .max() ?? storage.index
+                            Annotation("", coordinate: CLLocationCoordinate2D(latitude: storage.latitude, longitude: storage.longitude)) {
+                                
+                                CustomPinView(index: maxIndex)
+                                    .zIndex(Double(maxIndex))
+                            }
                         }
                     }
                     .ignoresSafeArea()
@@ -93,6 +94,22 @@ struct MapView: View {
         
     }
     
+    struct CustomPinView: View {
+        let index: Int
+        
+        var body: some View {
+            ZStack {
+                Image("redCircleIcon")
+                    .resizable()
+                    .frame(width: 44.0, height: 44.0)
+                
+                Text("\(index)")
+                    .font(.custom(GlobalConstants.mediumFont, size: 16.0))
+                    .foregroundColor(.black)
+            }
+        }
+    }
+    
     // MARK: - Methods. Private
     
     private func handleLongPress(at coordinate: CLLocationCoordinate2D) {
@@ -133,43 +150,3 @@ struct MapView: View {
         
     }
 }
-//import SwiftUI
-//import SwiftData
-//import MapKit
-//
-//struct MapView: View {
-//    @Query(sort: \StorageLocation.index) private var locations: [StorageLocation]
-//    @State private var region = MKCoordinateRegion(
-//        center: .init(latitude: 50.4501, longitude: 30.5234),
-//        span: .init(latitudeDelta: 0.05, longitudeDelta: 0.05)
-//    )
-//
-//    var body: some View {
-//        Map(
-//            coordinateRegion: $region,
-//            annotationItems: sortedLocations
-//        ) { location in
-//            MapAnnotation(
-//                coordinate: .init(
-//                    latitude: location.latitude,
-//                    longitude: location.longitude
-//                )
-//            ) {
-//                ZStack {
-//                    Circle()
-//                        .fill(Color.green)
-//                        .frame(width: 32, height: 32)
-//                        .shadow(radius: 2)
-//                    Text("\(location.index)")
-//                        .font(.system(size: 14, weight: .bold))
-//                        .foregroundColor(.white)
-//                }
-//            }
-//        }
-//        .ignoresSafeArea()
-//    }
-//
-//    private var sortedLocations: [StorageLocation] {
-//        locations.sorted { $0.index < $1.index }
-//    }
-//}
