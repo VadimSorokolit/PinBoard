@@ -38,34 +38,20 @@ struct ListView: View {
     @State private var targetedId: String? = nil
     @State private var isEditing: Bool = false
     @State private var isAnimation: Bool = false
+    @State private var currentToast: Toast? = nil
     @AppStorage(GlobalConstants.colorKey) private var headerColorHex: Int = 0x0000FF
     
     // MARK: - MainView
     
     var body: some View {
         VStack(spacing: 0.0) {
-            //            Button(action: {
-            //                let names = ["KyvivKyvivKyvivKyvivKyvivKyvivKyviv", "Kharkiv", "Dnipro", "Odesa", "Lviv"]
-            //                for name in names {
-            //                    self.createNewLocation(name: name, longitude: 36.2304, latitude: 49.9935)
-            //                }
-            //            }) {
-            //                ZStack {
-            //                    Rectangle()
-            //                        .foregroundStyle(.green)
-            //                    
-            //                    Text("Add")
-            //                        .foregroundStyle(.black)
-            //                }
-            //                .frame(width: 50.0, height: 50.0)
-            //            }
-            //            
             Text("Locations")
                 .font(.custom(GlobalConstants.boldFont, size: 30.0))
             
             
-            GridView(targetedId: $targetedId, isEditing: $isEditing, isAnimation: $isAnimation, modelContext: modelContext, locations: locations, headerColorHex: headerColorHex)
+            GridView(targetedId: $targetedId, isEditing: $isEditing, currentToast: $currentToast, isAnimation: $isAnimation, modelContext: modelContext, locations: locations, headerColorHex: headerColorHex)
         }
+        .toast($currentToast)
         .frame(maxHeight: .infinity, alignment: .top)
         .padding(.top, 10.0)
     }
@@ -74,6 +60,7 @@ struct ListView: View {
         @Environment(PinBoardViewModel.self) private var viewModel
         @Binding var targetedId: String?
         @Binding var isEditing: Bool
+        @Binding var currentToast: Toast?
         @Binding var isAnimation: Bool
         let modelContext: ModelContext
         let locations: [StorageLocation]
@@ -81,9 +68,10 @@ struct ListView: View {
         
         var body: some View {
             
-            VStack(alignment: .leading, spacing: 0.0) {
+            VStack(spacing: 0.0) {
                 EditButtonView(isEditing: $isEditing, isAnimation: $isAnimation)
                 
+                ScrollViewReader { proxy in
                 ScrollView(.horizontal, showsIndicators: false) {
                     VStack(alignment: .leading, spacing: 0.0) {
                         HeaderView(isEditing: $isEditing, headerColorHex: headerColorHex)
@@ -103,10 +91,15 @@ struct ListView: View {
                                             deleteLocation(location)
                                         }
                                     )
-                                    .contentShape(Rectangle())
-                                    .onTapGesture {  
-                                        viewModel.selectedLocation = location
-                                    }
+                                        .contentShape(Rectangle())
+                                        .onTapGesture {
+                                            viewModel.selectedLocation = location
+                                            currentToast = Toast(
+                                                message: "\(location.name)\n will show on map",
+                                                duration: 2.0,
+                                                width: 300.0
+                                            )
+                                        }
                                     
                                     cell
                                         .overlay(
@@ -137,6 +130,12 @@ struct ListView: View {
                         )
                     }
                 }
+                .onAppear {
+                    if let last = locations.last?.id {
+                        proxy.scrollTo(last, anchor: .bottom)
+                    }
+                }
+            }
                 .overlay(
                     LinearGradient(
                         gradient: Gradient(colors: [Color.black.opacity(0.3), .clear]),
@@ -147,7 +146,7 @@ struct ListView: View {
                     alignment: .trailing
                 )
             }
-            .frame(minWidth: Constants.gridWidth)
+            .frame(maxWidth: .infinity)
         }
         
         private struct EditButtonView: View {
@@ -331,7 +330,7 @@ struct ListView: View {
             do {
                 try modelContext.save()
             } catch {
-                print("Erron:", error)
+                print("Error:", error)
             }
             
             targetedId = nil
@@ -356,4 +355,5 @@ struct ListView: View {
             modelContext.insert(newLocation)
         }
     }
+    
 }

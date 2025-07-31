@@ -20,6 +20,7 @@
 		DD728B7F2E1E9F8900984BD5 /* Testing in Frameworks */ = {isa = PBXBuildFile; productRef = DD728B7E2E1E9F8900984BD5 /* Testing */; };
 		DD728B8A2E1EA3DF00984BD5 /* StorageLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728B892E1EA3DE00984BD5 /* StorageLocation.swift */; };
 		DD728B8C2E1F27DD00984BD5 /*  Color+hexInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728B8B2E1F27DC00984BD5 /*  Color+hexInt.swift */; };
+		DD7425702E3B527600EE77A0 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD74256F2E3B526B00EE77A0 /* ToastView.swift */; };
 		DD8E79862E1BA4E6001CF2D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD8E79822E1BA4E6001CF2D4 /* Assets.xcassets */; };
 		DD8E79872E1BA4E6001CF2D4 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79832E1BA4E6001CF2D4 /* ListView.swift */; };
 		DD8E79882E1BA4E6001CF2D4 /* PinBoardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79842E1BA4E6001CF2D4 /* PinBoardApp.swift */; };
@@ -52,6 +53,7 @@
 		DD728B822E1EA0E100984BD5 /* LocalStorageUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorageUnitTests.swift; sourceTree = "<group>"; };
 		DD728B892E1EA3DE00984BD5 /* StorageLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageLocation.swift; sourceTree = "<group>"; };
 		DD728B8B2E1F27DC00984BD5 /*  Color+hexInt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = " Color+hexInt.swift"; sourceTree = "<group>"; };
+		DD74256F2E3B526B00EE77A0 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		DD8E79622E1BA2D0001CF2D4 /* PinBoard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PinBoard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD8E79822E1BA4E6001CF2D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DD8E79832E1BA4E6001CF2D4 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 		DD8E798C2E1BA5CF001CF2D4 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				DD74256F2E3B526B00EE77A0 /* ToastView.swift */,
 				DD728ADA2E1E676200984BD5 /* HomeView.swift */,
 				DD728AC92E1D921400984BD5 /* PasscodeIndicatorView.swift */,
 				DD728ACD2E1D945500984BD5 /* PasscodeTemplateView.swift */,
@@ -321,6 +324,7 @@
 				DD8E79982E1BBE79001CF2D4 /* AESEncryptionManager.swift in Sources */,
 				DDFFEBA72E2ACA7B005D8469 /* Location.swift in Sources */,
 				DD728ACA2E1D921500984BD5 /* PasscodeIndicatorView.swift in Sources */,
+				DD7425702E3B527600EE77A0 /* ToastView.swift in Sources */,
 				DD8E79872E1BA4E6001CF2D4 /* ListView.swift in Sources */,
 				DD728AD02E1D965000984BD5 /* SignInView.swift in Sources */,
 				DD728AC82E1D917F00984BD5 /* NumberPadView.swift in Sources */,

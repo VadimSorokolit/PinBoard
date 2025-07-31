@@ -23,8 +23,10 @@ struct MapView: View {
         )
     )
     @State private var showAlert = false
+    @State private var isLoading = false
     @State private var alertMessage = ""
     @State private var newLocation: Location? = nil
+    @State private var selectedLocationId: String? = nil
     
     // MARK: - Main View
     
@@ -34,7 +36,6 @@ struct MapView: View {
                 MapReader { proxy in
                     Map(position: $camera) {
                         let sorted = locations.sorted { a, b in
-                            
                             a.index < b.index
                         }
                         
@@ -45,7 +46,7 @@ struct MapView: View {
                                 .max() ?? storage.index
                             Annotation("", coordinate: CLLocationCoordinate2D(latitude: storage.latitude, longitude: storage.longitude)) {
                                 
-                                CustomPinView(index: maxIndex)
+                                CustomPinView(selectedLocationId: $selectedLocationId, locationId: storage.id, index: maxIndex, title: storage.name)
                                     .zIndex(Double(maxIndex))
                             }
                         }
@@ -53,11 +54,16 @@ struct MapView: View {
                     .ignoresSafeArea()
                     .gesture(
                         LongPressGesture(minimumDuration: 1.0)
-                            .sequenced(before: DragGesture(minimumDistance: 0))
+                            .onEnded { _ in
+                                let generator = UIImpactFeedbackGenerator(style: .medium)
+                                generator.impactOccurred()
+                            }
+                            .sequenced(before: DragGesture(minimumDistance: 0.0))
                             .onEnded { value in
                                 switch value {
                                     case .second(true, let drag?):
                                         let location = drag.location
+                                        
                                         if let coordinate = proxy.convert(location, from: .local) {
                                             handleLongPress(at: coordinate)
                                         }
@@ -67,7 +73,12 @@ struct MapView: View {
                             }
                     )
                 }
-                .ignoresSafeArea()
+                VStack(spacing: 0) {
+                    SpinnerView(isLoading: isLoading)
+                    
+                    Spacer()
+                }
+                .ignoresSafeArea(edges: .top)
             }
             .toolbar(.hidden, for: .navigationBar)
             .alert("Add new location", isPresented: $showAlert) {
@@ -80,32 +91,94 @@ struct MapView: View {
             }
         }
         .onChange(of: viewModel.selectedLocation) {
-            if let loc = viewModel.selectedLocation {
+            if let location = viewModel.selectedLocation {
                 withAnimation(.easeInOut) {
                     camera = .region(
                         MKCoordinateRegion(
-                            center: .init(latitude: loc.latitude, longitude: loc.longitude),
+                            center: .init(latitude: location.latitude, longitude: location.longitude),
                             span: .init(latitudeDelta: 0.5, longitudeDelta: 0.5)
                         )
                     )
                 }
             }
         }
+    }
+    
+    private struct SpinnerView: View {
+        @State private var topInset: CGFloat = 0.0
+        let isLoading: Bool
         
+        var body: some View {
+            GeometryReader { geo in
+                HStack {
+                    Spacer()
+                    
+                    if isLoading {
+                        ProgressView()
+                            .progressViewStyle(.circular)
+                            .tint(.blue)
+                    }
+                }
+                .padding(.horizontal, 16.0)
+                .padding(.top, topInset + 30.0)
+                .padding(.bottom, 8.0)
+                .background(.clear)
+                .onAppear {
+                    topInset = geo.safeAreaInsets.top
+                }
+            }
+            .frame(height: (40.0 + topInset))
+        }
     }
     
     struct CustomPinView: View {
+        @Binding var selectedLocationId: String?
+        let locationId: String
         let index: Int
+        let title: String
+        
+        private var isSelected: Bool { selectedLocationId == locationId }
+        
+        private let pinSize: CGFloat = 44.0
+        private let bubbleHeight: CGFloat = 40.0
         
         var body: some View {
-            ZStack {
-                Image("redCircleIcon")
-                    .resizable()
-                    .frame(width: 44.0, height: 44.0)
-                
-                Text("\(index)")
-                    .font(.custom(GlobalConstants.mediumFont, size: 16.0))
-                    .foregroundColor(.black)
+            ZStack(alignment: .center) {
+                ZStack {
+                    Image("redCircleIcon")
+                        .resizable()
+                        .frame(width: pinSize, height: pinSize)
+                    Text("\(index)")
+                        .font(.custom(GlobalConstants.mediumFont, size: 16.0))
+                        .foregroundColor(.black)
+                }
+                .onTapGesture {
+                    withAnimation(.spring()) {
+                        selectedLocationId = isSelected ? nil : locationId
+                    }
+                }
+                if isSelected {
+                    Text(title)
+                        .font(.caption)
+                        .foregroundColor(.white)
+                        .multilineTextAlignment(.center)
+                        .lineLimit(3)
+                        .truncationMode(.tail)
+                        .fixedSize(horizontal: true, vertical: false)
+                        .padding(.horizontal, 12.0)
+                        .padding(.vertical, 8.0)
+                        .frame(maxWidth: 200.0, minHeight: bubbleHeight, maxHeight: bubbleHeight)
+                        .background(
+                            Capsule()
+                                .fill(Color.blue)
+                                .shadow(radius: 2.0)
+                        )
+                        .offset(y: -(pinSize/2.0 + bubbleHeight / 2.0) - 2.0)
+                        .transition(
+                            .scale(scale: 0.1, anchor: .center)
+                            .combined(with: .opacity)
+                        )
+                }
             }
         }
     }
@@ -113,7 +186,10 @@ struct MapView: View {
     // MARK: - Methods. Private
     
     private func handleLongPress(at coordinate: CLLocationCoordinate2D) {
+        isLoading = true
         Task {
+            defer { isLoading = false }
+            
             if let location = await viewModel.loadLocation(for: coordinate.latitude, longitude: coordinate.longitude) {
                 alertMessage = "Do you want to add location \"\(location.name)\"?"
                 newLocation = location
@@ -147,6 +223,6 @@ struct MapView: View {
         } catch {
             print("Failed to save location:", error)
         }
-        
     }
+    
 }
