@@ -72,70 +72,62 @@ struct ListView: View {
                 EditButtonView(isEditing: $isEditing, isAnimation: $isAnimation)
                 
                 ScrollViewReader { proxy in
-                ScrollView(.horizontal, showsIndicators: false) {
-                    VStack(alignment: .leading, spacing: 0.0) {
-                        HeaderView(isEditing: $isEditing, headerColorHex: headerColorHex)
-                        
-                        ScrollView(.vertical, showsIndicators: false) {
-                            VStack(spacing: 0.0) {
-                                ForEach(locations) { location in
-                                    let isDragging = targetedId == location.id
-                                    
-                                    let cell = CellView(
-                                        isAnimation: $isAnimation,
-                                        isEditing: $isEditing,
-                                        location: location,
-                                        headerColorHex: headerColorHex,
-                                        isDragging: isDragging,
-                                        onDelete: {
-                                            deleteLocation(location)
-                                        }
-                                    )
-                                        .contentShape(Rectangle())
-                                        .onTapGesture {
-                                            viewModel.selectedLocation = location
-                                            currentToast = Toast(
-                                                message: "\(location.name)\n will show on map",
-                                                duration: 2.0,
-                                                width: 300.0
-                                            )
-                                        }
-                                    
-                                    cell
-                                        .overlay(
-                                            isEditing ?
-                                            Color.clear
-                                                .contentShape(Rectangle())
-                                                .draggable(location.id)
-                                                .dropDestination(for: String.self) { droppedIds, _ in
-                                                    handleDrop(droppedIds: droppedIds, to: location)
-                                                } isTargeted: { isOver in
-                                                    targetedId = isOver ? location.id : nil
-                                                }
-                                            : nil
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        VStack(alignment: .leading, spacing: 0.0) {
+                            HeaderView(isEditing: $isEditing, headerColorHex: headerColorHex)
+                            
+                            ScrollView(.vertical, showsIndicators: false) {
+                                VStack(spacing: 0.0) {
+                                    ForEach(locations) { location in
+                                        let isDragging = targetedId == location.id
+                                        
+                                        let cell = CellView(
+                                            isAnimation: $isAnimation,
+                                            isEditing: $isEditing,
+                                            currentToast: $currentToast,
+                                            location: location,
+                                            headerColorHex: headerColorHex,
+                                            isDragging: isDragging,
+                                            onDelete: {
+                                                deleteLocation(location)
+                                            }
                                         )
-                                        .animation(.easeInOut, value: locations)
+                                        
+                                        cell
+                                            .overlay(
+                                                isEditing ?
+                                                Color.clear
+                                                    .contentShape(Rectangle())
+                                                    .draggable(location.id)
+                                                    .dropDestination(for: String.self) { droppedIds, _ in
+                                                        handleDrop(droppedIds: droppedIds, to: location)
+                                                    } isTargeted: { isOver in
+                                                        targetedId = isOver ? location.id : nil
+                                                    }
+                                                : nil
+                                            )
+                                            .animation(.easeInOut, value: locations)
+                                    }
                                 }
                             }
-                        }
-                        .padding(.bottom, 8.0)
-                        .overlay(
-                            LinearGradient(
-                                gradient: Gradient(colors: [Color.black.opacity(0.15), .clear]),
-                                startPoint: .bottom,
-                                endPoint: .top
+                            .padding(.bottom, 8.0)
+                            .overlay(
+                                LinearGradient(
+                                    gradient: Gradient(colors: [Color.black.opacity(0.15), .clear]),
+                                    startPoint: .bottom,
+                                    endPoint: .top
+                                )
+                                .frame(height: 16.0),
+                                alignment: .bottom
                             )
-                            .frame(height: 16.0),
-                            alignment: .bottom
-                        )
+                        }
+                    }
+                    .onAppear {
+                        if let last = locations.last?.id {
+                            proxy.scrollTo(last, anchor: .bottom)
+                        }
                     }
                 }
-                .onAppear {
-                    if let last = locations.last?.id {
-                        proxy.scrollTo(last, anchor: .bottom)
-                    }
-                }
-            }
                 .overlay(
                     LinearGradient(
                         gradient: Gradient(colors: [Color.black.opacity(0.3), .clear]),
@@ -213,8 +205,11 @@ struct ListView: View {
         }
         
         private struct CellView: View {
+            @Environment(PinBoardViewModel.self) private var viewModel
+            @State private var isPressed = false
             @Binding var isAnimation: Bool
             @Binding var isEditing: Bool
+            @Binding var currentToast: Toast?
             let location: StorageLocation
             let headerColorHex: Int
             let isDragging: Bool
@@ -273,18 +268,30 @@ struct ListView: View {
                 .padding(.horizontal, Constants.cellHorizontalPadding)
                 .padding(.vertical, 1.0)
                 .background(
-                    Group {
-                        if isDragging {
-                            Color.init(hex: headerColorHex).opacity(0.1)
-                        } else {
-                            location.index % 2 == 0
-                            ? Color.gray.opacity(0.1)
-                            : Color(.systemBackground)
-                        }
-                    }
+                    isPressed
+                    ? Color.black.opacity(0.1)
+                    : isDragging
+                    ? Color(hex: headerColorHex).opacity(0.1)
+                    : location.index % 2 == 0
+                    ? Color.gray.opacity(0.08)
+                    : Color(.systemBackground)
                 )
                 .cornerRadius(8.0)
                 .shadow(color: .black.opacity(0.05), radius: 2.0, x: 0.0, y: 1.0)
+                .onTapGesture {
+                    isPressed = true
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                        isPressed = false
+                        viewModel.selectedLocation = location
+                        currentToast = Toast(
+                            message: "\(location.name)\n will show on map",
+                            duration: 2.0,
+                            width: 300.0
+                        )
+                    }
+                }
+                .animation(.easeInOut(duration: 0.2), value: isPressed)
             }
             
         }
