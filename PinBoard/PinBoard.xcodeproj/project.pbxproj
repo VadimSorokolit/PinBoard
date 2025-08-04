@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DD3F1C4B2E41070B00A5A5E3 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3F1C4A2E41070B00A5A5E3 /* LocationService.swift */; };
 		DD728AC22E1D8CD300984BD5 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728AC12E1D8CCB00984BD5 /* SettingsView.swift */; };
 		DD728AC42E1D8E2B00984BD5 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728AC32E1D8E2A00984BD5 /* MapView.swift */; };
 		DD728AC62E1D8F9C00984BD5 /* PinBoardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728AC52E1D8F8800984BD5 /* PinBoardViewModel.swift */; };
@@ -21,12 +22,12 @@
 		DD728B8A2E1EA3DF00984BD5 /* StorageLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728B892E1EA3DE00984BD5 /* StorageLocation.swift */; };
 		DD728B8C2E1F27DD00984BD5 /* Color+hexInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728B8B2E1F27DC00984BD5 /* Color+hexInt.swift */; };
 		DD7425702E3B527600EE77A0 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD74256F2E3B526B00EE77A0 /* ToastView.swift */; };
-		DD8E79862E1BA4E6001CF2D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD8E79822E1BA4E6001CF2D4 /* Assets.xcassets */; };
+		DD8E79862E1BA4E6001CF2D4 /* Assets 2.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD8E79822E1BA4E6001CF2D4 /* Assets 2.xcassets */; };
 		DD8E79872E1BA4E6001CF2D4 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79832E1BA4E6001CF2D4 /* ListView.swift */; };
 		DD8E79882E1BA4E6001CF2D4 /* PinBoardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79842E1BA4E6001CF2D4 /* PinBoardApp.swift */; };
 		DD8E79922E1BB685001CF2D4 /* LAContext+biometricType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79912E1BB684001CF2D4 /* LAContext+biometricType.swift */; };
-		DD8E79952E1BBD7D001CF2D4 /* Authenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79942E1BBD7B001CF2D4 /* Authenticator.swift */; };
-		DD8E79982E1BBE79001CF2D4 /* AESEncryptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79972E1BBE77001CF2D4 /* AESEncryptionManager.swift */; };
+		DD8E79952E1BBD7D001CF2D4 /* AuthenticatorService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79942E1BBD7B001CF2D4 /* AuthenticatorService.swift */; };
+		DD8E79982E1BBE79001CF2D4 /* AESEncryptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79972E1BBE77001CF2D4 /* AESEncryptionService.swift */; };
 		DD8E799A2E1BBF01001CF2D4 /* Data+padWithZeros.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79992E1BBF00001CF2D4 /* Data+padWithZeros.swift */; };
 		DD8E79A52E1BF11D001CF2D4 /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79A42E1BF114001CF2D4 /* GlobalConstants.swift */; };
 		DDAF03BE2E40965A0044781C /* PinGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDAF03BD2E4096590044781C /* PinGradient.swift */; };
@@ -43,6 +44,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DD3F1C4A2E41070B00A5A5E3 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		DD728AC12E1D8CCB00984BD5 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		DD728AC32E1D8E2A00984BD5 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		DD728AC52E1D8F8800984BD5 /* PinBoardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinBoardViewModel.swift; sourceTree = "<group>"; };
@@ -58,12 +60,12 @@
 		DD728B8B2E1F27DC00984BD5 /* Color+hexInt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+hexInt.swift"; sourceTree = "<group>"; };
 		DD74256F2E3B526B00EE77A0 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		DD8E79622E1BA2D0001CF2D4 /* PinBoard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PinBoard.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		DD8E79822E1BA4E6001CF2D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DD8E79822E1BA4E6001CF2D4 /* Assets 2.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Assets 2.xcassets"; sourceTree = "<group>"; };
 		DD8E79832E1BA4E6001CF2D4 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		DD8E79842E1BA4E6001CF2D4 /* PinBoardApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinBoardApp.swift; sourceTree = "<group>"; };
 		DD8E79912E1BB684001CF2D4 /* LAContext+biometricType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LAContext+biometricType.swift"; sourceTree = "<group>"; };
-		DD8E79942E1BBD7B001CF2D4 /* Authenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authenticator.swift; sourceTree = "<group>"; };
-		DD8E79972E1BBE77001CF2D4 /* AESEncryptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AESEncryptionManager.swift; sourceTree = "<group>"; };
+		DD8E79942E1BBD7B001CF2D4 /* AuthenticatorService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatorService.swift; sourceTree = "<group>"; };
+		DD8E79972E1BBE77001CF2D4 /* AESEncryptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AESEncryptionService.swift; sourceTree = "<group>"; };
 		DD8E79992E1BBF00001CF2D4 /* Data+padWithZeros.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+padWithZeros.swift"; sourceTree = "<group>"; };
 		DD8E79A42E1BF114001CF2D4 /* GlobalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
 		DDAF03BD2E4096590044781C /* PinGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinGradient.swift; sourceTree = "<group>"; };
@@ -132,11 +134,9 @@
 			children = (
 				DD8E79892E1BA52F001CF2D4 /* MainView */,
 				DD8E798A2E1BA578001CF2D4 /* MVVM */,
-				DD8E79962E1BBE63001CF2D4 /* Manager */,
-				DD8E79932E1BBD39001CF2D4 /* Service */,
-				DD8E799F2E1BF023001CF2D4 /* Resources */,
+				DD8E79932E1BBD39001CF2D4 /* Services */,
 				DD8E798E2E1BB3F1001CF2D4 /* Extensions */,
-				DD8E79822E1BA4E6001CF2D4 /* Assets.xcassets */,
+				DD8E799F2E1BF023001CF2D4 /* Resources */,
 				DDF120982E257F020084DD5C /* Info.plist */,
 			);
 			path = PinBoard;
@@ -195,21 +195,15 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		DD8E79932E1BBD39001CF2D4 /* Service */ = {
+		DD8E79932E1BBD39001CF2D4 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				DD8E79972E1BBE77001CF2D4 /* AESEncryptionService.swift */,
+				DD8E79942E1BBD7B001CF2D4 /* AuthenticatorService.swift */,
+				DD3F1C4A2E41070B00A5A5E3 /* LocationService.swift */,
 				DDD765D42E2A467E00EE5A1F /* NetworkSerivce.swift */,
-				DD8E79942E1BBD7B001CF2D4 /* Authenticator.swift */,
 			);
-			path = Service;
-			sourceTree = "<group>";
-		};
-		DD8E79962E1BBE63001CF2D4 /* Manager */ = {
-			isa = PBXGroup;
-			children = (
-				DD8E79972E1BBE77001CF2D4 /* AESEncryptionManager.swift */,
-			);
-			path = Manager;
+			path = Services;
 			sourceTree = "<group>";
 		};
 		DD8E799F2E1BF023001CF2D4 /* Resources */ = {
@@ -217,6 +211,7 @@
 			children = (
 				DDD764DC2E28452400EE5A1F /* Fonts */,
 				DD8E79A42E1BF114001CF2D4 /* GlobalConstants.swift */,
+				DD8E79822E1BA4E6001CF2D4 /* Assets 2.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -313,7 +308,7 @@
 				DDD765D12E29B47D00EE5A1F /* Archivo-Medium.ttf in Resources */,
 				DDD765CF2E29B44900EE5A1F /* Archivo-Regular.ttf in Resources */,
 				DDD765CB2E29B3F200EE5A1F /* Archivo-Bold.ttf in Resources */,
-				DD8E79862E1BA4E6001CF2D4 /* Assets.xcassets in Resources */,
+				DD8E79862E1BA4E6001CF2D4 /* Assets 2.xcassets in Resources */,
 				DDD765CD2E29B43700EE5A1F /* Archivo-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -330,6 +325,7 @@
 				DDD765D52E2A469900EE5A1F /* NetworkSerivce.swift in Sources */,
 				DDAF03C22E40CD020044781C /* AlertView.swift in Sources */,
 				DD728AD22E1D967E00984BD5 /* SignUpView.swift in Sources */,
+				DD3F1C4B2E41070B00A5A5E3 /* LocationService.swift in Sources */,
 				DD728AD42E1E417300984BD5 /* Tab.swift in Sources */,
 				DD728AC62E1D8F9C00984BD5 /* PinBoardViewModel.swift in Sources */,
 				DDAF03BE2E40965A0044781C /* PinGradient.swift in Sources */,
@@ -341,7 +337,7 @@
 				DDD764DB2E27F85900EE5A1F /* View+verticalColumnDivider.swift in Sources */,
 				DD728AC42E1D8E2B00984BD5 /* MapView.swift in Sources */,
 				DDD765D72E2A636B00EE5A1F /* Location+asStorageModel.swift in Sources */,
-				DD8E79982E1BBE79001CF2D4 /* AESEncryptionManager.swift in Sources */,
+				DD8E79982E1BBE79001CF2D4 /* AESEncryptionService.swift in Sources */,
 				DDFFEBA72E2ACA7B005D8469 /* Location.swift in Sources */,
 				DD728ACA2E1D921500984BD5 /* PasscodeIndicatorView.swift in Sources */,
 				DD7425702E3B527600EE77A0 /* ToastView.swift in Sources */,
@@ -350,7 +346,7 @@
 				DD728AC82E1D917F00984BD5 /* NumberPadView.swift in Sources */,
 				DD8E79A52E1BF11D001CF2D4 /* GlobalConstants.swift in Sources */,
 				DD728ACE2E1D945600984BD5 /* PasscodeTemplateView.swift in Sources */,
-				DD8E79952E1BBD7D001CF2D4 /* Authenticator.swift in Sources */,
+				DD8E79952E1BBD7D001CF2D4 /* AuthenticatorService.swift in Sources */,
 				DD8E79882E1BA4E6001CF2D4 /* PinBoardApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

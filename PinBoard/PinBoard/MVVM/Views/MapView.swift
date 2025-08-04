@@ -22,9 +22,12 @@ struct MapView: View {
             span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
         )
     )
+    @State private var locationManager = LocationService()
+    @State private var hasCenteredOnUserLocation = false
     @State private var isShowingAlert = false
     @State private var isLoading = false
-    @State private var isSingleButtonAlert = true
+    @State private var isSingleButtonAlert = false
+    @State private var userCoordinate: CLLocationCoordinate2D? = nil
     @State private var alertMessage: Text = Text("")
     @State private var newLocation: Location? = nil
     @State private var selectedLocationId: String? = nil
@@ -41,6 +44,23 @@ struct MapView: View {
             ZStack {
                 MapReader { proxy in
                     Map(position: $camera) {
+                        if let userCoordinate {
+                            Annotation("", coordinate: userCoordinate) {
+                                VStack(spacing: 4) {
+                                    Text("Start location")
+                                        .font(.custom(GlobalConstants.boldFont, size: 12.0))
+                                        .foregroundColor(.blue)
+                                    Circle()
+                                        .fill(Color.blue)
+                                        .frame(width: 14.0, height: 14.0)
+                                        .overlay(
+                                            Circle()
+                                                .stroke(Color.white, lineWidth: 2.0)
+                                        )
+                                        .shadow(radius: 2.0)
+                                }
+                            }
+                        }
                         let sorted = locations.sorted { a, b in
                             a.index < b.index
                         }
@@ -108,6 +128,23 @@ struct MapView: View {
                     )
                 }
             }
+        }
+        .task {
+            guard !hasCenteredOnUserLocation else { return }
+            
+            let coordinate = await locationManager.requestLocation()
+            
+            withAnimation {
+                camera = .region(
+                    MKCoordinateRegion(
+                        center: coordinate,
+                        span: .init(latitudeDelta: 0.5, longitudeDelta: 0.5)
+                    )
+                )
+            }
+            
+            userCoordinate = coordinate
+            hasCenteredOnUserLocation = true
         }
         .onChange(of: viewModel.selectedLocation) {
             if let location = viewModel.selectedLocation {
@@ -249,18 +286,15 @@ struct MapView: View {
                     isShowingAlert = true
                 }
             } else {
-                alertMessage = Text("Could not load location")
-                    .font(.custom(GlobalConstants.mediumFont, size: 16.0))
-                
-                isSingleButtonAlert = true
-                isShowingAlert = true
+                showErrorAlert(message: "Could not load location")
             }
         }
     }
     
     private func handleAddLocation() {
         guard let storageLocation = newLocation?.asStorageModel else {
-            print("Error: Failed to convert location to storage model")
+            showErrorAlert(message: "Error: Failed to convert location to storage model")
+            
             return
         }
         
@@ -278,8 +312,16 @@ struct MapView: View {
             
             newLocation = nil
         } catch {
-            print("Failed to save location:", error)
+            showErrorAlert(message: error.localizedDescription)
         }
+    }
+    
+    private func showErrorAlert(message: String) {
+        alertMessage = Text(message)
+            .font(.custom(GlobalConstants.mediumFont, size: 16.0))
+        
+        isSingleButtonAlert = true
+        isShowingAlert = true
     }
     
 }

@@ -41,7 +41,6 @@ class NetworkService: NetworkServiceProtocol {
         guard let url = components.url else {
             throw URLError(.badURL)
         }
-        
         let (data, response) = try await URLSession.shared.data(from: url)
         
         guard let httpResponse = response as? HTTPURLResponse, 200..<300 ~= httpResponse.statusCode else {
@@ -51,4 +50,5 @@ class NetworkService: NetworkServiceProtocol {
         let decoded = try JSONDecoder().decode([Location].self, from: data)
         return decoded.first
     }
+    
 }

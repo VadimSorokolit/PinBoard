@@ -1,5 +1,5 @@
 //
-//  Authenticator.swift
+//  AuthenticatorService.swift
 //  SafeLock
 //
 //  Created by Divyesh Vekariya on 24/04/24.
@@ -77,7 +77,7 @@ class Authenticator: AuthenticatorProtocol {
             return
         }
         let key = UUID().uuidString
-        let encryptedPasscode = AESEncryptionManager.encrypt(plainText: code, key: key)
+        let encryptedPasscode = AESEncryptionService.encrypt(plainText: code, key: key)
         
         self.userDefault.setValue(encryptedPasscode, forKey: GlobalConstants.userDefaultPasscodeKey)
         self.userDefault.setValue(key, forKey: self.userDefaultSecretKey)
@@ -149,7 +149,7 @@ class Authenticator: AuthenticatorProtocol {
         var passcode: String?
         
         if let key = self.userDefault.value(forKey: self.userDefaultSecretKey) as? String {
-            passcode = AESEncryptionManager.decrypt(encryptedText: encryptedPasscode, key: key)
+            passcode = AESEncryptionService.decrypt(encryptedText: encryptedPasscode, key: key)
         }
         
         return passcode

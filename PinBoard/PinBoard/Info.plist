@@ -2,14 +2,27 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key></key>
-	<string></string>
-	<key>UIAppFonts</key>
-	<array>
-		<string>Archivo-Bold.ttf</string>
-		<string>Archivo-Medium.ttf</string>
-		<string>Archivo-Regular.ttf</string>
-		<string>Archivo-SemiBold.ttf</string>
-	</array>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>We use your location to center the map</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>We use your location for background updates</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>We use your location even in background to update pins</string>
+
+    <key>CFBundleDocumentTypes</key>
+    <array>
+        <dict/>
+    </array>
+    <key>UIAppFonts</key>
+    <array>
+        <string>Archivo-Bold.ttf</string>
+        <string>Archivo-Medium.ttf</string>
+        <string>Archivo-Regular.ttf</string>
+        <string>Archivo-SemiBold.ttf</string>
+    </array>
+    <key>UTImportedTypeDeclarations</key>
+    <array>
+        <dict/>
+    </array>
 </dict>
 </plist>
