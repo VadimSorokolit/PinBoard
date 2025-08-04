@@ -27,6 +27,9 @@ struct MapView: View {
     @State private var alertMessage = ""
     @State private var newLocation: Location? = nil
     @State private var selectedLocationId: String? = nil
+    @AppStorage(GlobalConstants.selectedPinIndexKey) private var selectedPinColorsIndex: Int = 0
+    @AppStorage(GlobalConstants.addLocationKey) private var isAutoAddingLocation
+: Bool = false
     
     // MARK: - Main View
     
@@ -46,7 +49,7 @@ struct MapView: View {
                                 .max() ?? storage.index
                             Annotation("", coordinate: CLLocationCoordinate2D(latitude: storage.latitude, longitude: storage.longitude)) {
                                 
-                                CustomPinView(selectedLocationId: $selectedLocationId, locationId: storage.id, index: maxIndex, title: storage.name)
+                                CustomPinView(selectedLocationId: $selectedLocationId, selectedPinColorsIndex: selectedPinColorsIndex, locationId: storage.id, index: maxIndex, title: storage.name)
                                     .zIndex(Double(maxIndex))
                             }
                         }
@@ -65,7 +68,8 @@ struct MapView: View {
                                         let location = drag.location
                                         
                                         if let coordinate = proxy.convert(location, from: .local) {
-                                            handleLongPress(at: coordinate)
+                                            handlePress(at: coordinate, isAutoAdding: isAutoAddingLocation
+)
                                         }
                                     default:
                                         break
@@ -133,24 +137,40 @@ struct MapView: View {
     
     struct CustomPinView: View {
         @Binding var selectedLocationId: String?
+        let selectedPinColorsIndex: Int
         let locationId: String
         let index: Int
         let title: String
-        
         private var isSelected: Bool { selectedLocationId == locationId }
-        
         private let pinSize: CGFloat = 44.0
         private let bubbleHeight: CGFloat = 40.0
+        private var selectedPinGradient: PinGradient {
+            PinGradient.all[selectedPinColorsIndex]
+        }
         
         var body: some View {
             ZStack(alignment: .center) {
                 ZStack {
-                    Image("redCircleIcon")
-                        .resizable()
+                    selectedPinGradient.gradient
+                        .mask(
+                            Image(GlobalConstants.pinImageName)
+                                .resizable()
+                                .scaledToFit()
+                        )
                         .frame(width: pinSize, height: pinSize)
-                    Text("\(index)")
-                        .font(.custom(GlobalConstants.mediumFont, size: 16.0))
-                        .foregroundColor(.black)
+                    
+                    ZStack {
+                        Circle()
+                            .foregroundStyle(Color.white)
+                            .frame(width: pinSize / 2.4, height: pinSize / 2.4)
+                        
+                        Text("\(index)")
+                            .font(.custom(GlobalConstants.mediumFont, size: 12.0))
+                            .minimumScaleFactor(0.5)
+                            .lineLimit(1)
+                            .foregroundColor(.black)
+                    }
+                    .offset(y: -8.0)
                 }
                 .onTapGesture {
                     withAnimation(.spring()) {
@@ -173,7 +193,7 @@ struct MapView: View {
                                 .fill(Color.blue)
                                 .shadow(radius: 2.0)
                         )
-                        .offset(y: -(pinSize/2.0 + bubbleHeight / 2.0) - 2.0)
+                        .offset(y: -(pinSize / 2.0 + bubbleHeight / 2.0) - 2.0)
                         .transition(
                             .scale(scale: 0.1, anchor: .center)
                             .combined(with: .opacity)
@@ -185,15 +205,21 @@ struct MapView: View {
     
     // MARK: - Methods. Private
     
-    private func handleLongPress(at coordinate: CLLocationCoordinate2D) {
+    private func handlePress(at coordinate: CLLocationCoordinate2D, isAutoAdding: Bool) {
         isLoading = true
+        
         Task {
             defer { isLoading = false }
             
             if let location = await viewModel.loadLocation(for: coordinate.latitude, longitude: coordinate.longitude) {
-                alertMessage = "Do you want to add location \"\(location.name)\"?"
-                newLocation = location
-                showAlert = true
+                if isAutoAdding {
+                    newLocation = location
+                    handleAddLocation()
+                } else {
+                    alertMessage = "Do you want to add location \"\(location.name)\"?"
+                    newLocation = location
+                    showAlert = true
+                }
             } else {
                 alertMessage = "Location not found."
                 showAlert = true

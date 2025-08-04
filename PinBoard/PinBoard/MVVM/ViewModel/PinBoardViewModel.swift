@@ -31,7 +31,7 @@ class PinBoardViewModel {
     private let networkService: NetworkServiceProtocol
     
     // MARK: - Inititializer
-
+    
     init(authenticator: AuthenticatorProtocol, networkService: NetworkServiceProtocol) {
         self.authenticator = authenticator
         self.networkService = networkService
@@ -44,7 +44,7 @@ class PinBoardViewModel {
         
         self.authenticator.setPasscodeWith(self.passcode)
     }
-
+    
     func verifyPasscode() -> Bool {
         guard self.passcode.count == GlobalConstants.passcodeLength else {
             return false
@@ -88,7 +88,7 @@ class PinBoardViewModel {
     func loadLocation(for latitude: Double, longitude: Double) async -> Location? {
         isLoading = true
         defer { isLoading = false }
-
+        
         do {
             let location = try await networkService.fetchLocation(lat: latitude, lon: longitude)
             return location
@@ -101,7 +101,8 @@ class PinBoardViewModel {
         } catch {
             print("Error: Unexpected error")
         }
-
+        
         return nil
     }
+    
 }

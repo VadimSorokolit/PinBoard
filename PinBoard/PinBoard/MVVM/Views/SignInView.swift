@@ -13,16 +13,18 @@ struct SignInView: View {
     
     var body: some View {
         PasscodeTemplateView(isWrongPassword: $isWrongPassword, title: "Enter", titleText: "for Sign In", onComplete: {
-            let success = viewModel.verifyPasscode()
-            if !success {
-                isWrongPassword = true
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    isWrongPassword = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                let success = viewModel.verifyPasscode()
+                if !success {
+                    isWrongPassword = true
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        isWrongPassword = false
+                        viewModel.passcode = ""
+                    }
+                } else {
                     viewModel.passcode = ""
                 }
-            } else {
-                viewModel.passcode = ""
             }
         }) {
             VStack {

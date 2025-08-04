@@ -101,11 +101,3 @@ struct ToastModifier: ViewModifier {
     }
     
 }
-
-extension View {
-    
-    func toast(_ toast: Binding<Toast?>) -> some View {
-        self.modifier(ToastModifier(toast: toast))
-    }
-    
-}

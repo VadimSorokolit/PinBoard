@@ -13,7 +13,10 @@ struct GlobalConstants {
     static let mediumFont: String = "Archivo-Medium"
     static let regularFont: String = "Archivo-Regular"
     static let userDefaultPasscodeKey: String = "passcode"
-    static let passcodeLength: Int = 4
     static let colorKey: String = "color"
+    static let pinImageName: String = "pinImage"
+    static let selectedPinIndexKey = "selectedPinIndex"
+    static let addLocationKey: String = "autoAddLocation"
+    static let passcodeLength: Int = 4
     static let gridHorizontalSpacing: CGFloat = 24.0
 }
