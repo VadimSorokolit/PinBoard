@@ -22,14 +22,17 @@ struct MapView: View {
             span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
         )
     )
-    @State private var showAlert = false
+    @State private var isShowingAlert = false
     @State private var isLoading = false
-    @State private var alertMessage = ""
+    @State private var isSingleButtonAlert = true
+    @State private var alertMessage: Text = Text("")
     @State private var newLocation: Location? = nil
     @State private var selectedLocationId: String? = nil
     @AppStorage(GlobalConstants.selectedPinIndexKey) private var selectedPinColorsIndex: Int = 0
-    @AppStorage(GlobalConstants.addLocationKey) private var isAutoAddingLocation
-: Bool = false
+    @AppStorage(GlobalConstants.addLocationKey) private var isAutoAddingLocation: Bool = false
+    private var selectedPinGradient: PinGradient {
+        PinGradient.all[selectedPinColorsIndex]
+    }
     
     // MARK: - Main View
     
@@ -49,7 +52,7 @@ struct MapView: View {
                                 .max() ?? storage.index
                             Annotation("", coordinate: CLLocationCoordinate2D(latitude: storage.latitude, longitude: storage.longitude)) {
                                 
-                                CustomPinView(selectedLocationId: $selectedLocationId, selectedPinColorsIndex: selectedPinColorsIndex, locationId: storage.id, index: maxIndex, title: storage.name)
+                                CustomPinView(selectedLocationId: $selectedLocationId, locationId: storage.id, index: maxIndex, title: storage.name, selectedPinGradient: selectedPinGradient)
                                     .zIndex(Double(maxIndex))
                             }
                         }
@@ -68,8 +71,7 @@ struct MapView: View {
                                         let location = drag.location
                                         
                                         if let coordinate = proxy.convert(location, from: .local) {
-                                            handlePress(at: coordinate, isAutoAdding: isAutoAddingLocation
-)
+                                            handlePress(at: coordinate, isAutoAdding: isAutoAddingLocation)
                                         }
                                     default:
                                         break
@@ -77,7 +79,8 @@ struct MapView: View {
                             }
                     )
                 }
-                VStack(spacing: 0) {
+                
+                VStack(spacing: 0.0) {
                     SpinnerView(isLoading: isLoading)
                     
                     Spacer()
@@ -85,13 +88,25 @@ struct MapView: View {
                 .ignoresSafeArea(edges: .top)
             }
             .toolbar(.hidden, for: .navigationBar)
-            .alert("Add new location", isPresented: $showAlert) {
-                Button("Cancel", role: .cancel) {}
-                Button("Add", role: .none) {
-                    handleAddLocation()
+            .overlay(alignment: .center) {
+                if isShowingAlert {
+                    AlertView(
+                        message: alertMessage,
+                        confirmTitle: isSingleButtonAlert ? "OK" : "Add",
+                        cancelTitle: isSingleButtonAlert ? nil : "Cancel",
+                        onConfirm: {
+                            if isSingleButtonAlert == false {
+                                handleAddLocation()
+                            }
+                            isShowingAlert = false
+                            isSingleButtonAlert = false
+                        },
+                        onCancel: isSingleButtonAlert ? nil : {
+                            isShowingAlert = false
+                            isSingleButtonAlert = false
+                        }
+                    )
                 }
-            } message: {
-                Text(alertMessage)
             }
         }
         .onChange(of: viewModel.selectedLocation) {
@@ -137,16 +152,14 @@ struct MapView: View {
     
     struct CustomPinView: View {
         @Binding var selectedLocationId: String?
-        let selectedPinColorsIndex: Int
         let locationId: String
         let index: Int
         let title: String
+        let selectedPinGradient: PinGradient
         private var isSelected: Bool { selectedLocationId == locationId }
         private let pinSize: CGFloat = 44.0
         private let bubbleHeight: CGFloat = 40.0
-        private var selectedPinGradient: PinGradient {
-            PinGradient.all[selectedPinColorsIndex]
-        }
+        
         
         var body: some View {
             ZStack(alignment: .center) {
@@ -162,13 +175,14 @@ struct MapView: View {
                     ZStack {
                         Circle()
                             .foregroundStyle(Color.white)
-                            .frame(width: pinSize / 2.4, height: pinSize / 2.4)
+                            .frame(width: pinSize / 2.6, height: pinSize / 2.6)
                         
                         Text("\(index)")
                             .font(.custom(GlobalConstants.mediumFont, size: 12.0))
-                            .minimumScaleFactor(0.5)
                             .lineLimit(1)
+                            .minimumScaleFactor(0.3)
                             .foregroundColor(.black)
+                            .frame(maxWidth: pinSize / 2.7)
                     }
                     .offset(y: -8.0)
                 }
@@ -216,13 +230,30 @@ struct MapView: View {
                     newLocation = location
                     handleAddLocation()
                 } else {
-                    alertMessage = "Do you want to add location \"\(location.name)\"?"
+                    let space = Text(" ")
+                    
+                    let prefix = Text("Do you want to add location")
+                        .font(.custom(GlobalConstants.mediumFont, size: 16.0))
+                    
+                    let name = Text(location.name)
+                        .font(.custom(GlobalConstants.boldFont, size: 16.0))
+                        .foregroundStyle(selectedPinGradient.gradient)
+                    
+                    let suffix = Text("?")
+                        .font(.custom(GlobalConstants.mediumFont, size: 16.0))
+                    
+                    alertMessage = prefix + space + name + space + suffix
                     newLocation = location
-                    showAlert = true
+                    
+                    isSingleButtonAlert = false
+                    isShowingAlert = true
                 }
             } else {
-                alertMessage = "Location not found."
-                showAlert = true
+                alertMessage = Text("Could not load location")
+                    .font(.custom(GlobalConstants.mediumFont, size: 16.0))
+                
+                isSingleButtonAlert = true
+                isShowingAlert = true
             }
         }
     }

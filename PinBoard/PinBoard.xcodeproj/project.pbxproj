@@ -31,6 +31,7 @@
 		DD8E79A52E1BF11D001CF2D4 /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8E79A42E1BF114001CF2D4 /* GlobalConstants.swift */; };
 		DDAF03BE2E40965A0044781C /* PinGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDAF03BD2E4096590044781C /* PinGradient.swift */; };
 		DDAF03C02E40BA810044781C /* View+toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDAF03BF2E40BA800044781C /* View+toast.swift */; };
+		DDAF03C22E40CD020044781C /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDAF03C12E40CD010044781C /* AlertView.swift */; };
 		DDD764DB2E27F85900EE5A1F /* View+verticalColumnDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDD764DA2E27F85800EE5A1F /* View+verticalColumnDivider.swift */; };
 		DDD765CB2E29B3F200EE5A1F /* Archivo-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DDD765CA2E29B3F200EE5A1F /* Archivo-Bold.ttf */; };
 		DDD765CD2E29B43700EE5A1F /* Archivo-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DDD765CC2E29B43700EE5A1F /* Archivo-SemiBold.ttf */; };
@@ -67,6 +68,7 @@
 		DD8E79A42E1BF114001CF2D4 /* GlobalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
 		DDAF03BD2E4096590044781C /* PinGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinGradient.swift; sourceTree = "<group>"; };
 		DDAF03BF2E40BA800044781C /* View+toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+toast.swift"; sourceTree = "<group>"; };
+		DDAF03C12E40CD010044781C /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		DDD764DA2E27F85800EE5A1F /* View+verticalColumnDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+verticalColumnDivider.swift"; sourceTree = "<group>"; };
 		DDD765CA2E29B3F200EE5A1F /* Archivo-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Archivo-Bold.ttf"; sourceTree = "<group>"; };
 		DDD765CC2E29B43700EE5A1F /* Archivo-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Archivo-SemiBold.ttf"; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 		DDAF03BC2E3E12370044781C /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				DDAF03C12E40CD010044781C /* AlertView.swift */,
 				DDAF03BD2E4096590044781C /* PinGradient.swift */,
 				DD74256F2E3B526B00EE77A0 /* ToastView.swift */,
 				DD728AC92E1D921400984BD5 /* PasscodeIndicatorView.swift */,
@@ -325,6 +328,7 @@
 				DD8E799A2E1BBF01001CF2D4 /* Data+padWithZeros.swift in Sources */,
 				DD728ADB2E1E676800984BD5 /* HomeView.swift in Sources */,
 				DDD765D52E2A469900EE5A1F /* NetworkSerivce.swift in Sources */,
+				DDAF03C22E40CD020044781C /* AlertView.swift in Sources */,
 				DD728AD22E1D967E00984BD5 /* SignUpView.swift in Sources */,
 				DD728AD42E1E417300984BD5 /* Tab.swift in Sources */,
 				DD728AC62E1D8F9C00984BD5 /* PinBoardViewModel.swift in Sources */,
