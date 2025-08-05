@@ -8,12 +8,15 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @AppStorage(GlobalConstants.selectedPinIndexKey) private var selectedPinIndex: Int = 0
-    @AppStorage(GlobalConstants.addLocationKey) private var isAutoAddingLocation
-: Bool = false
-    @Namespace private var pinBorderNameSpace
     
+    // MARK: - Properties. Private
+    
+    @AppStorage(GlobalConstants.selectedPinIndexKey) private var selectedPinIndex: Int = 0
+    @AppStorage(GlobalConstants.addLocationKey) private var isAutoAddingLocation: Bool = false
+    @Namespace private var pinBorderNameSpace
     private let pinGradients = PinGradient.all
+    
+    // MARK: - Main body
     
     var body: some View {
         VStack(spacing: 10.0) {
@@ -55,8 +58,22 @@ struct SettingsView: View {
                     }
                     
                     Section(header: Text("Locations")) {
-                        Toggle("Add new location \n without approval", isOn: $isAutoAddingLocation
-)
+                        Toggle("Add new location \n without approval", isOn: $isAutoAddingLocation)
+                    }
+                    
+                    Section {
+                        Button(action: {
+                            print("Log out")
+                        }) {
+                            Text("Log out")
+                                .font(.custom(GlobalConstants.semiBoldFont, size: 16.0))
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .foregroundStyle(.white)
+                                .background(Color.red)
+                                .clipShape(RoundedRectangle(cornerRadius: 10.0))
+                        }
+                        .listRowBackground(Color.clear) 
                     }
                 }
             }

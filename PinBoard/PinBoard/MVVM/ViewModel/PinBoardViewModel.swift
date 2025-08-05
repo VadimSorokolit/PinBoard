@@ -11,9 +11,8 @@ import Foundation
 class PinBoardViewModel {
     
     // MARK: - Properties. Public
-    
+
     var selectedLocation: StorageLocation? = nil
-    var passcode = ""
     var isAuthenticated: Bool {
         get { authenticator.isAuthenticated }
         set { authenticator.isAuthenticated = newValue }
@@ -24,8 +23,11 @@ class PinBoardViewModel {
     var biometryType: BiometricType? {
         get { authenticator.biometryType }
     }
+    var passcode = ""
     var hideNumberPad: Bool = true
     var isLoading: Bool = false
+    
+    // MARK: - Properties. Private
     
     private let authenticator: AuthenticatorProtocol
     private let networkService: NetworkServiceProtocol

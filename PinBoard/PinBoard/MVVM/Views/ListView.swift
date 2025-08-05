@@ -22,38 +22,61 @@ struct ListView: View {
         static let latitudeTitleWidth: CGFloat = 100.0
         static let longitudeTitleWidth: CGFloat = 100.0
         static let cellHorizontalPadding: CGFloat = 20.0
-        static let cellFontSize: CGFloat = 18.0
-        static let headerFontSize: CGFloat = 20.0
+        static let cellFontSize: CGFloat = 14.0
+        static let headerFontSize: CGFloat = 16.0
         static let iconEditName: String = "line.3.horizontal"
         static let iconDeleteName: String = "ellipsis"
         static let indexTextColor: Int = 0x35C759
         static let longitudeTextColor: Int = 0xF95069
         static let latitudeTextColor: Int = 0x7732d3
+        static let activeCellOpacity: Double = 0.3
     }
     
-    // MARK: - Properties
+    // MARK: - Properties. Private
     
+    @Environment(PinBoardViewModel.self) private var viewModel
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \StorageLocation.index) private var locations: [StorageLocation]
     @State private var targetedId: String? = nil
     @State private var isEditing: Bool = false
     @State private var isAnimation: Bool = false
     @State private var currentToast: Toast? = nil
+    @AppStorage(GlobalConstants.selectedPinIndexKey) private var selectedPinColorsIndex: Int = 0
     @AppStorage(GlobalConstants.colorKey) private var headerColorHex: Int = 0x0000FF
+    private var selectedPinGradient: PinGradient {
+        PinGradient.all[selectedPinColorsIndex]
+    }
     
-    // MARK: - MainView
+    // MARK: - Main body
     
     var body: some View {
-        VStack(spacing: 0.0) {
-            Text("Locations")
-                .font(.custom(GlobalConstants.boldFont, size: 30.0))
+        ZStack(alignment: .top) {
+            Rectangle()
+                .fill(selectedPinGradient.gradient).opacity(GlobalConstants.barGradientOpacity)
+                .ignoresSafeArea(.all, edges: .top)
+                .frame(height: 100.0)
+                .edgesIgnoringSafeArea(.top)
             
-            
-            GridView(targetedId: $targetedId, isEditing: $isEditing, currentToast: $currentToast, isAnimation: $isAnimation, modelContext: modelContext, locations: locations, headerColorHex: headerColorHex)
+            VStack(spacing: 0.0) {
+                Text("Locations")
+                    .font(.custom(GlobalConstants.boldFont, size: 20.0))
+                    .foregroundStyle(.black)
+                    .padding(.top, 10.0)
+                
+                GridView(
+                    targetedId: $targetedId,
+                    isEditing: $isEditing,
+                    currentToast: $currentToast,
+                    isAnimation: $isAnimation,
+                    modelContext: modelContext,
+                    selectedPinGradient:selectedPinGradient,
+                    locations: locations,
+                    headerColorHex: headerColorHex
+                )
+            }
+            .toast($currentToast)
+            .frame(maxHeight: .infinity, alignment: .top)
         }
-        .toast($currentToast)
-        .frame(maxHeight: .infinity, alignment: .top)
-        .padding(.top, 10.0)
     }
     
     private struct GridView: View {
@@ -63,6 +86,7 @@ struct ListView: View {
         @Binding var currentToast: Toast?
         @Binding var isAnimation: Bool
         let modelContext: ModelContext
+        let selectedPinGradient: PinGradient
         let locations: [StorageLocation]
         let headerColorHex: Int
         
@@ -85,6 +109,7 @@ struct ListView: View {
                                             isAnimation: $isAnimation,
                                             isEditing: $isEditing,
                                             currentToast: $currentToast,
+                                            selectedPinGradient: selectedPinGradient,
                                             location: location,
                                             headerColorHex: headerColorHex,
                                             isDragging: isDragging,
@@ -117,7 +142,7 @@ struct ListView: View {
                                     startPoint: .bottom,
                                     endPoint: .top
                                 )
-                                .frame(height: 16.0),
+                                .frame(height: 8.0),
                                 alignment: .bottom
                             )
                         }
@@ -156,6 +181,7 @@ struct ListView: View {
                             .font(.custom(GlobalConstants.semiBoldFont, size: Constants.cellFontSize))
                     }
                 }
+                .padding(.top, 12.0)
                 .padding(.bottom, 11.0)
                 .padding(.trailing, 16.0)
             }
@@ -210,6 +236,7 @@ struct ListView: View {
             @Binding var isAnimation: Bool
             @Binding var isEditing: Bool
             @Binding var currentToast: Toast?
+            let selectedPinGradient: PinGradient
             let location: StorageLocation
             let headerColorHex: Int
             let isDragging: Bool
@@ -268,14 +295,21 @@ struct ListView: View {
                 .padding(.horizontal, Constants.cellHorizontalPadding)
                 .padding(.vertical, 1.0)
                 .background(
-                    isPressed
-                    ? Color.black.opacity(0.1)
-                    : isDragging
-                    ? Color(hex: headerColorHex).opacity(0.1)
-                    : location.index % 2 == 0
+                    location.index % 2 == 0
                     ? Color.gray.opacity(0.08)
                     : Color(.systemBackground)
                 )
+                .overlay {
+                    if isPressed {
+                        selectedPinGradient.gradient
+                            .opacity(Constants.activeCellOpacity)
+                    } else if isDragging {
+                        Color(hex: headerColorHex)
+                            .opacity(0.1)
+                    } else {
+                        EmptyView()
+                    }
+                }
                 .cornerRadius(8.0)
                 .shadow(color: .black.opacity(0.05), radius: 2.0, x: 0.0, y: 1.0)
                 .onTapGesture {
@@ -343,23 +377,6 @@ struct ListView: View {
             targetedId = nil
             
             return true
-        }
-    }
-    
-    // MARK: - Methods. Private - For test !!!
-    
-    private func createNewLocation(name: String, longitude: Double, latitude: Double,) {
-        let descriptor = FetchDescriptor<StorageLocation>(
-            sortBy: [SortDescriptor(\.index, order: .reverse)]
-        )
-        
-        if let last = try? modelContext.fetch(descriptor).first {
-            let nextIndex = last.index + 1
-            let newLocation = StorageLocation(index: nextIndex, name: name, longitude: longitude,  latitude: latitude)
-            modelContext.insert(newLocation)
-        } else {
-            let newLocation = StorageLocation(index: 1, name: name, longitude: longitude, latitude: latitude)
-            modelContext.insert(newLocation)
         }
     }
     

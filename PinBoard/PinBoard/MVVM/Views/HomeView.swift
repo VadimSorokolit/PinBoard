@@ -8,8 +8,13 @@
 import SwiftUI
 
 struct HomeView: View {
+    
+    // MARK: - Properties. Private
+    
     @State var activeTab: Tab = .list
     @State var allTabs: [AnimatedTab] = Tab.allCases.map(AnimatedTab.init)
+    
+    // MARK: - Main body
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -32,7 +37,7 @@ struct HomeView: View {
         guard let startIndex = tabs.firstIndex(of: activeTab) else {
             return
         }
-
+        
         for offset in 1...tabs.count {
             try? await Task.sleep(nanoseconds: 100_000_000)
             let next = tabs[(startIndex + offset) % tabs.count]
@@ -66,9 +71,13 @@ struct HomeView: View {
     }
     
     struct CustomTabBar: View {
+        @AppStorage(GlobalConstants.selectedPinIndexKey) private var selectedPinColorsIndex: Int = 0
+        private var selectedPinGradient: PinGradient {
+            PinGradient.all[selectedPinColorsIndex]
+        }
         @Binding var allTabs: [AnimatedTab]
         @Binding var activeTab: Tab
-
+        
         var body: some View {
             HStack {
                 ForEach($allTabs) { $animatedTab in
@@ -76,7 +85,7 @@ struct HomeView: View {
                     
                     ImageWithTitle(animatedTab: animatedTab, tab: tab)
                         .frame(maxWidth: .infinity)
-                        .foregroundStyle(activeTab == tab ? Color.primary : Color.gray.opacity(0.8))
+                        .foregroundStyle(activeTab == tab ? Color.primary : Color.blue.opacity(0.8))
                         .padding(.top, 8.0)
                         .padding(.bottom, 6.0)
                         .containerShape(.rect)
@@ -94,7 +103,11 @@ struct HomeView: View {
                         }
                 }
             }
-            .background(.bar)
+            .frame(height: 50.0)
+            .background(
+                selectedPinGradient.gradient.opacity(GlobalConstants.barGradientOpacity)
+                    .ignoresSafeArea(edges: .bottom)
+            )
         }
         
         private struct ImageWithTitle: View {
@@ -114,4 +127,5 @@ struct HomeView: View {
             
         }
     }
+    
 }

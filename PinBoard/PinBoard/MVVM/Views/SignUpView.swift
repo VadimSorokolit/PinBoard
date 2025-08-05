@@ -8,7 +8,12 @@
 import SwiftUI
 
 struct SignUpView: View {
+    
+    // MARK: - Properties. Private
+    
     @Environment(PinBoardViewModel.self) private var viewModel
+    
+    // MARK: - Main body
     
     var body: some View {
         PasscodeTemplateView(

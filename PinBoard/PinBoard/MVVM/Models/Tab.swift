@@ -45,4 +45,3 @@ struct AnimatedTab: Identifiable {
         self.tab = tab
     }
 }
-

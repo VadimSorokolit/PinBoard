@@ -16,7 +16,7 @@ struct AlertView: View {
     
     var body: some View {
         ZStack {
-            Color.black.opacity(0.05)
+            Color(hex: 0xEFEFF0).opacity(0.01)
                 .ignoresSafeArea()
             
             VStack(spacing: 0.0) {

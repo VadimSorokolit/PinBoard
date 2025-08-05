@@ -12,7 +12,7 @@ import SwiftData
 @main
 struct PinBoardApp: App {
     
-    // MARK: - Properties
+    // MARK: - Properties. Private
     
     @State private var viewModel: PinBoardViewModel
     @State private var isOverlayShown: Bool = false

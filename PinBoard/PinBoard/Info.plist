@@ -9,20 +9,12 @@
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
     <string>We use your location even in background to update pins</string>
 
-    <key>CFBundleDocumentTypes</key>
-    <array>
-        <dict/>
-    </array>
     <key>UIAppFonts</key>
     <array>
         <string>Archivo-Bold.ttf</string>
         <string>Archivo-Medium.ttf</string>
         <string>Archivo-Regular.ttf</string>
         <string>Archivo-SemiBold.ttf</string>
-    </array>
-    <key>UTImportedTypeDeclarations</key>
-    <array>
-        <dict/>
     </array>
 </dict>
 </plist>

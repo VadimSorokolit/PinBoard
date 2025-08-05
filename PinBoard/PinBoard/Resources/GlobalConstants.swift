@@ -19,4 +19,5 @@ struct GlobalConstants {
     static let addLocationKey: String = "autoAddLocation"
     static let passcodeLength: Int = 4
     static let gridHorizontalSpacing: CGFloat = 24.0
+    static let barGradientOpacity: CGFloat = 0.1
 }

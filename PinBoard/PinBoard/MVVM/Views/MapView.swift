@@ -11,7 +11,7 @@ import MapKit
 
 struct MapView: View {
     
-    // MARK: - Properites
+    // MARK: - Properites. Private
     
     @Environment(\.modelContext) private var modelContext
     @Environment(PinBoardViewModel.self) private var viewModel
@@ -37,7 +37,7 @@ struct MapView: View {
         PinGradient.all[selectedPinColorsIndex]
     }
     
-    // MARK: - Main View
+    // MARK: - Main body
     
     var body: some View {
         NavigationStack {
@@ -158,6 +158,9 @@ struct MapView: View {
                 }
             }
         }
+        .onDisappear {
+            selectedLocationId = nil
+        }
     }
     
     private struct SpinnerView: View {
@@ -193,13 +196,39 @@ struct MapView: View {
         let index: Int
         let title: String
         let selectedPinGradient: PinGradient
-        private var isSelected: Bool { selectedLocationId == locationId }
         private let pinSize: CGFloat = 44.0
-        private let bubbleHeight: CGFloat = 40.0
-        
-        
+        @State private var showBubble: Bool = false
+        private var isSelected: Bool {
+            selectedLocationId == locationId
+        }
+
         var body: some View {
-            ZStack(alignment: .center) {
+            ZStack {
+                PinView(selectedLocationId: $selectedLocationId, locationId: locationId, index: index, title: title, selectedPinGradient: selectedPinGradient, isSelected: isSelected)
+                
+                if showBubble {
+                    BubbleView(title: title, pinSize: pinSize)
+                        .opacity(isSelected ? 1 : 0)
+                        .transition(.scale(scale: 0.1, anchor: .center).combined(with: .opacity))
+                }
+            }
+            .onChange(of: isSelected) { oldValue, newValue in
+                withAnimation(.spring()) {
+                    showBubble = newValue
+                }
+            }
+        }
+
+        private struct PinView: View {
+            @Binding var selectedLocationId: String?
+            let locationId: String
+            let index: Int
+            let title: String
+            let selectedPinGradient: PinGradient
+            let isSelected: Bool
+            private let pinSize: CGFloat = 44.0
+            
+            var body: some View {
                 ZStack {
                     selectedPinGradient.gradient
                         .mask(
@@ -228,7 +257,17 @@ struct MapView: View {
                         selectedLocationId = isSelected ? nil : locationId
                     }
                 }
-                if isSelected {
+            }
+            
+        }
+        
+        private struct BubbleView: View {
+            let title: String
+            let pinSize: CGFloat
+            private let bubbleHeight: CGFloat = 25.0
+            
+            var body: some View {
+                VStack(spacing: 0.0) {
                     Text(title)
                         .font(.caption)
                         .foregroundColor(.white)
@@ -237,20 +276,20 @@ struct MapView: View {
                         .truncationMode(.tail)
                         .fixedSize(horizontal: true, vertical: false)
                         .padding(.horizontal, 12.0)
-                        .padding(.vertical, 8.0)
-                        .frame(maxWidth: 200.0, minHeight: bubbleHeight, maxHeight: bubbleHeight)
+                        .padding(.vertical, 4.0)
+                        .frame(maxWidth: 200.0, maxHeight: bubbleHeight)
                         .background(
                             Capsule()
-                                .fill(Color.blue)
                                 .shadow(radius: 2.0)
                         )
-                        .offset(y: -(pinSize / 2.0 + bubbleHeight / 2.0) - 2.0)
-                        .transition(
-                            .scale(scale: 0.1, anchor: .center)
-                            .combined(with: .opacity)
-                        )
+                    Image(systemName: "arrowtriangle.down.fill")
+                        .resizable()
+                        .frame(width: 12.0, height: 8.0)
                 }
+                .foregroundStyle(.blue)
+                .offset(y: -(pinSize / 2.0 + bubbleHeight / 2.0) - 8.0)
             }
+            
         }
     }
     
@@ -279,7 +318,7 @@ struct MapView: View {
                     let suffix = Text("?")
                         .font(.custom(GlobalConstants.mediumFont, size: 16.0))
                     
-                    alertMessage = prefix + space + name + space + suffix
+                    alertMessage = prefix + space + name + suffix
                     newLocation = location
                     
                     isSingleButtonAlert = false

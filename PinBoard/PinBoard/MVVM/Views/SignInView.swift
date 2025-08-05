@@ -8,8 +8,13 @@
 import SwiftUI
 
 struct SignInView: View {
+    
+    // MARK: - Properties. Private
+    
     @Environment(PinBoardViewModel.self) private var viewModel
-    @State var isWrongPassword:Bool = false
+    @State private var isWrongPassword:Bool = false
+    
+    // MARK: - Main body
     
     var body: some View {
         PasscodeTemplateView(isWrongPassword: $isWrongPassword, title: "Enter", titleText: "for Sign In", onComplete: {
