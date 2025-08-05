@@ -209,7 +209,8 @@ struct MapView: View {
                 if showBubble {
                     BubbleView(title: title, pinSize: pinSize)
                         .opacity(isSelected ? 1 : 0)
-                        .transition(.scale(scale: 0.1, anchor: .center).combined(with: .opacity))
+                        .scaleEffect(isSelected ? 1 : 0.5)
+                        .animation(.easeInOut(duration: 0.5), value: isSelected)
                 }
             }
             .onChange(of: isSelected) { oldValue, newValue in

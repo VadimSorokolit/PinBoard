@@ -11,17 +11,28 @@ struct SettingsView: View {
     
     // MARK: - Properties. Private
     
-    @AppStorage(GlobalConstants.selectedPinIndexKey) private var selectedPinIndex: Int = 0
+    @AppStorage(GlobalConstants.selectedPinIndexKey) private var selectedPinColorsIndex: Int = 0
     @AppStorage(GlobalConstants.addLocationKey) private var isAutoAddingLocation: Bool = false
     @Namespace private var pinBorderNameSpace
     private let pinGradients = PinGradient.all
+    private var selectedPinGradient: PinGradient {
+        PinGradient.all[selectedPinColorsIndex]
+    }
     
     // MARK: - Main body
     
     var body: some View {
-        VStack(spacing: 10.0) {
+        VStack(spacing: 0.0) {
             Text("Settings")
-                .font(.custom(GlobalConstants.boldFont, size: 30.0))
+                .font(.custom(GlobalConstants.boldFont, size: 20.0))
+                .foregroundStyle(.black)
+                .padding(.top, 10.0)
+                .frame(maxWidth: .infinity)
+                .background(selectedPinGradient.gradient.opacity(GlobalConstants.barGradientOpacity))
+            
+            Rectangle()
+                .fill(selectedPinGradient.gradient).opacity(GlobalConstants.barGradientOpacity)
+                .frame(height: 10.0)
             
             NavigationStack {
                 Form {
@@ -29,7 +40,7 @@ struct SettingsView: View {
                         HStack(spacing: 16.0) {
                             ForEach(pinGradients.indices, id: \.self) { idx in
                                 let gradient = pinGradients[idx]
-                                let isSelected = idx == selectedPinIndex
+                                let isSelected = idx == selectedPinColorsIndex
                                 
                                 ZStack {
                                     if isSelected {
@@ -50,7 +61,7 @@ struct SettingsView: View {
                                 .contentShape(Rectangle())
                                 .onTapGesture {
                                     withAnimation(.spring(response: 0.4, dampingFraction: 0.6)) {
-                                        selectedPinIndex = idx
+                                        selectedPinColorsIndex = idx
                                     }
                                 }
                             }
@@ -79,7 +90,6 @@ struct SettingsView: View {
             }
         }
         .frame(maxHeight: .infinity, alignment: .top)
-        .padding(.top, 10.0)
     }
     
 }

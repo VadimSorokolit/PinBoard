@@ -58,7 +58,7 @@ struct AlertView: View {
                     .font(.custom(GlobalConstants.mediumFont, size: 16.0))
                 }
             }
-            .background(.ultraThinMaterial)
+            .background(.white)
             .cornerRadius(13.0)
             .frame(maxWidth: 270.0)
             .fixedSize(horizontal: false, vertical: true)

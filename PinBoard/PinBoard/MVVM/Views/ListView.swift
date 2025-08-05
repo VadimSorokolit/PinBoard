@@ -50,33 +50,31 @@ struct ListView: View {
     // MARK: - Main body
     
     var body: some View {
-        ZStack(alignment: .top) {
+        VStack(spacing: 0.0) {
+            Text("Locations")
+                .font(.custom(GlobalConstants.boldFont, size: 20.0))
+                .foregroundStyle(.black)
+                .padding(.top, 10.0)
+                .frame(maxWidth: .infinity)
+                .background(selectedPinGradient.gradient.opacity(GlobalConstants.barGradientOpacity))
+            
             Rectangle()
                 .fill(selectedPinGradient.gradient).opacity(GlobalConstants.barGradientOpacity)
-                .ignoresSafeArea(.all, edges: .top)
-                .frame(height: 100.0)
-                .edgesIgnoringSafeArea(.top)
+                .frame(height: 10.0)
             
-            VStack(spacing: 0.0) {
-                Text("Locations")
-                    .font(.custom(GlobalConstants.boldFont, size: 20.0))
-                    .foregroundStyle(.black)
-                    .padding(.top, 10.0)
-                
-                GridView(
-                    targetedId: $targetedId,
-                    isEditing: $isEditing,
-                    currentToast: $currentToast,
-                    isAnimation: $isAnimation,
-                    modelContext: modelContext,
-                    selectedPinGradient:selectedPinGradient,
-                    locations: locations,
-                    headerColorHex: headerColorHex
-                )
-            }
-            .toast($currentToast)
-            .frame(maxHeight: .infinity, alignment: .top)
+            GridView(
+                targetedId: $targetedId,
+                isEditing: $isEditing,
+                currentToast: $currentToast,
+                isAnimation: $isAnimation,
+                modelContext: modelContext,
+                selectedPinGradient: selectedPinGradient,
+                locations: locations,
+                headerColorHex: headerColorHex
+            )
         }
+        .toast($currentToast)
+        .frame(maxHeight: .infinity, alignment: .top)
     }
     
     private struct GridView: View {
