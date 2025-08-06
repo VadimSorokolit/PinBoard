@@ -168,9 +168,15 @@ struct MapView: View {
                     Spacer()
                     
                     if isLoading {
-                        ProgressView()
-                            .progressViewStyle(.circular)
-                            .tint(.blue)
+                        ZStack {
+                            Circle()
+                                .fill(Color.black.opacity(0.1))
+                                .frame(width: 20.0, height: 20.0)
+                            
+                            ProgressView()
+                                .progressViewStyle(.circular)
+                                .tint(.blue)
+                        }
                     }
                 }
                 .padding(.horizontal, 16.0)
@@ -183,6 +189,7 @@ struct MapView: View {
             }
             .frame(height: (40.0 + topInset))
         }
+        
     }
     
     struct CustomPinView: View {
