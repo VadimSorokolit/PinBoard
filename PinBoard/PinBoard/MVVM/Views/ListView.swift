@@ -15,7 +15,7 @@ struct ListView: View {
     
     private struct Constants {
         static let gridWidth: CGFloat = 400.0
-        static let gridImageWidth: CGFloat = 24.0
+        static let gridImageWidth: CGFloat = 16.0
         static let gridIndexTitleWidth: CGFloat = 60.0
         static let indexTitleWidth: CGFloat = 60.0
         static let nameTitleWidth: CGFloat = 200.0
@@ -26,6 +26,7 @@ struct ListView: View {
         static let headerFontSize: CGFloat = 16.0
         static let iconEditName: String = "line.3.horizontal"
         static let iconDeleteName: String = "ellipsis"
+        static let headerViewTitleName: String = "Locations"
         static let indexTextColor: Int = 0x35C759
         static let longitudeTextColor: Int = 0xF95069
         static let latitudeTextColor: Int = 0x7732d3
@@ -42,7 +43,6 @@ struct ListView: View {
     @State private var isAnimation: Bool = false
     @State private var currentToast: Toast? = nil
     @AppStorage(GlobalConstants.selectedPinIndexKey) private var selectedPinColorsIndex: Int = 0
-    @AppStorage(GlobalConstants.colorKey) private var headerColorHex: Int = 0x0000FF
     private var selectedPinGradient: PinGradient {
         PinGradient.all[selectedPinColorsIndex]
     }
@@ -51,16 +51,7 @@ struct ListView: View {
     
     var body: some View {
         VStack(spacing: 0.0) {
-            Text("Locations")
-                .font(.custom(GlobalConstants.boldFont, size: 20.0))
-                .foregroundStyle(.black)
-                .padding(.top, 10.0)
-                .frame(maxWidth: .infinity)
-                .background(selectedPinGradient.gradient.opacity(GlobalConstants.barGradientOpacity))
-            
-            Rectangle()
-                .fill(selectedPinGradient.gradient).opacity(GlobalConstants.barGradientOpacity)
-                .frame(height: 10.0)
+            HeaderView(isEditing: $isEditing, isAnimation: $isAnimation, selectedPinGradient: selectedPinGradient)
             
             GridView(
                 targetedId: $targetedId,
@@ -69,12 +60,61 @@ struct ListView: View {
                 isAnimation: $isAnimation,
                 modelContext: modelContext,
                 selectedPinGradient: selectedPinGradient,
-                locations: locations,
-                headerColorHex: headerColorHex
+                locations: locations
             )
         }
         .toast($currentToast)
         .frame(maxHeight: .infinity, alignment: .top)
+    }
+    
+    private struct HeaderView: View {
+        @Binding var isEditing: Bool
+        @Binding var isAnimation: Bool
+        let selectedPinGradient: PinGradient
+        
+        var body: some View {
+            VStack(spacing: 0.0) {
+                ZStack {
+                    Text(Constants.headerViewTitleName)
+                        .font(.custom(GlobalConstants.boldFont, size: 20.0))
+                        .foregroundStyle(.black)
+                    
+                    HStack {
+                        Spacer()
+                        
+                        EditButtonView(isEditing: $isEditing, isAnimation: $isAnimation)
+                    }
+                }
+                .padding(.top, 10.0)
+                .frame(maxWidth: .infinity)
+                .background(selectedPinGradient.gradient.opacity(GlobalConstants.barGradientOpacity))
+                
+                Rectangle()
+                    .fill(selectedPinGradient.gradient.opacity(GlobalConstants.barGradientOpacity))
+                    .frame(height: 10.0)
+            }
+        }
+        
+    }
+    
+    private struct EditButtonView: View {
+        @Binding var isEditing: Bool
+        @Binding var isAnimation: Bool
+        
+        var body: some View {
+            HStack {
+                Spacer()
+                
+                Button(action: {
+                    isEditing.toggle()
+                }) {
+                    Text(isEditing ? "Done" : "Edit")
+                        .font(.custom(GlobalConstants.semiBoldFont, size: Constants.cellFontSize))
+                }
+            }
+            .padding(.trailing, 16.0)
+        }
+        
     }
     
     private struct GridView: View {
@@ -86,17 +126,13 @@ struct ListView: View {
         let modelContext: ModelContext
         let selectedPinGradient: PinGradient
         let locations: [StorageLocation]
-        let headerColorHex: Int
         
         var body: some View {
-            
             VStack(spacing: 0.0) {
-                EditButtonView(isEditing: $isEditing, isAnimation: $isAnimation)
-                
                 ScrollViewReader { proxy in
                     ScrollView(.horizontal, showsIndicators: false) {
                         VStack(alignment: .leading, spacing: 0.0) {
-                            HeaderView(isEditing: $isEditing, headerColorHex: headerColorHex)
+                            HeaderView(isEditing: $isEditing)
                             
                             ScrollView(.vertical, showsIndicators: false) {
                                 VStack(spacing: 0.0) {
@@ -109,7 +145,6 @@ struct ListView: View {
                                             currentToast: $currentToast,
                                             selectedPinGradient: selectedPinGradient,
                                             location: location,
-                                            headerColorHex: headerColorHex,
                                             isDragging: isDragging,
                                             onDelete: {
                                                 deleteLocation(location)
@@ -164,31 +199,8 @@ struct ListView: View {
             .frame(maxWidth: .infinity)
         }
         
-        private struct EditButtonView: View {
-            @Binding var isEditing: Bool
-            @Binding var isAnimation: Bool
-            
-            var body: some View {
-                HStack {
-                    Spacer()
-                    
-                    Button(action: {
-                        isEditing.toggle()
-                    }) {
-                        Text(isEditing ? "Done" : "Edit")
-                            .font(.custom(GlobalConstants.semiBoldFont, size: Constants.cellFontSize))
-                    }
-                }
-                .padding(.top, 12.0)
-                .padding(.bottom, 11.0)
-                .padding(.trailing, 16.0)
-            }
-            
-        }
-        
         private struct HeaderView: View {
             @Binding var isEditing: Bool
-            let headerColorHex: Int
             
             var body: some View {
                 VStack(spacing: 8.0) {
@@ -223,7 +235,7 @@ struct ListView: View {
                     
                     Divider()
                 }
-                .background(Color(hex: headerColorHex).opacity(0.1))
+                .background(Color(hex: GlobalConstants.separatorColor).opacity(GlobalConstants.barGradientOpacity))
                 .frame(minWidth: Constants.gridWidth)
             }
         }
@@ -236,7 +248,6 @@ struct ListView: View {
             @Binding var currentToast: Toast?
             let selectedPinGradient: PinGradient
             let location: StorageLocation
-            let headerColorHex: Int
             let isDragging: Bool
             let onDelete: () -> Void
             
@@ -302,7 +313,7 @@ struct ListView: View {
                         selectedPinGradient.gradient
                             .opacity(Constants.activeCellOpacity)
                     } else if isDragging {
-                        Color(hex: headerColorHex)
+                        Color(hex: GlobalConstants.separatorColor)
                             .opacity(0.1)
                     } else {
                         EmptyView()

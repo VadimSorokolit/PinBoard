@@ -108,6 +108,12 @@ struct HomeView: View {
                 selectedPinGradient.gradient.opacity(GlobalConstants.barGradientOpacity)
                     .ignoresSafeArea(edges: .bottom)
             )
+            .overlay(
+                Rectangle()
+                    .fill(Color(hex: GlobalConstants.separatorColor).opacity(GlobalConstants.barGradientOpacity))
+                    .frame(height: 0.5),
+                alignment: .top
+            )
         }
         
         private struct ImageWithTitle: View {

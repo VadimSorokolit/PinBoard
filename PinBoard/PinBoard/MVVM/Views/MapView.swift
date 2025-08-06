@@ -46,19 +46,14 @@ struct MapView: View {
                     Map(position: $camera) {
                         if let userCoordinate {
                             Annotation("", coordinate: userCoordinate) {
-                                VStack(spacing: 4) {
-                                    Text("Start location")
-                                        .font(.custom(GlobalConstants.boldFont, size: 12.0))
-                                        .foregroundColor(.blue)
-                                    Circle()
-                                        .fill(Color.blue)
-                                        .frame(width: 14.0, height: 14.0)
-                                        .overlay(
-                                            Circle()
-                                                .stroke(Color.white, lineWidth: 2.0)
-                                        )
-                                        .shadow(radius: 2.0)
-                                }
+                                Circle()
+                                    .fill(Color.blue)
+                                    .frame(width: 14.0, height: 14.0)
+                                    .overlay(
+                                        Circle()
+                                            .stroke(Color.white, lineWidth: 2.0)
+                                    )
+                                    .shadow(radius: 2.0)
                             }
                         }
                         let sorted = locations.sorted { a, b in
@@ -197,25 +192,32 @@ struct MapView: View {
         let title: String
         let selectedPinGradient: PinGradient
         private let pinSize: CGFloat = 44.0
-        @State private var showBubble: Bool = false
         private var isSelected: Bool {
             selectedLocationId == locationId
         }
 
         var body: some View {
             ZStack {
-                PinView(selectedLocationId: $selectedLocationId, locationId: locationId, index: index, title: title, selectedPinGradient: selectedPinGradient, isSelected: isSelected)
-                
-                if showBubble {
-                    BubbleView(title: title, pinSize: pinSize)
-                        .opacity(isSelected ? 1 : 0)
-                        .scaleEffect(isSelected ? 1 : 0.5)
-                        .animation(.easeInOut(duration: 0.5), value: isSelected)
-                }
+                PinView(
+                    selectedLocationId: $selectedLocationId,
+                    locationId: locationId,
+                    index: index,
+                    title: title,
+                    selectedPinGradient: selectedPinGradient,
+                    isSelected: isSelected
+                )
+
+                BubbleView(title: title, pinSize: pinSize)
+                    .scaleEffect(isSelected ? 1 : 0.5, anchor: .center)
+                    .opacity(isSelected ? 1 : 0)
+                    .animation(
+                        .spring(response: 0.4, dampingFraction: 1.0),
+                        value: isSelected
+                    )
             }
-            .onChange(of: isSelected) { oldValue, newValue in
+            .onTapGesture {
                 withAnimation(.spring()) {
-                    showBubble = newValue
+                    selectedLocationId = isSelected ? nil : locationId
                 }
             }
         }
@@ -253,11 +255,6 @@ struct MapView: View {
                     }
                     .offset(y: -8.0)
                 }
-                .onTapGesture {
-                    withAnimation(.spring()) {
-                        selectedLocationId = isSelected ? nil : locationId
-                    }
-                }
             }
             
         }
@@ -288,7 +285,7 @@ struct MapView: View {
                         .frame(width: 12.0, height: 8.0)
                 }
                 .foregroundStyle(.blue)
-                .offset(y: -(pinSize / 2.0 + bubbleHeight / 2.0) - 8.0)
+                .offset(y: -(pinSize))
             }
             
         }

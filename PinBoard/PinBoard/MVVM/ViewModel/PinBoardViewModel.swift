@@ -57,6 +57,10 @@ class PinBoardViewModel {
         return success
     }
     
+    func logout() {
+        self.authenticator.logOut()
+    }
+    
     func onAddValue(_ value: Int) {
         if self.passcode.count < GlobalConstants.passcodeLength {
             self.passcode += "\(value)"
