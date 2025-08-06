@@ -16,7 +16,7 @@ struct ListView: View {
     private struct Constants {
         static let gridWidth: CGFloat = 400.0
         static let gridImageWidth: CGFloat = 16.0
-        static let gridIndexTitleWidth: CGFloat = 60.0
+        static let gridIndexTitleWidth: CGFloat = 42.0
         static let indexTitleWidth: CGFloat = 60.0
         static let nameTitleWidth: CGFloat = 200.0
         static let latitudeTitleWidth: CGFloat = 100.0
@@ -31,6 +31,7 @@ struct ListView: View {
         static let longitudeTextColor: Int = 0xF95069
         static let latitudeTextColor: Int = 0x7732d3
         static let activeCellOpacity: Double = 0.3
+        static let editButtonTrailingPadding: CGFloat = 16.0
     }
     
     // MARK: - Properties. Private
@@ -79,11 +80,7 @@ struct ListView: View {
                         .font(.custom(GlobalConstants.boldFont, size: 20.0))
                         .foregroundStyle(.black)
                     
-                    HStack {
-                        Spacer()
-                        
-                        EditButtonView(isEditing: $isEditing, isAnimation: $isAnimation)
-                    }
+                    EditButtonView(isEditing: $isEditing, isAnimation: $isAnimation)
                 }
                 .padding(.top, 10.0)
                 .frame(maxWidth: .infinity)
@@ -112,7 +109,7 @@ struct ListView: View {
                         .font(.custom(GlobalConstants.semiBoldFont, size: Constants.cellFontSize))
                 }
             }
-            .padding(.trailing, 16.0)
+            .padding(.trailing, Constants.editButtonTrailingPadding)
         }
         
     }
@@ -210,7 +207,8 @@ struct ListView: View {
                         GridRow {
                             Text(isEditing ? "Edit" : "Menu")
                                 .font(.custom(GlobalConstants.semiBoldFont, size: Constants.headerFontSize))
-                                .frame(width: Constants.gridIndexTitleWidth, alignment: .center)
+                                .frame(width: Constants.gridIndexTitleWidth)
+                                .padding(.leading, Constants.editButtonTrailingPadding)
                                 .verticalColumnDivider()
                             
                             Text("Index")
@@ -227,11 +225,13 @@ struct ListView: View {
                                 .font(.custom(GlobalConstants.semiBoldFont, size: Constants.headerFontSize))
                                 .frame(width: Constants.latitudeTitleWidth, alignment: .leading)
                                 .verticalColumnDivider()
+                            
                             Text("Longitude")
                                 .font(.custom(GlobalConstants.semiBoldFont, size: Constants.headerFontSize))
                                 .frame(width: Constants.longitudeTitleWidth, alignment: .leading)
                         }
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     
                     Divider()
                 }
@@ -276,12 +276,14 @@ struct ListView: View {
                             )
                             .frame(width: Constants.gridImageWidth, height: Constants.gridImageWidth)
                         }
-                        .frame(width: Constants.indexTitleWidth, height: Constants.gridIndexTitleWidth, alignment: .center)
+                        .frame(height: Constants.gridIndexTitleWidth)
+                        .padding(.leading, Constants.editButtonTrailingPadding + Constants.gridIndexTitleWidth / 3.0)
                         
                         Text("No. \(location.index)")
                             .font(.custom(GlobalConstants.mediumFont, size: Constants.cellFontSize))
                             .foregroundColor(Color(hex:Constants.indexTextColor))
                             .frame(width: Constants.indexTitleWidth, alignment: .leading)
+                            .padding(.leading, GlobalConstants.gridHorizontalSpacing / 2.6)
                         
                         Text(location.name)
                             .font(.custom(GlobalConstants.mediumFont, size: Constants.cellFontSize))
@@ -300,8 +302,7 @@ struct ListView: View {
                             .frame(width: Constants.longitudeTitleWidth, alignment: .leading)
                     }
                 }
-                .frame(minWidth: Constants.gridWidth)
-                .padding(.horizontal, Constants.cellHorizontalPadding)
+                .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.vertical, 1.0)
                 .background(
                     location.index % 2 == 0

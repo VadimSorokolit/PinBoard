@@ -18,7 +18,7 @@ struct GlobalConstants {
     static let selectedPinIndexKey = "selectedPinIndex"
     static let addLocationKey: String = "autoAddLocation"
     static let passcodeLength: Int = 4
-    static let gridHorizontalSpacing: CGFloat = 24.0
+    static let gridHorizontalSpacing: CGFloat = 32.0
     static let barGradientOpacity: CGFloat = 0.1
     static let separatorColor: Int = 0x0000FF
 }
