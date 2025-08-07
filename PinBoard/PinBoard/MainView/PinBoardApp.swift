@@ -57,7 +57,7 @@ struct PinBoardApp: App {
                     // Need to fix Tab Bar animation
                     .onAppear() {
                         isOverlayShown = true
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
                             isOverlayShown = false
                         }
                     }

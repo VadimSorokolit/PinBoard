@@ -23,6 +23,7 @@ struct AlertView: View {
                 message
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.primary)
+                    .lineSpacing(6.0) 
                     .padding(.horizontal, 16.0)
                     .padding(.top, 20.0)
                     .padding(.bottom, 12.0)

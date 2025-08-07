@@ -18,8 +18,9 @@ struct SignInView: View {
     
     var body: some View {
         PasscodeTemplateView(isWrongPassword: $isWrongPassword, title: "Enter", titleText: "for Sign In", onComplete: {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
                 let success = viewModel.verifyPasscode()
+                
                 if !success {
                     isWrongPassword = true
                     

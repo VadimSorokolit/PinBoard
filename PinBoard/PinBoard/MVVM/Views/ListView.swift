@@ -64,6 +64,9 @@ struct ListView: View {
                 locations: locations
             )
         }
+        .onAppear() {
+            viewModel.selectedLocationId = nil
+        }
         .toast($currentToast)
         .frame(maxHeight: .infinity, alignment: .top)
     }
@@ -110,6 +113,7 @@ struct ListView: View {
                 }
             }
             .padding(.trailing, Constants.editButtonTrailingPadding)
+            .offset(y: 2.0)
         }
         
     }

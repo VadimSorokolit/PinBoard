@@ -36,7 +36,17 @@ struct MapView: View {
     private var selectedPinGradient: PinGradient {
         PinGradient.all[selectedPinColorsIndex]
     }
-    
+    private var uniqueLocations: [StorageLocation] {
+        let grouped = Dictionary(grouping: locations) { location in
+            "\(location.latitude)-\(location.longitude)"
+        }
+        
+        return grouped.compactMap { (key, locations) in
+            locations.max { $0.index < $1.index }
+        }
+        .sorted { $0.index < $1.index }
+    }
+
     // MARK: - Main body
     
     var body: some View {
@@ -56,19 +66,18 @@ struct MapView: View {
                                     .shadow(radius: 2.0)
                             }
                         }
-                        let sorted = locations.sorted { a, b in
-                            a.index < b.index
-                        }
                         
-                        ForEach(sorted) { storage in
-                            let maxIndex = locations
-                                .filter { $0.latitude == storage.latitude && $0.longitude == storage.longitude }
-                                .map(\.index)
-                                .max() ?? storage.index
+                        ForEach(uniqueLocations, id: \.id) { storage in
                             Annotation("", coordinate: CLLocationCoordinate2D(latitude: storage.latitude, longitude: storage.longitude)) {
-                                
-                                CustomPinView(selectedLocationId: $selectedLocationId, locationId: storage.id, index: maxIndex, title: storage.name, selectedPinGradient: selectedPinGradient)
-                                    .zIndex(Double(maxIndex))
+                                CustomPinView(
+                                    selectedLocationId: $selectedLocationId,
+                                    viewModel: viewModel,
+                                    locationId: storage.id,
+                                    index: storage.index,
+                                    title: storage.name,
+                                    selectedPinGradient: selectedPinGradient
+                                )
+                                .zIndex(Double(storage.index))
                             }
                         }
                     }
@@ -153,9 +162,6 @@ struct MapView: View {
                 }
             }
         }
-        .onDisappear {
-            selectedLocationId = nil
-        }
     }
     
     private struct SpinnerView: View {
@@ -170,16 +176,16 @@ struct MapView: View {
                     if isLoading {
                         ZStack {
                             Circle()
-                                .fill(Color.black.opacity(0.1))
-                                .frame(width: 20.0, height: 20.0)
+                                .fill(Color.black.opacity(0.5))
+                                .frame(width: 40.0, height: 40.0)
                             
                             ProgressView()
                                 .progressViewStyle(.circular)
-                                .tint(.blue)
+                                .tint(.white)
                         }
                     }
                 }
-                .padding(.horizontal, 16.0)
+                .padding(.trailing, 20.0)
                 .padding(.top, topInset + 30.0)
                 .padding(.bottom, 8.0)
                 .background(.clear)
@@ -194,26 +200,26 @@ struct MapView: View {
     
     struct CustomPinView: View {
         @Binding var selectedLocationId: String?
+        let viewModel: PinBoardViewModel
         let locationId: String
         let index: Int
         let title: String
         let selectedPinGradient: PinGradient
         private let pinSize: CGFloat = 44.0
         private var isSelected: Bool {
-            selectedLocationId == locationId
+            viewModel.selectedLocationId == locationId
         }
-
+        
         var body: some View {
             ZStack {
                 PinView(
-                    selectedLocationId: $selectedLocationId,
                     locationId: locationId,
                     index: index,
                     title: title,
                     selectedPinGradient: selectedPinGradient,
                     isSelected: isSelected
                 )
-
+                
                 BubbleView(title: title, pinSize: pinSize)
                     .scaleEffect(isSelected ? 1 : 0.5, anchor: .center)
                     .opacity(isSelected ? 1 : 0)
@@ -224,13 +230,12 @@ struct MapView: View {
             }
             .onTapGesture {
                 withAnimation(.spring()) {
-                    selectedLocationId = isSelected ? nil : locationId
+                    viewModel.selectedLocationId = isSelected ? nil : locationId
                 }
             }
         }
-
+        
         private struct PinView: View {
-            @Binding var selectedLocationId: String?
             let locationId: String
             let index: Int
             let title: String
@@ -269,7 +274,7 @@ struct MapView: View {
         private struct BubbleView: View {
             let title: String
             let pinSize: CGFloat
-            private let bubbleHeight: CGFloat = 25.0
+            private let maxWidth: CGFloat = 160.0
             
             var body: some View {
                 VStack(spacing: 0.0) {
@@ -278,15 +283,15 @@ struct MapView: View {
                         .foregroundColor(.white)
                         .multilineTextAlignment(.center)
                         .lineLimit(3)
-                        .truncationMode(.tail)
-                        .fixedSize(horizontal: true, vertical: false)
                         .padding(.horizontal, 12.0)
                         .padding(.vertical, 4.0)
-                        .frame(maxWidth: 200.0, maxHeight: bubbleHeight)
+                        .frame(maxWidth: isShortText ? nil : maxWidth)
+                        .fixedSize(horizontal: isShortText, vertical: true)
                         .background(
                             Capsule()
                                 .shadow(radius: 2.0)
                         )
+                    
                     Image(systemName: "arrowtriangle.down.fill")
                         .resizable()
                         .frame(width: 12.0, height: 8.0)
@@ -295,6 +300,9 @@ struct MapView: View {
                 .offset(y: -(pinSize))
             }
             
+            private var isShortText: Bool {
+                title.count < 30
+            }
         }
     }
     

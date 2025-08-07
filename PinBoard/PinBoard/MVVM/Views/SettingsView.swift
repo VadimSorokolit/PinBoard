@@ -18,10 +18,14 @@ struct SettingsView: View {
         static let pinsHeaderTitleName: String = "Pins"
         static let locationsSectionText: String = "Add new location\nwithout approval"
         static let locationsSectionTextSpacing: CGFloat = 8.0
+        static let logOutButtonBottomSpacing: CGFloat = 30.0
+        static let logOutButtonColorOpacity: Double = 0.6
+        static let logOutButtonFontSize: CGFloat = 16.0
     }
-   
+    
     // MARK: - Properties. Private
     
+    @Environment(PinBoardViewModel.self) private var viewModel
     @AppStorage(GlobalConstants.selectedPinIndexKey) private var selectedPinColorsIndex: Int = 0
     @AppStorage(GlobalConstants.addLocationKey) private var isAutoAddingLocation: Bool = false
     @Namespace private var pinBorderNameSpace
@@ -41,34 +45,36 @@ struct SettingsView: View {
                     VStack(spacing: 0.0) {
                         Form {
                             Section(header: Text(Constants.pinsHeaderTitleName)) {
-                                HStack(spacing: 16.0) {
-                                    ForEach(pinGradients.indices, id: \.self) { idx in
-                                        let gradient = pinGradients[idx]
-                                        let isSelected = idx == selectedPinColorsIndex
-                                        
-                                        ZStack {
-                                            if isSelected {
-                                                RoundedRectangle(cornerRadius: 6.0)
-                                                    .stroke(gradient.gradient, lineWidth: 3.0)
-                                                    .frame(width: 30.0, height: 30.0)
-                                                    .matchedGeometryEffect(id: "border", in: pinBorderNameSpace)
-                                            }
+                                let pinContainerSize: CGFloat = 33.0
+                                let spacing: CGFloat = 16.0
+                                let step = pinContainerSize + spacing
+                                
+                                ZStack(alignment: .leading) {
+                                    HStack(spacing: spacing) {
+                                        ForEach(pinGradients.indices, id: \.self) { idx in
+                                            let gradient = pinGradients[idx]
                                             
                                             gradient.gradient
-                                                .mask(
-                                                    Image(GlobalConstants.pinImageName)
-                                                        .resizable()
-                                                        .scaledToFit()
-                                                )
+                                                .mask(Image(GlobalConstants.pinImageName)
+                                                    .resizable()
+                                                    .scaledToFit())
                                                 .frame(width: 24.0, height: 24.0)
-                                        }
-                                        .contentShape(Rectangle())
-                                        .onTapGesture {
-                                            withAnimation(.spring(response: 0.4, dampingFraction: 0.6)) {
-                                                selectedPinColorsIndex = idx
-                                            }
+                                                .frame(width: pinContainerSize, height: pinContainerSize)
+                                                .contentShape(Rectangle())
+                                                .onTapGesture {
+                                                    withAnimation(.spring(response: 0.4, dampingFraction: 1.0)) {
+                                                        selectedPinColorsIndex = idx
+                                                    }
+                                                }
                                         }
                                     }
+                                    .padding(.horizontal, 0.0)
+                                    
+                                    RoundedRectangle(cornerRadius: 6.0)
+                                        .stroke(selectedPinGradient.gradient, lineWidth: 3.0)
+                                        .frame(width: pinContainerSize, height: pinContainerSize)
+                                        .offset(x: CGFloat(selectedPinColorsIndex) * step)
+                                        .animation(.spring(response: 0.4, dampingFraction: 1.0), value: selectedPinColorsIndex)
                                 }
                             }
                             
@@ -79,12 +85,16 @@ struct SettingsView: View {
                                 }
                             }
                         }
+                        .listSectionSpacing(.compact)
                     }
                 }
             }
             .frame(maxHeight: .infinity, alignment: .top)
             
             LogOutButtonView()
+        }
+        .onAppear() {
+            viewModel.selectedLocationId = nil
         }
     }
     
@@ -126,10 +136,10 @@ struct SettingsView: View {
                     }
                 }) {
                     Text(Constants.logOutButtonTitleName)
-                        .font(.custom(GlobalConstants.semiBoldFont, size: 16.0))
+                        .font(.custom(GlobalConstants.semiBoldFont, size: Constants.logOutButtonFontSize))
                         .frame(maxWidth: .infinity)
-                        .foregroundStyle(.black)
-                        .padding(.bottom, 40.0)
+                        .foregroundStyle(.black).opacity(Constants.logOutButtonColorOpacity)
+                        .padding(.bottom, Constants.logOutButtonBottomSpacing)
                 }
             }
         }
