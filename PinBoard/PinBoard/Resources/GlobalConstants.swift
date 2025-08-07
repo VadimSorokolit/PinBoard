@@ -20,5 +20,6 @@ struct GlobalConstants {
     static let passcodeLength: Int = 4
     static let gridHorizontalSpacing: CGFloat = 32.0
     static let barGradientOpacity: CGFloat = 0.1
+    static let alertMessageFontSize: CGFloat = 16.0
     static let separatorColor: Int = 0x0000FF
 }

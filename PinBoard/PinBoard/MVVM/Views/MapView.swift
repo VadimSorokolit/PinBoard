@@ -11,6 +11,16 @@ import MapKit
 
 struct MapView: View {
     
+    // MARK: - Objects
+    
+    private struct Constants {
+        static let bubbleViewTriangleIconName = "arrowtriangle.down.fill"
+        static let alertPrefixTitleName: String = "Do you want to add location"
+        static let alertSuffixTitleName: String = "?"
+        static let storageConversionErrorMessage = "Error: Failed to convert location to storage model"
+        static let loadLocationErrorMessage = "Could not load location"
+    }
+    
     // MARK: - Properites. Private
     
     @Environment(\.modelContext) private var modelContext
@@ -23,10 +33,10 @@ struct MapView: View {
         )
     )
     @State private var locationManager = LocationService()
-    @State private var hasCenteredOnUserLocation = false
-    @State private var isShowingAlert = false
-    @State private var isLoading = false
-    @State private var isSingleButtonAlert = false
+    @State private var hasCenteredOnUserLocation: Bool = false
+    @State private var isShowingAlert: Bool = false
+    @State private var isLoading: Bool = false
+    @State private var isSingleButtonAlert: Bool = false
     @State private var userCoordinate: CLLocationCoordinate2D? = nil
     @State private var alertMessage: Text = Text("")
     @State private var newLocation: Location? = nil
@@ -46,7 +56,7 @@ struct MapView: View {
         }
         .sorted { $0.index < $1.index }
     }
-
+    
     // MARK: - Main body
     
     var body: some View {
@@ -56,14 +66,7 @@ struct MapView: View {
                     Map(position: $camera) {
                         if let userCoordinate {
                             Annotation("", coordinate: userCoordinate) {
-                                Circle()
-                                    .fill(Color.blue)
-                                    .frame(width: 14.0, height: 14.0)
-                                    .overlay(
-                                        Circle()
-                                            .stroke(Color.white, lineWidth: 2.0)
-                                    )
-                                    .shadow(radius: 2.0)
+                                UserLocationView(coordinate: userCoordinate)
                             }
                         }
                         
@@ -71,7 +74,6 @@ struct MapView: View {
                             Annotation("", coordinate: CLLocationCoordinate2D(latitude: storage.latitude, longitude: storage.longitude)) {
                                 CustomPinView(
                                     selectedLocationId: $selectedLocationId,
-                                    viewModel: viewModel,
                                     locationId: storage.id,
                                     index: storage.index,
                                     title: storage.name,
@@ -88,7 +90,7 @@ struct MapView: View {
                                 let generator = UIImpactFeedbackGenerator(style: .medium)
                                 generator.impactOccurred()
                             }
-                            .sequenced(before: DragGesture(minimumDistance: 0.0))
+                            .sequenced(before: DragGesture(minimumDistance: .zero))
                             .onEnded { value in
                                 switch value {
                                     case .second(true, let drag?):
@@ -104,64 +106,48 @@ struct MapView: View {
                     )
                 }
                 
-                VStack(spacing: 0.0) {
+                VStack(spacing: .zero) {
                     SpinnerView(isLoading: isLoading)
                     
                     Spacer()
                 }
                 .ignoresSafeArea(edges: .top)
             }
-            .toolbar(.hidden, for: .navigationBar)
-            .overlay(alignment: .center) {
-                if isShowingAlert {
-                    AlertView(
-                        message: alertMessage,
-                        confirmTitle: isSingleButtonAlert ? "OK" : "Add",
-                        cancelTitle: isSingleButtonAlert ? nil : "Cancel",
-                        onConfirm: {
-                            if isSingleButtonAlert == false {
-                                handleAddLocation()
-                            }
-                            isShowingAlert = false
-                            isSingleButtonAlert = false
-                        },
-                        onCancel: isSingleButtonAlert ? nil : {
-                            isShowingAlert = false
-                            isSingleButtonAlert = false
-                        }
-                    )
-                }
-            }
         }
-        .task {
-            guard !hasCenteredOnUserLocation else { return }
-            
-            let coordinate = await locationManager.requestLocation()
-            
-            withAnimation {
-                camera = .region(
-                    MKCoordinateRegion(
-                        center: coordinate,
-                        span: .init(latitudeDelta: 0.5, longitudeDelta: 0.5)
-                    )
+        .modifier(LoadViewModifier(
+            viewModel: viewModel,
+            camera: $camera,
+            locationManager: $locationManager,
+            userCoordinate: $userCoordinate,
+            hasCenteredOnUserLocation: $hasCenteredOnUserLocation,
+            isShowingAlert: $isShowingAlert,
+            isSingleButtonAlert: $isSingleButtonAlert,
+            newLocation: $newLocation,
+            selectedLocationId: $selectedLocationId))
+        .modifier(AlertViewModifier(
+            isShowingAlert: $isShowingAlert,
+            isSingleButtonAlert: $isSingleButtonAlert,
+            alertMessage: $alertMessage, onConfirm: {
+                handleAddLocation()
+            }))
+    }
+    
+    // MARK: - Subviews
+    
+    private struct UserLocationView: View {
+        let coordinate: CLLocationCoordinate2D
+        
+        var body: some View {
+            Circle()
+                .fill(Color.blue)
+                .frame(width: 14.0, height: 14.0)
+                .overlay(
+                    Circle()
+                        .stroke(Color.white, lineWidth: 2.0)
                 )
-            }
-            
-            userCoordinate = coordinate
-            hasCenteredOnUserLocation = true
+                .shadow(radius: 2.0)
         }
-        .onChange(of: viewModel.selectedLocation) {
-            if let location = viewModel.selectedLocation {
-                withAnimation(.easeInOut) {
-                    camera = .region(
-                        MKCoordinateRegion(
-                            center: .init(latitude: location.latitude, longitude: location.longitude),
-                            span: .init(latitudeDelta: 0.5, longitudeDelta: 0.5)
-                        )
-                    )
-                }
-            }
-        }
+        
     }
     
     private struct SpinnerView: View {
@@ -200,14 +186,13 @@ struct MapView: View {
     
     struct CustomPinView: View {
         @Binding var selectedLocationId: String?
-        let viewModel: PinBoardViewModel
         let locationId: String
         let index: Int
         let title: String
         let selectedPinGradient: PinGradient
         private let pinSize: CGFloat = 44.0
         private var isSelected: Bool {
-            viewModel.selectedLocationId == locationId
+            selectedLocationId == locationId
         }
         
         var body: some View {
@@ -223,14 +208,10 @@ struct MapView: View {
                 BubbleView(title: title, pinSize: pinSize)
                     .scaleEffect(isSelected ? 1 : 0.5, anchor: .center)
                     .opacity(isSelected ? 1 : 0)
-                    .animation(
-                        .spring(response: 0.4, dampingFraction: 1.0),
-                        value: isSelected
-                    )
             }
             .onTapGesture {
                 withAnimation(.spring()) {
-                    viewModel.selectedLocationId = isSelected ? nil : locationId
+                    selectedLocationId = isSelected ? nil : locationId
                 }
             }
         }
@@ -277,7 +258,7 @@ struct MapView: View {
             private let maxWidth: CGFloat = 160.0
             
             var body: some View {
-                VStack(spacing: 0.0) {
+                VStack(spacing: .zero) {
                     Text(title)
                         .font(.caption)
                         .foregroundColor(.white)
@@ -292,7 +273,7 @@ struct MapView: View {
                                 .shadow(radius: 2.0)
                         )
                     
-                    Image(systemName: "arrowtriangle.down.fill")
+                    Image(systemName: Constants.bubbleViewTriangleIconName)
                         .resizable()
                         .frame(width: 12.0, height: 8.0)
                 }
@@ -321,15 +302,15 @@ struct MapView: View {
                 } else {
                     let space = Text(" ")
                     
-                    let prefix = Text("Do you want to add location")
-                        .font(.custom(GlobalConstants.mediumFont, size: 16.0))
+                    let prefix = Text(Constants.alertPrefixTitleName)
+                        .font(.custom(GlobalConstants.mediumFont, size: GlobalConstants.alertMessageFontSize))
                     
                     let name = Text(location.name)
-                        .font(.custom(GlobalConstants.boldFont, size: 16.0))
+                        .font(.custom(GlobalConstants.boldFont, size: GlobalConstants.alertMessageFontSize))
                         .foregroundStyle(selectedPinGradient.gradient)
                     
-                    let suffix = Text("?")
-                        .font(.custom(GlobalConstants.mediumFont, size: 16.0))
+                    let suffix = Text(Constants.alertSuffixTitleName)
+                        .font(.custom(GlobalConstants.mediumFont, size: GlobalConstants.alertMessageFontSize))
                     
                     alertMessage = prefix + space + name + suffix
                     newLocation = location
@@ -338,14 +319,14 @@ struct MapView: View {
                     isShowingAlert = true
                 }
             } else {
-                showErrorAlert(message: "Could not load location")
+                showErrorAlert(message: Constants.loadLocationErrorMessage)
             }
         }
     }
     
-    private func handleAddLocation() {
+    func handleAddLocation() {
         guard let storageLocation = newLocation?.asStorageModel else {
-            showErrorAlert(message: "Error: Failed to convert location to storage model")
+            showErrorAlert(message: Constants.storageConversionErrorMessage)
             
             return
         }
@@ -370,10 +351,98 @@ struct MapView: View {
     
     private func showErrorAlert(message: String) {
         alertMessage = Text(message)
-            .font(.custom(GlobalConstants.mediumFont, size: 16.0))
+            .font(.custom(GlobalConstants.mediumFont, size: GlobalConstants.alertMessageFontSize))
         
         isSingleButtonAlert = true
         isShowingAlert = true
     }
     
+    // MARK: - Modifiers
+    
+    private struct LoadViewModifier: ViewModifier {
+        let viewModel: PinBoardViewModel
+        @Binding var camera: MapCameraPosition
+        @Binding var locationManager: LocationService
+        @Binding var userCoordinate: CLLocationCoordinate2D?
+        @Binding var hasCenteredOnUserLocation: Bool
+        @Binding var isShowingAlert: Bool
+        @Binding var isSingleButtonAlert: Bool
+        @Binding var newLocation: Location?
+        @Binding var selectedLocationId: String?
+        
+        func body(content: Content) -> some View {
+            content
+                .toolbar(.hidden, for: .navigationBar)
+                .task {
+                    guard !hasCenteredOnUserLocation else { return }
+                    
+                    let coordinate = await locationManager.requestLocation()
+                    
+                    withAnimation {
+                        camera = .region(
+                            MKCoordinateRegion(
+                                center: coordinate,
+                                span: .init(latitudeDelta: 0.5, longitudeDelta: 0.5)
+                            )
+                        )
+                    }
+                    
+                    userCoordinate = coordinate
+                    hasCenteredOnUserLocation = true
+                }
+                .onDisappear() {
+                    isShowingAlert = false
+                    isSingleButtonAlert = false
+                    newLocation = nil
+                    selectedLocationId = nil
+                }
+                .onChange(of: viewModel.selectedLocation) {
+                    if let location = viewModel.selectedLocation {
+                        withAnimation(.easeInOut) {
+                            camera = .region(
+                                MKCoordinateRegion(
+                                    center: .init(latitude: location.latitude, longitude: location.longitude),
+                                    span: .init(latitudeDelta: 0.5, longitudeDelta: 0.5)
+                                )
+                            )
+                        }
+                    }
+                }
+        }
+    }
+    
+    private struct AlertViewModifier: ViewModifier {
+        @Binding var isShowingAlert: Bool
+        @Binding var isSingleButtonAlert: Bool
+        @Binding var alertMessage: Text
+        let onConfirm: () -> Void
+        
+        func body(content: Content) -> some View {
+            content
+                .overlay(alignment: .center) {
+                    if isShowingAlert {
+                        if isSingleButtonAlert {
+                            AlertView(
+                                message: alertMessage,
+                                onOk: {
+                                    isShowingAlert = false
+                                    isSingleButtonAlert = false
+                                }
+                            )
+                        } else {
+                            AlertView(
+                                message: alertMessage,
+                                onConfirm: {
+                                    isShowingAlert = false
+                                    onConfirm()
+                                },
+                                onCancel: {
+                                    isShowingAlert = false
+                                }
+                            )
+                        }
+                    }
+                }
+        }
+    }
 }

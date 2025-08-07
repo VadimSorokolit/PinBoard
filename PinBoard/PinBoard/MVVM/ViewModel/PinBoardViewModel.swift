@@ -13,7 +13,6 @@ class PinBoardViewModel {
     // MARK: - Properties. Public
 
     var selectedLocation: StorageLocation? = nil
-    var selectedLocationId: String? = nil
     var isAuthenticated: Bool {
         get { authenticator.isAuthenticated }
         set { authenticator.isAuthenticated = newValue }

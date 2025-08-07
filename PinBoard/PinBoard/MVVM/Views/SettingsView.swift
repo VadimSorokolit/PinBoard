@@ -38,11 +38,11 @@ struct SettingsView: View {
     
     var body: some View {
         ZStack {
-            VStack(spacing: 0.0) {
+            VStack(spacing: .zero) {
                 HeaderView(selectedPinGradient: selectedPinGradient)
                 
                 NavigationStack {
-                    VStack(spacing: 0.0) {
+                    VStack(spacing: .zero) {
                         Form {
                             Section(header: Text(Constants.pinsHeaderTitleName)) {
                                 let pinContainerSize: CGFloat = 33.0
@@ -68,7 +68,6 @@ struct SettingsView: View {
                                                 }
                                         }
                                     }
-                                    .padding(.horizontal, 0.0)
                                     
                                     RoundedRectangle(cornerRadius: 6.0)
                                         .stroke(selectedPinGradient.gradient, lineWidth: 3.0)
@@ -93,10 +92,9 @@ struct SettingsView: View {
             
             LogOutButtonView()
         }
-        .onAppear() {
-            viewModel.selectedLocationId = nil
-        }
     }
+    
+    // MARK: - Subviews
     
     private struct HeaderView: View {
         let selectedPinGradient: PinGradient

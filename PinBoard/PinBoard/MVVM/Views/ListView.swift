@@ -56,6 +56,8 @@ struct ListView: View {
     @State private var isEditing: Bool = false
     @State private var isAnimation: Bool = false
     @State private var currentToast: Toast? = nil
+    @State private var isShowingAlert = false
+    @State private var alertMessage: Text = Text("")
     @AppStorage(GlobalConstants.selectedPinIndexKey) private var selectedPinColorsIndex: Int = 0
     private var selectedPinGradient: PinGradient {
         PinGradient.all[selectedPinColorsIndex]
@@ -65,9 +67,10 @@ struct ListView: View {
     
     var body: some View {
         VStack(spacing: .zero) {
-            HeaderView(isEditing: $isEditing,
-                       isAnimation: $isAnimation,
-                       selectedPinGradient: selectedPinGradient
+            HeaderView(
+                isEditing: $isEditing,
+                isAnimation: $isAnimation,
+                selectedPinGradient: selectedPinGradient
             )
             
             GridView(
@@ -75,14 +78,18 @@ struct ListView: View {
                 isEditing: $isEditing,
                 currentToast: $currentToast,
                 isAnimation: $isAnimation,
+                isShowingAlert: $isShowingAlert,
+                alertMessage: $alertMessage,
                 modelContext: modelContext,
                 selectedPinGradient: selectedPinGradient,
                 locations: locations
             )
         }
-        .modifier(LoadViewModifier())
         .modifier(ScreenBackgroundModifier(currentToast: $currentToast))
+        .modifier(AlertViewModifier(isShowingAlert: $isShowingAlert, alertMessage: $alertMessage))
     }
+    
+    // MARK: - Subviews
     
     private struct HeaderView: View {
         @Binding var isEditing: Bool
@@ -137,6 +144,8 @@ struct ListView: View {
         @Binding var isEditing: Bool
         @Binding var currentToast: Toast?
         @Binding var isAnimation: Bool
+        @Binding var isShowingAlert: Bool
+        @Binding var alertMessage: Text
         let modelContext: ModelContext
         let selectedPinGradient: PinGradient
         let locations: [StorageLocation]
@@ -357,8 +366,6 @@ struct ListView: View {
             
         }
         
-        // MARK: - Methods. Private
-        
         private func deleteLocation(_ location: StorageLocation) {
             withAnimation(.easeInOut) {
                 modelContext.delete(location)
@@ -373,7 +380,8 @@ struct ListView: View {
             do {
                 try modelContext.save()
             } catch {
-                print("Error: \(error)")
+                showErrorAlert(message: error.localizedDescription)
+                
             }
         }
         
@@ -397,27 +405,23 @@ struct ListView: View {
             do {
                 try modelContext.save()
             } catch {
-                print("Error:", error)
+                showErrorAlert(message: error.localizedDescription)
             }
             
             targetedId = nil
             
             return true
         }
+        
+        private func showErrorAlert(message: String) {
+            alertMessage = Text(message)
+                .font(.custom(GlobalConstants.mediumFont, size: GlobalConstants.alertMessageFontSize))
+            
+            isShowingAlert = true
+        }
     }
     
     // MARK: - Modifiers
-    
-    private struct LoadViewModifier: ViewModifier {
-        @Environment(PinBoardViewModel.self) private var viewModel
-        
-        func body(content: Content) -> some View {
-            content
-                .onAppear() {
-                    viewModel.selectedLocationId = nil
-                }
-        }
-    }
     
     private struct ScreenBackgroundModifier: ViewModifier {
         @Binding var currentToast: Toast?
@@ -426,6 +430,25 @@ struct ListView: View {
             content
                 .frame(maxHeight: .infinity, alignment: .top)
                 .toast($currentToast)
+        }
+    }
+    
+    private struct AlertViewModifier: ViewModifier {
+        @Binding var isShowingAlert: Bool
+        @Binding var alertMessage: Text
+        
+        func body(content: Content) -> some View {
+            content
+                .overlay(alignment: .center) {
+                    if isShowingAlert {
+                        AlertView(
+                            message: alertMessage,
+                            onOk: {
+                                isShowingAlert = false
+                            }
+                        )
+                    }
+                }
         }
     }
 }
