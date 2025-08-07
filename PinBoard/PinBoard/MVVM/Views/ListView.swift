@@ -21,17 +21,30 @@ struct ListView: View {
         static let nameTitleWidth: CGFloat = 200.0
         static let latitudeTitleWidth: CGFloat = 100.0
         static let longitudeTitleWidth: CGFloat = 100.0
-        static let cellHorizontalPadding: CGFloat = 20.0
         static let cellFontSize: CGFloat = 14.0
         static let headerFontSize: CGFloat = 16.0
-        static let iconEditName: String = "line.3.horizontal"
-        static let iconDeleteName: String = "ellipsis"
+        static let activeCellOpacity: Double = 0.3
+        static let editButtonTrailingPadding: CGFloat = 16.0
+        static let headerViewTitleFontSize: CGFloat = 20.0
+        static let editTitleName: String = "Edit"
+        static let menuTitleName: String = "Menu"
+        static let indexTitleName: String = "Index"
+        static let NameTitleName: String = "Name"
+        static let latitudeTitleName: String = "Latitude"
+        static let longitudeTitleName: String = "Longitude"
+        static let toastMessage: String = "will show on map"
+        static let editIconName: String = "line.3.horizontal"
+        static let deleteIconName: String = "ellipsis"
         static let headerViewTitleName: String = "Locations"
+        static let contentMenuLabelName: String = "Delete"
+        static let contentMenuIconName: String = "trash"
+        static let editButtonTitleEdit: String = "Edit"
+        static let editButtonTitleDone: String = "Done"
+        static let numberPrefixName: String = "No."
+        static let editIconColor: Int = 0x000000
         static let indexTextColor: Int = 0x35C759
         static let longitudeTextColor: Int = 0xF95069
         static let latitudeTextColor: Int = 0x7732d3
-        static let activeCellOpacity: Double = 0.3
-        static let editButtonTrailingPadding: CGFloat = 16.0
     }
     
     // MARK: - Properties. Private
@@ -51,8 +64,11 @@ struct ListView: View {
     // MARK: - Main body
     
     var body: some View {
-        VStack(spacing: 0.0) {
-            HeaderView(isEditing: $isEditing, isAnimation: $isAnimation, selectedPinGradient: selectedPinGradient)
+        VStack(spacing: .zero) {
+            HeaderView(isEditing: $isEditing,
+                       isAnimation: $isAnimation,
+                       selectedPinGradient: selectedPinGradient
+            )
             
             GridView(
                 targetedId: $targetedId,
@@ -64,11 +80,8 @@ struct ListView: View {
                 locations: locations
             )
         }
-        .onAppear() {
-            viewModel.selectedLocationId = nil
-        }
-        .toast($currentToast)
-        .frame(maxHeight: .infinity, alignment: .top)
+        .modifier(LoadViewModifier())
+        .modifier(ScreenBackgroundModifier(currentToast: $currentToast))
     }
     
     private struct HeaderView: View {
@@ -77,10 +90,10 @@ struct ListView: View {
         let selectedPinGradient: PinGradient
         
         var body: some View {
-            VStack(spacing: 0.0) {
+            VStack(spacing: .zero) {
                 ZStack {
                     Text(Constants.headerViewTitleName)
-                        .font(.custom(GlobalConstants.boldFont, size: 20.0))
+                        .font(.custom(GlobalConstants.boldFont, size: Constants.headerViewTitleFontSize))
                         .foregroundStyle(.black)
                     
                     EditButtonView(isEditing: $isEditing, isAnimation: $isAnimation)
@@ -108,7 +121,7 @@ struct ListView: View {
                 Button(action: {
                     isEditing.toggle()
                 }) {
-                    Text(isEditing ? "Done" : "Edit")
+                    Text(isEditing ? Constants.editButtonTitleDone : Constants.editButtonTitleEdit)
                         .font(.custom(GlobalConstants.semiBoldFont, size: Constants.cellFontSize))
                 }
             }
@@ -129,14 +142,14 @@ struct ListView: View {
         let locations: [StorageLocation]
         
         var body: some View {
-            VStack(spacing: 0.0) {
+            VStack(spacing: .zero) {
                 ScrollViewReader { proxy in
                     ScrollView(.horizontal, showsIndicators: false) {
-                        VStack(alignment: .leading, spacing: 0.0) {
+                        VStack(alignment: .leading, spacing: .zero) {
                             HeaderView(isEditing: $isEditing)
                             
                             ScrollView(.vertical, showsIndicators: false) {
-                                VStack(spacing: 0.0) {
+                                VStack(spacing: .zero) {
                                     ForEach(locations) { location in
                                         let isDragging = targetedId == location.id
                                         
@@ -209,28 +222,28 @@ struct ListView: View {
                     
                     Grid(horizontalSpacing: GlobalConstants.gridHorizontalSpacing) {
                         GridRow {
-                            Text(isEditing ? "Edit" : "Menu")
+                            Text(isEditing ? Constants.editTitleName : Constants.menuTitleName)
                                 .font(.custom(GlobalConstants.semiBoldFont, size: Constants.headerFontSize))
                                 .frame(width: Constants.gridIndexTitleWidth)
                                 .padding(.leading, Constants.editButtonTrailingPadding)
                                 .verticalColumnDivider()
                             
-                            Text("Index")
+                            Text(Constants.indexTitleName)
                                 .font(.custom(GlobalConstants.semiBoldFont, size: Constants.headerFontSize))
                                 .frame(width: Constants.indexTitleWidth, alignment: .leading)
                                 .verticalColumnDivider()
                             
-                            Text("Name")
+                            Text(Constants.NameTitleName)
                                 .font(.custom(GlobalConstants.semiBoldFont, size: Constants.headerFontSize))
                                 .frame(width: Constants.nameTitleWidth, alignment: .leading)
                                 .verticalColumnDivider()
                             
-                            Text("Latitude")
+                            Text(Constants.latitudeTitleName)
                                 .font(.custom(GlobalConstants.semiBoldFont, size: Constants.headerFontSize))
                                 .frame(width: Constants.latitudeTitleWidth, alignment: .leading)
                                 .verticalColumnDivider()
                             
-                            Text("Longitude")
+                            Text(Constants.longitudeTitleName)
                                 .font(.custom(GlobalConstants.semiBoldFont, size: Constants.headerFontSize))
                                 .frame(width: Constants.longitudeTitleWidth, alignment: .leading)
                         }
@@ -261,16 +274,16 @@ struct ListView: View {
                         Menu(content: {
                             if !isEditing {
                                 Button(role: .destructive) { onDelete() } label: {
-                                    Label("Delete", systemImage: "trash")
+                                    Label(Constants.contentMenuLabelName, systemImage: Constants.contentMenuIconName)
                                 }
                             }
                         }) {
                             Image(systemName: isEditing
-                                  ? Constants.iconEditName
-                                  : Constants.iconDeleteName
+                                  ? Constants.editIconName
+                                  : Constants.deleteIconName
                             )
                             .resizable()
-                            .foregroundColor(Color(hex: 0x000000))
+                            .foregroundColor(Color(hex: Constants.editIconColor))
                             .scaledToFit()
                             .contentTransition(
                                 .symbolEffect(
@@ -283,7 +296,7 @@ struct ListView: View {
                         .frame(height: Constants.gridIndexTitleWidth)
                         .padding(.leading, Constants.editButtonTrailingPadding + Constants.gridIndexTitleWidth / 3.0)
                         
-                        Text("No. \(location.index)")
+                        Text("\(Constants.numberPrefixName) \(location.index)")
                             .font(.custom(GlobalConstants.mediumFont, size: Constants.cellFontSize))
                             .foregroundColor(Color(hex:Constants.indexTextColor))
                             .frame(width: Constants.indexTitleWidth, alignment: .leading)
@@ -333,7 +346,7 @@ struct ListView: View {
                         isPressed = false
                         viewModel.selectedLocation = location
                         currentToast = Toast(
-                            message: "\(location.name)\n will show on map",
+                            message: "\(location.name)\n \(Constants.toastMessage)",
                             duration: 2.0,
                             width: 300.0
                         )
@@ -374,7 +387,6 @@ struct ListView: View {
                 targetedId = nil
                 return false
             }
-            
             var copy = locations
             copy.move(fromOffsets: IndexSet(integer: from), toOffset: to > from ? to + 1 : to)
             
@@ -394,4 +406,26 @@ struct ListView: View {
         }
     }
     
+    // MARK: - Modifiers
+    
+    private struct LoadViewModifier: ViewModifier {
+        @Environment(PinBoardViewModel.self) private var viewModel
+        
+        func body(content: Content) -> some View {
+            content
+                .onAppear() {
+                    viewModel.selectedLocationId = nil
+                }
+        }
+    }
+    
+    private struct ScreenBackgroundModifier: ViewModifier {
+        @Binding var currentToast: Toast?
+        
+        func body(content: Content) -> some View {
+            content
+                .frame(maxHeight: .infinity, alignment: .top)
+                .toast($currentToast)
+        }
+    }
 }
