@@ -15,7 +15,7 @@ struct GlobalConstants {
     static let userDefaultPasscodeKey: String = "passcode"
     static let colorKey: String = "color"
     static let pinImageName: String = "pinImage"
-    static let selectedPinIndexKey = "selectedPinIndex"
+    static let selectedPaletteIndexKey = "selectedPaletteIndex"
     static let addLocationKey: String = "autoAddLocation"
     static let passcodeLength: Int = 4
     static let gridHorizontalSpacing: CGFloat = 32.0

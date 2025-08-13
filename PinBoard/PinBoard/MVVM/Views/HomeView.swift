@@ -71,9 +71,9 @@ struct HomeView: View {
     }
     
     struct CustomTabBar: View {
-        @AppStorage(GlobalConstants.selectedPinIndexKey) private var selectedPinColorsIndex: Int = 0
-        private var selectedPinGradient: PinGradient {
-            PinGradient.all[selectedPinColorsIndex]
+        @AppStorage(GlobalConstants.selectedPaletteIndexKey) private var selectedPaletteIndex: Int = 0
+        private var selectedPalette: ColorGradient {
+            ColorGradient.palette[selectedPaletteIndex]
         }
         @Binding var allTabs: [AnimatedTab]
         @Binding var activeTab: Tab
@@ -108,7 +108,7 @@ struct HomeView: View {
                 ZStack {
                     Color(.systemBackground)
                     
-                    selectedPinGradient.gradient.opacity(GlobalConstants.barGradientOpacity)
+                    selectedPalette.gradient.opacity(GlobalConstants.barGradientOpacity)
                 }
                     .ignoresSafeArea(edges: .bottom)
             )

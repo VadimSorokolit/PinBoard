@@ -13,8 +13,9 @@ struct SettingsView: View {
     
     private struct Constants {
         static let headerViewTitleName: String = "Settings"
+        static let headerViewTitleColor: Int = 0x000000
         static let logOutButtonTitleName: String = "Log out"
-        static let lccationsHeaderTitleName: String = "Locations"
+        static let locationsHeaderTitleName: String = "Locations"
         static let pinsHeaderTitleName: String = "Pins"
         static let locationsSectionText: String = "Add new location\nwithout approval"
         static let locationsSectionTextSpacing: CGFloat = 8.0
@@ -26,12 +27,10 @@ struct SettingsView: View {
     // MARK: - Properties. Private
     
     @Environment(PinBoardViewModel.self) private var viewModel
-    @AppStorage(GlobalConstants.selectedPinIndexKey) private var selectedPinColorsIndex: Int = 0
+    @AppStorage(GlobalConstants.selectedPaletteIndexKey) private var selectedPaletteIndex: Int = 0
     @AppStorage(GlobalConstants.addLocationKey) private var isAutoAddingLocation: Bool = false
-    @Namespace private var pinBorderNameSpace
-    private let pinGradients = PinGradient.all
-    private var selectedPinGradient: PinGradient {
-        PinGradient.all[selectedPinColorsIndex]
+    private var selectedPalette: ColorGradient {
+        ColorGradient.palette[selectedPaletteIndex]
     }
     
     // MARK: - Main body
@@ -39,56 +38,10 @@ struct SettingsView: View {
     var body: some View {
         ZStack {
             VStack(spacing: .zero) {
-                HeaderView(selectedPinGradient: selectedPinGradient)
+                HeaderView(selectedPaletteGradient: selectedPalette)
                 
-                NavigationStack {
-                    VStack(spacing: .zero) {
-                        Form {
-                            Section(header: Text(Constants.pinsHeaderTitleName)) {
-                                let pinContainerSize: CGFloat = 33.0
-                                let spacing: CGFloat = 16.0
-                                let step = pinContainerSize + spacing
-                                
-                                ZStack(alignment: .leading) {
-                                    HStack(spacing: spacing) {
-                                        ForEach(pinGradients.indices, id: \.self) { idx in
-                                            let gradient = pinGradients[idx]
-                                            
-                                            gradient.gradient
-                                                .mask(Image(GlobalConstants.pinImageName)
-                                                    .resizable()
-                                                    .scaledToFit())
-                                                .frame(width: 24.0, height: 24.0)
-                                                .frame(width: pinContainerSize, height: pinContainerSize)
-                                                .contentShape(Rectangle())
-                                                .onTapGesture {
-                                                    withAnimation(.spring(response: 0.4, dampingFraction: 1.0)) {
-                                                        selectedPinColorsIndex = idx
-                                                    }
-                                                }
-                                        }
-                                    }
-                                    
-                                    RoundedRectangle(cornerRadius: 6.0)
-                                        .stroke(selectedPinGradient.gradient, lineWidth: 3.0)
-                                        .frame(width: pinContainerSize, height: pinContainerSize)
-                                        .offset(x: CGFloat(selectedPinColorsIndex) * step)
-                                        .animation(.spring(response: 0.4, dampingFraction: 1.0), value: selectedPinColorsIndex)
-                                }
-                            }
-                            
-                            Section(header: Text(Constants.lccationsHeaderTitleName)) {
-                                Toggle(isOn: $isAutoAddingLocation) {
-                                    Text(Constants.locationsSectionText)
-                                        .lineSpacing(Constants.locationsSectionTextSpacing)
-                                }
-                            }
-                        }
-                        .listSectionSpacing(.compact)
-                    }
-                }
+                SectionsView(isAutoAddingLocation: $isAutoAddingLocation, selectedPaletteIndex: $selectedPaletteIndex, selectedPalette: selectedPalette)
             }
-            .frame(maxHeight: .infinity, alignment: .top)
             
             LogOutButtonView()
         }
@@ -97,26 +50,81 @@ struct SettingsView: View {
     // MARK: - Subviews
     
     private struct HeaderView: View {
-        let selectedPinGradient: PinGradient
+        let selectedPaletteGradient: ColorGradient
         
         var body: some View {
             Text(Constants.headerViewTitleName)
                 .font(.custom(GlobalConstants.boldFont, size: 20.0))
-                .foregroundStyle(.black)
+                .foregroundStyle(Color(hex: Constants.headerViewTitleColor))
                 .padding(.top, 10.0)
+                .padding(.bottom, 10)
                 .frame(maxWidth: .infinity)
-                .background(selectedPinGradient.gradient.opacity(GlobalConstants.barGradientOpacity))
-            
-            Rectangle()
-                .fill(selectedPinGradient.gradient)
-                .opacity(GlobalConstants.barGradientOpacity)
-                .frame(height: 10.0)
-                .overlay(
-                    Rectangle()
-                        .fill(Color(hex: GlobalConstants.separatorColor).opacity(GlobalConstants.barGradientOpacity))
-                        .frame(height: 0.5),
-                    alignment: .bottom
+                .background(
+                    selectedPaletteGradient.gradient
+                        .opacity(GlobalConstants.barGradientOpacity)
                 )
+                .overlay(alignment: .bottom) {
+                    Divider()
+                        .background(Color(hex: GlobalConstants.separatorColor))
+                        .opacity(GlobalConstants.barGradientOpacity)
+                        .frame(height: 0.5)
+                }
+        }
+        
+    }
+    
+    private struct SectionsView: View {
+        @Binding var isAutoAddingLocation: Bool
+        @Binding var selectedPaletteIndex: Int
+        let selectedPalette: ColorGradient
+        
+        var body: some View {
+            NavigationStack {
+                VStack(spacing: .zero) {
+                    Form {
+                        Section(header: Text(Constants.pinsHeaderTitleName)) {
+                            let pinContainerSize: CGFloat = 33.0
+                            let spacing: CGFloat = 16.0
+                            let step = pinContainerSize + spacing
+                            
+                            ZStack(alignment: .leading) {
+                                HStack(spacing: spacing) {
+                                    ForEach(Array(ColorGradient.palette.indices), id: \.self) { idx in
+                                        let palette = ColorGradient.palette[idx]
+                                        
+                                        palette.gradient
+                                            .mask(Image(GlobalConstants.pinImageName)
+                                                .resizable()
+                                                .scaledToFit())
+                                            .frame(width: 24.0, height: 24.0)
+                                            .frame(width: pinContainerSize, height: pinContainerSize)
+                                            .contentShape(Rectangle())
+                                            .onTapGesture {
+                                                withAnimation(.spring(response: 0.4, dampingFraction: 1.0)) {
+                                                    selectedPaletteIndex = idx
+                                                }
+                                            }
+                                    }
+                                }
+                                
+                                RoundedRectangle(cornerRadius: 6.0)
+                                    .stroke(selectedPalette.gradient, lineWidth: 3.0)
+                                    .frame(width: pinContainerSize, height: pinContainerSize)
+                                    .offset(x: CGFloat(selectedPaletteIndex) * step)
+                                    .animation(.spring(response: 0.4, dampingFraction: 1.0), value: selectedPaletteIndex)
+                            }
+                        }
+                        
+                        Section(header: Text(Constants.locationsHeaderTitleName)) {
+                            Toggle(isOn: $isAutoAddingLocation) {
+                                Text(Constants.locationsSectionText)
+                                    .lineSpacing(Constants.locationsSectionTextSpacing)
+                            }
+                        }
+                    }
+                    .listSectionSpacing(.compact)
+                }
+            }
         }
         
     }
@@ -144,4 +152,3 @@ struct SettingsView: View {
         
     }
 }
-

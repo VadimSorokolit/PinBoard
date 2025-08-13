@@ -41,10 +41,10 @@ struct MapView: View {
     @State private var alertMessage: Text = Text("")
     @State private var newLocation: Location? = nil
     @State private var selectedLocationId: String? = nil
-    @AppStorage(GlobalConstants.selectedPinIndexKey) private var selectedPinColorsIndex: Int = 0
+    @AppStorage(GlobalConstants.selectedPaletteIndexKey) private var selectedPinColorsIndex: Int = 0
     @AppStorage(GlobalConstants.addLocationKey) private var isAutoAddingLocation: Bool = false
-    private var selectedPinGradient: PinGradient {
-        PinGradient.all[selectedPinColorsIndex]
+    private var selectedPalette: ColorGradient {
+        ColorGradient.palette[selectedPinColorsIndex]
     }
     private var uniqueLocations: [StorageLocation] {
         let grouped = Dictionary(grouping: locations) { location in
@@ -77,7 +77,7 @@ struct MapView: View {
                                     locationId: storage.id,
                                     index: storage.index,
                                     title: storage.name,
-                                    selectedPinGradient: selectedPinGradient
+                                    selectedPinGradient: selectedPalette
                                 )
                                 .zIndex(Double(storage.index))
                             }
@@ -189,7 +189,7 @@ struct MapView: View {
         let locationId: String
         let index: Int
         let title: String
-        let selectedPinGradient: PinGradient
+        let selectedPinGradient: ColorGradient
         private let pinSize: CGFloat = 44.0
         private var isSelected: Bool {
             selectedLocationId == locationId
@@ -220,7 +220,7 @@ struct MapView: View {
             let locationId: String
             let index: Int
             let title: String
-            let selectedPinGradient: PinGradient
+            let selectedPinGradient: ColorGradient
             let isSelected: Bool
             private let pinSize: CGFloat = 44.0
             
@@ -307,7 +307,7 @@ struct MapView: View {
                     
                     let name = Text(location.name)
                         .font(.custom(GlobalConstants.boldFont, size: GlobalConstants.alertMessageFontSize))
-                        .foregroundStyle(selectedPinGradient.gradient)
+                        .foregroundStyle(selectedPalette.gradient)
                     
                     let suffix = Text(Constants.alertSuffixTitleName)
                         .font(.custom(GlobalConstants.mediumFont, size: GlobalConstants.alertMessageFontSize))

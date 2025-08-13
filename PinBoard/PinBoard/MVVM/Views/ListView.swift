@@ -58,9 +58,9 @@ struct ListView: View {
     @State private var currentToast: Toast? = nil
     @State private var isShowingAlert = false
     @State private var alertMessage: Text = Text("")
-    @AppStorage(GlobalConstants.selectedPinIndexKey) private var selectedPinColorsIndex: Int = 0
-    private var selectedPinGradient: PinGradient {
-        PinGradient.all[selectedPinColorsIndex]
+    @AppStorage(GlobalConstants.selectedPaletteIndexKey) private var selectePaletteIndex: Int = 0
+    private var selectedPalette: ColorGradient {
+        ColorGradient.palette[selectePaletteIndex]
     }
     
     // MARK: - Main body
@@ -70,7 +70,7 @@ struct ListView: View {
             HeaderView(
                 isEditing: $isEditing,
                 isAnimation: $isAnimation,
-                selectedPinGradient: selectedPinGradient
+                selectedPalette: selectedPalette
             )
             
             GridView(
@@ -81,7 +81,7 @@ struct ListView: View {
                 isShowingAlert: $isShowingAlert,
                 alertMessage: $alertMessage,
                 modelContext: modelContext,
-                selectedPinGradient: selectedPinGradient,
+                selectedPalette: selectedPalette,
                 locations: locations
             )
         }
@@ -94,7 +94,7 @@ struct ListView: View {
     private struct HeaderView: View {
         @Binding var isEditing: Bool
         @Binding var isAnimation: Bool
-        let selectedPinGradient: PinGradient
+        let selectedPalette: ColorGradient
         
         var body: some View {
             VStack(spacing: .zero) {
@@ -107,10 +107,10 @@ struct ListView: View {
                 }
                 .padding(.top, 10.0)
                 .frame(maxWidth: .infinity)
-                .background(selectedPinGradient.gradient.opacity(GlobalConstants.barGradientOpacity))
+                .background(selectedPalette.gradient.opacity(GlobalConstants.barGradientOpacity))
                 
                 Rectangle()
-                    .fill(selectedPinGradient.gradient.opacity(GlobalConstants.barGradientOpacity))
+                    .fill(selectedPalette.gradient.opacity(GlobalConstants.barGradientOpacity))
                     .frame(height: 10.0)
             }
         }
@@ -147,7 +147,7 @@ struct ListView: View {
         @Binding var isShowingAlert: Bool
         @Binding var alertMessage: Text
         let modelContext: ModelContext
-        let selectedPinGradient: PinGradient
+        let selectedPalette: ColorGradient
         let locations: [StorageLocation]
         
         var body: some View {
@@ -166,7 +166,7 @@ struct ListView: View {
                                             isAnimation: $isAnimation,
                                             isEditing: $isEditing,
                                             currentToast: $currentToast,
-                                            selectedPinGradient: selectedPinGradient,
+                                            selectedPalette: selectedPalette,
                                             location: location,
                                             isDragging: isDragging,
                                             onDelete: {
@@ -272,7 +272,7 @@ struct ListView: View {
             @Binding var isAnimation: Bool
             @Binding var isEditing: Bool
             @Binding var currentToast: Toast?
-            let selectedPinGradient: PinGradient
+            let selectedPalette: ColorGradient
             let location: StorageLocation
             let isDragging: Bool
             let onDelete: () -> Void
@@ -337,7 +337,7 @@ struct ListView: View {
                 )
                 .overlay {
                     if isPressed {
-                        selectedPinGradient.gradient
+                        selectedPalette.gradient
                             .opacity(Constants.activeCellOpacity)
                     } else if isDragging {
                         Color(hex: GlobalConstants.separatorColor)
