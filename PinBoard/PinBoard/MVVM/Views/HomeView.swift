@@ -105,7 +105,11 @@ struct HomeView: View {
             }
             .frame(height: 50.0)
             .background(
-                selectedPinGradient.gradient.opacity(GlobalConstants.barGradientOpacity)
+                ZStack {
+                    Color(.systemBackground)
+                    
+                    selectedPinGradient.gradient.opacity(GlobalConstants.barGradientOpacity)
+                }
                     .ignoresSafeArea(edges: .bottom)
             )
             .overlay(

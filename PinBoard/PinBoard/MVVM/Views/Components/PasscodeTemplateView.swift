@@ -36,11 +36,10 @@ struct PasscodeTemplateView<Content: View>: View {
         var body: some View {
             VStack(spacing: 24.0) {
                 Text("\(title) Passcode")
-                    .font(.largeTitle)
-                    .fontWeight(.heavy)
+                    .font(.custom(GlobalConstants.boldFont, size: 20.0))
                 
                 Text("Please enter \(GlobalConstants.passcodeLength) digit PIN \(titleText)")
-                    .font(.subheadline)
+                    .font(.custom(GlobalConstants.regularFont, size: 14.0))
                     .multilineTextAlignment(.center)
             }
             .padding(.top)

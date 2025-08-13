@@ -24,10 +24,10 @@ struct PinGradient: Identifiable, Equatable {
     }
     
     static let all: [PinGradient] = [
-        .init([.purple, .pink]),
+        .init([.green, .mint]),
         .init([.blue, .cyan]),
         .init([.yellow, .brown]),
-        .init([.green, .mint]),
+        .init([.purple, .pink]),
         .init([.gray, .black]),
     ]
     
