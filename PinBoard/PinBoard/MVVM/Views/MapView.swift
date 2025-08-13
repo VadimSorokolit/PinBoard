@@ -41,10 +41,10 @@ struct MapView: View {
     @State private var alertMessage: Text = Text("")
     @State private var newLocation: Location? = nil
     @State private var selectedLocationId: String? = nil
-    @AppStorage(GlobalConstants.selectedPaletteIndexKey) private var selectedPinColorsIndex: Int = 0
+    @AppStorage(GlobalConstants.selectedPaletteIndexKey) private var selectedPaletteIndex: Int = 0
     @AppStorage(GlobalConstants.addLocationKey) private var isAutoAddingLocation: Bool = false
     private var selectedPalette: ColorGradient {
-        ColorGradient.palette[selectedPinColorsIndex]
+        ColorGradient.palette[selectedPaletteIndex]
     }
     private var uniqueLocations: [StorageLocation] {
         let grouped = Dictionary(grouping: locations) { location in
@@ -60,51 +60,10 @@ struct MapView: View {
     // MARK: - Main body
     
     var body: some View {
-        NavigationStack {
             ZStack {
-                MapReader { proxy in
-                    Map(position: $camera) {
-                        if let userCoordinate {
-                            Annotation("", coordinate: userCoordinate) {
-                                UserLocationView(coordinate: userCoordinate)
-                            }
-                        }
-                        
-                        ForEach(uniqueLocations, id: \.id) { storage in
-                            Annotation("", coordinate: CLLocationCoordinate2D(latitude: storage.latitude, longitude: storage.longitude)) {
-                                CustomPinView(
-                                    selectedLocationId: $selectedLocationId,
-                                    locationId: storage.id,
-                                    index: storage.index,
-                                    title: storage.name,
-                                    selectedPinGradient: selectedPalette
-                                )
-                                .zIndex(Double(storage.index))
-                            }
-                        }
-                    }
-                    .ignoresSafeArea()
-                    .gesture(
-                        LongPressGesture(minimumDuration: 1.0)
-                            .onEnded { _ in
-                                let generator = UIImpactFeedbackGenerator(style: .medium)
-                                generator.impactOccurred()
-                            }
-                            .sequenced(before: DragGesture(minimumDistance: .zero))
-                            .onEnded { value in
-                                switch value {
-                                    case .second(true, let drag?):
-                                        let location = drag.location
-                                        
-                                        if let coordinate = proxy.convert(location, from: .local) {
-                                            handlePress(at: coordinate, isAutoAdding: isAutoAddingLocation)
-                                        }
-                                    default:
-                                        break
-                                }
-                            }
-                    )
-                }
+                PinView(camera: $camera, selectedLocationId: $selectedLocationId, selectedPalette: selectedPalette, userCoordinate: userCoordinate, uniqueLocations: uniqueLocations, onPressAt: { coordinate in
+                    handlePress(at: coordinate, isAutoAdding: isAutoAddingLocation)
+                })
                 
                 VStack(spacing: .zero) {
                     SpinnerView(isLoading: isLoading)
@@ -113,7 +72,6 @@ struct MapView: View {
                 }
                 .ignoresSafeArea(edges: .top)
             }
-        }
         .modifier(LoadViewModifier(
             viewModel: viewModel,
             camera: $camera,
@@ -133,6 +91,62 @@ struct MapView: View {
     }
     
     // MARK: - Subviews
+    
+    private struct PinView: View {
+        @Binding var camera: MapCameraPosition
+        @Binding var selectedLocationId: String?
+        let selectedPalette: ColorGradient
+        let userCoordinate: CLLocationCoordinate2D?
+        let uniqueLocations: [StorageLocation]
+        let onPressAt: (CLLocationCoordinate2D) -> Void
+        
+        var body: some View {
+            MapReader { proxy in
+                Map(position: $camera) {
+                    if let userCoordinate {
+                        Annotation("", coordinate: userCoordinate) {
+                            UserLocationView(coordinate: userCoordinate)
+                        }
+                    }
+                    
+                    ForEach(uniqueLocations, id: \.id) { storage in
+                        Annotation("", coordinate: CLLocationCoordinate2D(latitude: storage.latitude, longitude: storage.longitude)) {
+                            CustomPinView(
+                                selectedLocationId: $selectedLocationId,
+                                locationId: storage.id,
+                                index: storage.index,
+                                title: storage.name,
+                                selectedPinGradient: selectedPalette
+                            )
+                            .zIndex(Double(storage.index))
+                        }
+                    }
+                }
+                .ignoresSafeArea()
+                .gesture(
+                    LongPressGesture(minimumDuration: 1.0)
+                        .onEnded { _ in
+                            let generator = UIImpactFeedbackGenerator(style: .medium)
+                            generator.impactOccurred()
+                        }
+                        .sequenced(before: DragGesture(minimumDistance: .zero))
+                        .onEnded { value in
+                            switch value {
+                                case .second(true, let drag?):
+                                    let location = drag.location
+                                    
+                                    if let coordinate = proxy.convert(location, from: .local) {
+                                        onPressAt(coordinate)
+                                    }
+                                default:
+                                    break
+                            }
+                        }
+                )
+            }
+        }
+        
+    }
     
     private struct UserLocationView: View {
         let coordinate: CLLocationCoordinate2D
@@ -324,7 +338,7 @@ struct MapView: View {
         }
     }
     
-    func handleAddLocation() {
+    private func handleAddLocation() {
         guard let storageLocation = newLocation?.asStorageModel else {
             showErrorAlert(message: Constants.storageConversionErrorMessage)
             

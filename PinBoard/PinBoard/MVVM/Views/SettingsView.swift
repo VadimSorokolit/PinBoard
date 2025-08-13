@@ -13,7 +13,6 @@ struct SettingsView: View {
     
     private struct Constants {
         static let headerViewTitleName: String = "Settings"
-        static let headerViewTitleColor: Int = 0x000000
         static let logOutButtonTitleName: String = "Log out"
         static let locationsHeaderTitleName: String = "Locations"
         static let pinsHeaderTitleName: String = "Pins"
@@ -22,6 +21,7 @@ struct SettingsView: View {
         static let logOutButtonBottomSpacing: CGFloat = 30.0
         static let logOutButtonColorOpacity: Double = 0.6
         static let logOutButtonFontSize: CGFloat = 16.0
+        static let headerViewTitleColor: Int = 0x000000
     }
     
     // MARK: - Properties. Private
@@ -38,7 +38,7 @@ struct SettingsView: View {
     var body: some View {
         ZStack {
             VStack(spacing: .zero) {
-                HeaderView(selectedPaletteGradient: selectedPalette)
+                HeaderView(selectedPalette: selectedPalette)
                 
                 SectionsView(isAutoAddingLocation: $isAutoAddingLocation, selectedPaletteIndex: $selectedPaletteIndex, selectedPalette: selectedPalette)
             }
@@ -50,7 +50,7 @@ struct SettingsView: View {
     // MARK: - Subviews
     
     private struct HeaderView: View {
-        let selectedPaletteGradient: ColorGradient
+        let selectedPalette: ColorGradient
         
         var body: some View {
             Text(Constants.headerViewTitleName)
@@ -60,7 +60,7 @@ struct SettingsView: View {
                 .padding(.bottom, 10)
                 .frame(maxWidth: .infinity)
                 .background(
-                    selectedPaletteGradient.gradient
+                    selectedPalette.gradient
                         .opacity(GlobalConstants.barGradientOpacity)
                 )
                 .overlay(alignment: .bottom) {

@@ -97,46 +97,53 @@ struct ListView: View {
         let selectedPalette: ColorGradient
         
         var body: some View {
-            VStack(spacing: .zero) {
-                ZStack {
-                    Text(Constants.headerViewTitleName)
-                        .font(.custom(GlobalConstants.boldFont, size: Constants.headerViewTitleFontSize))
-                        .foregroundStyle(.black)
-                    
-                    EditButtonView(isEditing: $isEditing, isAnimation: $isAnimation)
-                }
-                .padding(.top, 10.0)
-                .frame(maxWidth: .infinity)
-                .background(selectedPalette.gradient.opacity(GlobalConstants.barGradientOpacity))
+            ZStack {
+                TextView()
                 
-                Rectangle()
-                    .fill(selectedPalette.gradient.opacity(GlobalConstants.barGradientOpacity))
-                    .frame(height: 10.0)
+                EditButtonView(isEditing: $isEditing, isAnimation: $isAnimation)
             }
+            .padding(.top, 10.0)
+            .padding(.bottom, 10.0)
+            .frame(maxWidth: .infinity)
+            .background(
+                selectedPalette.gradient
+                    .opacity(GlobalConstants.barGradientOpacity)
+            )
+        }
+        
+        private struct TextView: View {
+            
+            var body: some View {
+                Text(Constants.headerViewTitleName)
+                    .font(.custom(GlobalConstants.boldFont, size: Constants.headerViewTitleFontSize))
+                    .foregroundStyle(.black)
+            }
+            
+        }
+        
+        private struct EditButtonView: View {
+            @Binding var isEditing: Bool
+            @Binding var isAnimation: Bool
+            
+            var body: some View {
+                HStack {
+                    Spacer()
+                    
+                    Button(action: {
+                        isEditing.toggle()
+                    }) {
+                        Text(isEditing ? Constants.editButtonTitleDone : Constants.editButtonTitleEdit)
+                            .font(.custom(GlobalConstants.semiBoldFont, size: Constants.cellFontSize))
+                    }
+                }
+                .padding(.trailing, Constants.editButtonTrailingPadding)
+                .offset(y: 2.0)
+            }
+            
         }
         
     }
     
-    private struct EditButtonView: View {
-        @Binding var isEditing: Bool
-        @Binding var isAnimation: Bool
-        
-        var body: some View {
-            HStack {
-                Spacer()
-                
-                Button(action: {
-                    isEditing.toggle()
-                }) {
-                    Text(isEditing ? Constants.editButtonTitleDone : Constants.editButtonTitleEdit)
-                        .font(.custom(GlobalConstants.semiBoldFont, size: Constants.cellFontSize))
-                }
-            }
-            .padding(.trailing, Constants.editButtonTrailingPadding)
-            .offset(y: 2.0)
-        }
-        
-    }
     
     private struct GridView: View {
         @Environment(PinBoardViewModel.self) private var viewModel
