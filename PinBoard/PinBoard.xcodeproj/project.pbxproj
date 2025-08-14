@@ -217,7 +217,6 @@
 				DD8E79932E1BBD39001CF2D4 /* Services */,
 				DD8E798E2E1BB3F1001CF2D4 /* Extensions */,
 				DD8E799F2E1BF023001CF2D4 /* Resources */,
-				DDF120982E257F020084DD5C /* Info.plist */,
 			);
 			path = PinBoard;
 			sourceTree = "<group>";
@@ -294,6 +293,7 @@
 				DDD764DC2E28452400EE5A1F /* Fonts */,
 				DD8E79A42E1BF114001CF2D4 /* GlobalConstants.swift */,
 				DD8E79822E1BA4E6001CF2D4 /* Assets.xcassets */,
+				DDF120982E257F020084DD5C /* Info.plist */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -660,7 +660,7 @@
 				DEVELOPMENT_TEAM = D28SS25G7Y;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = PinBoard/Info.plist;
+				INFOPLIST_FILE = PinBoard/Resources/Info.plist;
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "Use Face ID for quick and secure app access";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -692,7 +692,7 @@
 				DEVELOPMENT_TEAM = D28SS25G7Y;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = PinBoard/Info.plist;
+				INFOPLIST_FILE = PinBoard/Resources/Info.plist;
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "Use Face ID for quick and secure app access";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
