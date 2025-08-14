@@ -4,50 +4,57 @@
 //
 //  Created by Vadim Sorokolit on 04.08.2025.
 //
-    
+
 import CoreLocation
 
-final class LocationService: NSObject, CLLocationManagerDelegate {
+protocol LocationServiceProtocol: AnyObject {
+    var delegate: CLLocationManagerDelegate? { get set }
+    var authorizationStatus: CLAuthorizationStatus { get }
+    var location: CLLocation? { get }
+    func requestWhenInUseAuthorization()
+    func requestLocation()
+}
+
+class LocationService: NSObject, CLLocationManagerDelegate {
     
     // MARK: - Properties. Private
     
-    private let manager = CLLocationManager()
+    private let service: LocationServiceProtocol
     private var locationContinuation: CheckedContinuation<CLLocationCoordinate2D, Never>?
     private static let fallbackCoordinate = CLLocationCoordinate2D(latitude: 50.4501, longitude: 30.5234)
     
     // MARK: - Initializer
     
-    override init() {
+    init(service: LocationServiceProtocol = CLLocationManager()) {
+        self.service = service
         super.init()
-        
-        manager.delegate = self
+        self.service.delegate = self
     }
     
     // MARK: - Methods. Public
     
     func requestLocation() async -> CLLocationCoordinate2D {
-        if manager.authorizationStatus == .notDetermined {
-            manager.requestWhenInUseAuthorization()
+        if service.authorizationStatus == .notDetermined {
+            service.requestWhenInUseAuthorization()
         }
-        if let cached = manager.location?.coordinate {
-            return cached
-        }
-        manager.requestLocation()
+        if let cached = service.location?.coordinate { return cached }
         
         return await withCheckedContinuation { continuation in
             self.locationContinuation = continuation
+            self.service.requestLocation()
         }
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let coordinate = locations.last?.coordinate ?? Self.fallbackCoordinate
-        locationContinuation?.resume(returning: coordinate)
-        locationContinuation = nil
+        
+        self.locationContinuation?.resume(returning: coordinate)
+        self.locationContinuation = nil
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        locationContinuation?.resume(returning: Self.fallbackCoordinate)
-        locationContinuation = nil
+        self.locationContinuation?.resume(returning: Self.fallbackCoordinate)
+        self.locationContinuation = nil
     }
     
 }
