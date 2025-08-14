@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DD188D372E4DFF1400E77A0D /* NetworkServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD188D342E4DFF1400E77A0D /* NetworkServiceTests.swift */; };
+		DD3D85BB2E4E0CE600AA7DF8 /* FakeSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3D85BA2E4E0CE500AA7DF8 /* FakeSession.swift */; };
+		DD3D85BD2E4E0E0A00AA7DF8 /* URLSession+URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3D85BC2E4E0E0900AA7DF8 /* URLSession+URLSessionProtocol.swift */; };
 		DD3F1C4B2E41070B00A5A5E3 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3F1C4A2E41070B00A5A5E3 /* LocationService.swift */; };
 		DD728AC22E1D8CD300984BD5 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728AC12E1D8CCB00984BD5 /* SettingsView.swift */; };
 		DD728AC42E1D8E2B00984BD5 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728AC32E1D8E2A00984BD5 /* MapView.swift */; };
@@ -18,7 +21,6 @@
 		DD728AD22E1D967E00984BD5 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728AD12E1D967500984BD5 /* SignUpView.swift */; };
 		DD728AD42E1E417300984BD5 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728AD32E1E417200984BD5 /* Tab.swift */; };
 		DD728ADB2E1E676800984BD5 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728ADA2E1E676200984BD5 /* HomeView.swift */; };
-		DD728B7F2E1E9F8900984BD5 /* Testing in Frameworks */ = {isa = PBXBuildFile; productRef = DD728B7E2E1E9F8900984BD5 /* Testing */; };
 		DD728B8A2E1EA3DF00984BD5 /* StorageLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728B892E1EA3DE00984BD5 /* StorageLocation.swift */; };
 		DD728B8C2E1F27DD00984BD5 /* Color+hexInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD728B8B2E1F27DC00984BD5 /* Color+hexInt.swift */; };
 		DD7425702E3B527600EE77A0 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD74256F2E3B526B00EE77A0 /* ToastView.swift */; };
@@ -43,7 +45,21 @@
 		DDFFEBA72E2ACA7B005D8469 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDFFEBA62E2ACA7B005D8469 /* Location.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		DD188D2C2E4DFC7200E77A0D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DD8E795A2E1BA2D0001CF2D4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD8E79612E1BA2D0001CF2D4;
+			remoteInfo = PinBoard;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		DD188D282E4DFC7200E77A0D /* PinBoardUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PinBoardUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD188D342E4DFF1400E77A0D /* NetworkServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceTests.swift; sourceTree = "<group>"; };
+		DD3D85BA2E4E0CE500AA7DF8 /* FakeSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeSession.swift; sourceTree = "<group>"; };
+		DD3D85BC2E4E0E0900AA7DF8 /* URLSession+URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+URLSessionProtocol.swift"; sourceTree = "<group>"; };
 		DD3F1C4A2E41070B00A5A5E3 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		DD728AC12E1D8CCB00984BD5 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		DD728AC32E1D8E2A00984BD5 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
@@ -55,7 +71,6 @@
 		DD728AD12E1D967500984BD5 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		DD728AD32E1E417200984BD5 /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
 		DD728ADA2E1E676200984BD5 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		DD728B822E1EA0E100984BD5 /* LocalStorageUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorageUnitTests.swift; sourceTree = "<group>"; };
 		DD728B892E1EA3DE00984BD5 /* StorageLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageLocation.swift; sourceTree = "<group>"; };
 		DD728B8B2E1F27DC00984BD5 /* Color+hexInt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+hexInt.swift"; sourceTree = "<group>"; };
 		DD74256F2E3B526B00EE77A0 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
@@ -83,17 +98,40 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		DD188D252E4DFC7200E77A0D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DD8E795F2E1BA2D0001CF2D4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD728B7F2E1E9F8900984BD5 /* Testing in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DD188D352E4DFF1400E77A0D /* NetworkServiceTests */ = {
+			isa = PBXGroup;
+			children = (
+				DD3D85BA2E4E0CE500AA7DF8 /* FakeSession.swift */,
+				DD188D342E4DFF1400E77A0D /* NetworkServiceTests.swift */,
+			);
+			path = NetworkServiceTests;
+			sourceTree = "<group>";
+		};
+		DD188D362E4DFF1400E77A0D /* PinBoardUnitTests */ = {
+			isa = PBXGroup;
+			children = (
+				DD188D352E4DFF1400E77A0D /* NetworkServiceTests */,
+			);
+			path = PinBoardUnitTests;
+			sourceTree = "<group>";
+		};
 		DD728AD72E1E467000984BD5 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -104,19 +142,11 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		DD728B802E1EA0D500984BD5 /* BinBoardUnitTest */ = {
-			isa = PBXGroup;
-			children = (
-				DD728B822E1EA0E100984BD5 /* LocalStorageUnitTests.swift */,
-			);
-			path = BinBoardUnitTest;
-			sourceTree = "<group>";
-		};
 		DD8E79592E1BA2D0001CF2D4 = {
 			isa = PBXGroup;
 			children = (
 				DD8E79852E1BA4E6001CF2D4 /* PinBoard */,
-				DD728B802E1EA0D500984BD5 /* BinBoardUnitTest */,
+				DD188D362E4DFF1400E77A0D /* PinBoardUnitTests */,
 				DD8E79632E1BA2D0001CF2D4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -125,6 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				DD8E79622E1BA2D0001CF2D4 /* PinBoard.app */,
+				DD188D282E4DFC7200E77A0D /* PinBoardUnitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -185,6 +216,7 @@
 		DD8E798E2E1BB3F1001CF2D4 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				DD3D85BC2E4E0E0900AA7DF8 /* URLSession+URLSessionProtocol.swift */,
 				DDAF03BF2E40BA800044781C /* View+toast.swift */,
 				DDD765D62E2A636A00EE5A1F /* Location+asStorageModel.swift */,
 				DDD764DA2E27F85800EE5A1F /* View+verticalColumnDivider.swift */,
@@ -243,6 +275,26 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		DD188D272E4DFC7200E77A0D /* PinBoardUnitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD188D2E2E4DFC7200E77A0D /* Build configuration list for PBXNativeTarget "PinBoardUnitTests" */;
+			buildPhases = (
+				DD188D242E4DFC7200E77A0D /* Sources */,
+				DD188D252E4DFC7200E77A0D /* Frameworks */,
+				DD188D262E4DFC7200E77A0D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DD188D2D2E4DFC7200E77A0D /* PBXTargetDependency */,
+			);
+			name = PinBoardUnitTests;
+			packageProductDependencies = (
+			);
+			productName = PinBoardTests;
+			productReference = DD188D282E4DFC7200E77A0D /* PinBoardUnitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		DD8E79612E1BA2D0001CF2D4 /* PinBoard */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD8E796D2E1BA2D1001CF2D4 /* Build configuration list for PBXNativeTarget "PinBoard" */;
@@ -257,7 +309,6 @@
 			);
 			name = PinBoard;
 			packageProductDependencies = (
-				DD728B7E2E1E9F8900984BD5 /* Testing */,
 			);
 			productName = PinBoard;
 			productReference = DD8E79622E1BA2D0001CF2D4 /* PinBoard.app */;
@@ -273,6 +324,10 @@
 				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1640;
 				TargetAttributes = {
+					DD188D272E4DFC7200E77A0D = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = DD8E79612E1BA2D0001CF2D4;
+					};
 					DD8E79612E1BA2D0001CF2D4 = {
 						CreatedOnToolsVersion = 16.4;
 					};
@@ -288,7 +343,6 @@
 			mainGroup = DD8E79592E1BA2D0001CF2D4;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				DD728B7D2E1E9F8900984BD5 /* XCRemoteSwiftPackageReference "swift-testing" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = DD8E79632E1BA2D0001CF2D4 /* Products */;
@@ -296,11 +350,19 @@
 			projectRoot = "";
 			targets = (
 				DD8E79612E1BA2D0001CF2D4 /* PinBoard */,
+				DD188D272E4DFC7200E77A0D /* PinBoardUnitTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		DD188D262E4DFC7200E77A0D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DD8E79602E1BA2D0001CF2D4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -316,6 +378,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		DD188D242E4DFC7200E77A0D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD3D85BB2E4E0CE600AA7DF8 /* FakeSession.swift in Sources */,
+				DD188D372E4DFF1400E77A0D /* NetworkServiceTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DD8E795E2E1BA2D0001CF2D4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -324,6 +395,7 @@
 				DD728ADB2E1E676800984BD5 /* HomeView.swift in Sources */,
 				DDD765D52E2A469900EE5A1F /* NetworkSerivce.swift in Sources */,
 				DDAF03C22E40CD020044781C /* AlertView.swift in Sources */,
+				DD3D85BD2E4E0E0A00AA7DF8 /* URLSession+URLSessionProtocol.swift in Sources */,
 				DD728AD22E1D967E00984BD5 /* SignUpView.swift in Sources */,
 				DD3F1C4B2E41070B00A5A5E3 /* LocationService.swift in Sources */,
 				DD728AD42E1E417300984BD5 /* Tab.swift in Sources */,
@@ -353,7 +425,53 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		DD188D2D2E4DFC7200E77A0D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DD8E79612E1BA2D0001CF2D4 /* PinBoard */;
+			targetProxy = DD188D2C2E4DFC7200E77A0D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		DD188D2F2E4DFC7200E77A0D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = D28SS25G7Y;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.PinBoardTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PinBoard.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PinBoard";
+				TVOS_DEPLOYMENT_TARGET = 18.0;
+			};
+			name = Debug;
+		};
+		DD188D302E4DFC7200E77A0D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = D28SS25G7Y;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.PinBoardTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PinBoard.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PinBoard";
+				TVOS_DEPLOYMENT_TARGET = 18.0;
+			};
+			name = Release;
+		};
 		DD8E796B2E1BA2D1001CF2D4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -542,6 +660,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		DD188D2E2E4DFC7200E77A0D /* Build configuration list for PBXNativeTarget "PinBoardUnitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD188D2F2E4DFC7200E77A0D /* Debug */,
+				DD188D302E4DFC7200E77A0D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		DD8E795D2E1BA2D0001CF2D4 /* Build configuration list for PBXProject "PinBoard" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -561,25 +688,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		DD728B7D2E1E9F8900984BD5 /* XCRemoteSwiftPackageReference "swift-testing" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/swiftlang/swift-testing";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 6.1.1;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		DD728B7E2E1E9F8900984BD5 /* Testing */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = DD728B7D2E1E9F8900984BD5 /* XCRemoteSwiftPackageReference "swift-testing" */;
-			productName = Testing;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = DD8E795A2E1BA2D0001CF2D4 /* Project object */;
 }
