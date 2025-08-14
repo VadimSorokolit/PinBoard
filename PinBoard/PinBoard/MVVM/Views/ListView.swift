@@ -32,7 +32,7 @@ struct ListView: View {
         static let NameTitleName: String = "Name"
         static let latitudeTitleName: String = "Latitude"
         static let longitudeTitleName: String = "Longitude"
-        static let toastMessage: String = "will show on map"
+        static let toastMessage: String = "centered on map"
         static let editIconName: String = "line.3.horizontal"
         static let deleteIconName: String = "ellipsis"
         static let headerViewTitleName: String = "Locations"
