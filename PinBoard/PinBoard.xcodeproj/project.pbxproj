@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DD188D372E4DFF1400E77A0D /* NetworkServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD188D342E4DFF1400E77A0D /* NetworkServiceTests.swift */; };
+		DD2AB2852E4E3A0E00697F05 /* AESEncryptionServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2AB2842E4E3A0D00697F05 /* AESEncryptionServiceTests.swift */; };
 		DD3D85BB2E4E0CE600AA7DF8 /* FakeSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3D85BA2E4E0CE500AA7DF8 /* FakeSession.swift */; };
 		DD3D85BD2E4E0E0A00AA7DF8 /* URLSession+URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3D85BC2E4E0E0900AA7DF8 /* URLSession+URLSessionProtocol.swift */; };
 		DD3F1C4B2E41070B00A5A5E3 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3F1C4A2E41070B00A5A5E3 /* LocationService.swift */; };
@@ -58,6 +59,7 @@
 /* Begin PBXFileReference section */
 		DD188D282E4DFC7200E77A0D /* PinBoardUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PinBoardUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD188D342E4DFF1400E77A0D /* NetworkServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceTests.swift; sourceTree = "<group>"; };
+		DD2AB2842E4E3A0D00697F05 /* AESEncryptionServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AESEncryptionServiceTests.swift; sourceTree = "<group>"; };
 		DD3D85BA2E4E0CE500AA7DF8 /* FakeSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeSession.swift; sourceTree = "<group>"; };
 		DD3D85BC2E4E0E0900AA7DF8 /* URLSession+URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+URLSessionProtocol.swift"; sourceTree = "<group>"; };
 		DD3F1C4A2E41070B00A5A5E3 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
@@ -127,9 +129,18 @@
 		DD188D362E4DFF1400E77A0D /* PinBoardUnitTests */ = {
 			isa = PBXGroup;
 			children = (
+				DD2AB2832E4E39FD00697F05 /* AESEncryptionServiceTests */,
 				DD188D352E4DFF1400E77A0D /* NetworkServiceTests */,
 			);
 			path = PinBoardUnitTests;
+			sourceTree = "<group>";
+		};
+		DD2AB2832E4E39FD00697F05 /* AESEncryptionServiceTests */ = {
+			isa = PBXGroup;
+			children = (
+				DD2AB2842E4E3A0D00697F05 /* AESEncryptionServiceTests.swift */,
+			);
+			path = AESEncryptionServiceTests;
 			sourceTree = "<group>";
 		};
 		DD728AD72E1E467000984BD5 /* Models */ = {
@@ -382,6 +393,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD2AB2852E4E3A0E00697F05 /* AESEncryptionServiceTests.swift in Sources */,
 				DD3D85BB2E4E0CE600AA7DF8 /* FakeSession.swift in Sources */,
 				DD188D372E4DFF1400E77A0D /* NetworkServiceTests.swift in Sources */,
 			);
