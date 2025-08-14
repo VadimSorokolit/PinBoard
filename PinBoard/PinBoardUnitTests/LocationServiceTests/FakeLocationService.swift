@@ -10,8 +10,6 @@ import CoreLocation
 import Testing
 @testable import PinBoard
 
-import CoreLocation
-
 final class FakeLocationService: LocationServiceProtocol {
     
     // MARK: - Properties. Public
