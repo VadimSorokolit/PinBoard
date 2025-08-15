@@ -309,7 +309,7 @@ struct MapView: View {
                     newLocation = location
                     handleAddLocation()
                 } else {
-                    let space = Text("")
+                    let space = Text(" ")
                     
                     let prefix = Text(Constants.alertPrefixTitleName)
                         .font(.custom(GlobalConstants.mediumFont, size: GlobalConstants.alertMessageFontSize))
