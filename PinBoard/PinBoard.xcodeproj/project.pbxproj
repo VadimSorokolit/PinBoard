@@ -14,6 +14,7 @@
 		DD2AB28E2E4E4B7100697F05 /* CLLocationManager+LocationServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2AB28D2E4E4B7000697F05 /* CLLocationManager+LocationServiceProtocol.swift */; };
 		DD2AB2902E4E526D00697F05 /* SwiftDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2AB28F2E4E526C00697F05 /* SwiftDataTests.swift */; };
 		DD2AB2922E4E5E3A00697F05 /* AuthenticatorServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2AB2912E4E5E3900697F05 /* AuthenticatorServiceTests.swift */; };
+		DD2AB2942E4F1C8D00697F05 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2AB2932E4F1C8C00697F05 /* AlertManager.swift */; };
 		DD3D85BB2E4E0CE600AA7DF8 /* FakeSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3D85BA2E4E0CE500AA7DF8 /* FakeSession.swift */; };
 		DD3D85BD2E4E0E0A00AA7DF8 /* URLSession+URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3D85BC2E4E0E0900AA7DF8 /* URLSession+URLSessionProtocol.swift */; };
 		DD3F1C4B2E41070B00A5A5E3 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3F1C4A2E41070B00A5A5E3 /* LocationService.swift */; };
@@ -70,6 +71,7 @@
 		DD2AB28D2E4E4B7000697F05 /* CLLocationManager+LocationServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationManager+LocationServiceProtocol.swift"; sourceTree = "<group>"; };
 		DD2AB28F2E4E526C00697F05 /* SwiftDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataTests.swift; sourceTree = "<group>"; };
 		DD2AB2912E4E5E3900697F05 /* AuthenticatorServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatorServiceTests.swift; sourceTree = "<group>"; };
+		DD2AB2932E4F1C8C00697F05 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		DD3D85BA2E4E0CE500AA7DF8 /* FakeSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeSession.swift; sourceTree = "<group>"; };
 		DD3D85BC2E4E0E0900AA7DF8 /* URLSession+URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+URLSessionProtocol.swift"; sourceTree = "<group>"; };
 		DD3F1C4A2E41070B00A5A5E3 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
@@ -181,6 +183,27 @@
 			path = SwiftDataTests;
 			sourceTree = "<group>";
 		};
+		DD2AB2952E4F34B400697F05 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				DD2AB2932E4F1C8C00697F05 /* AlertManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		DD2AB29C2E4F353900697F05 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				DD728AD12E1D967500984BD5 /* SignUpView.swift */,
+				DD728ACF2E1D964700984BD5 /* SignInView.swift */,
+				DD728ADA2E1E676200984BD5 /* HomeView.swift */,
+				DD8E79832E1BA4E6001CF2D4 /* ListView.swift */,
+				DD728AC32E1D8E2A00984BD5 /* MapView.swift */,
+				DD728AC12E1D8CCB00984BD5 /* SettingsView.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
 		DD728AD72E1E467000984BD5 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -214,6 +237,7 @@
 			children = (
 				DD8E79892E1BA52F001CF2D4 /* MainView */,
 				DD8E798A2E1BA578001CF2D4 /* MVVM */,
+				DD2AB2952E4F34B400697F05 /* Managers */,
 				DD8E79932E1BBD39001CF2D4 /* Services */,
 				DD8E798E2E1BB3F1001CF2D4 /* Extensions */,
 				DD8E799F2E1BF023001CF2D4 /* Resources */,
@@ -251,12 +275,7 @@
 			isa = PBXGroup;
 			children = (
 				DDAF03BC2E3E12370044781C /* Components */,
-				DD728ADA2E1E676200984BD5 /* HomeView.swift */,
-				DD728AC32E1D8E2A00984BD5 /* MapView.swift */,
-				DD728AC12E1D8CCB00984BD5 /* SettingsView.swift */,
-				DD728ACF2E1D964700984BD5 /* SignInView.swift */,
-				DD728AD12E1D967500984BD5 /* SignUpView.swift */,
-				DD8E79832E1BA4E6001CF2D4 /* ListView.swift */,
+				DD2AB29C2E4F353900697F05 /* Screens */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -461,6 +480,7 @@
 				DD728B8C2E1F27DD00984BD5 /* Color+hexInt.swift in Sources */,
 				DD728AC22E1D8CD300984BD5 /* SettingsView.swift in Sources */,
 				DDAF03C02E40BA810044781C /* View+toast.swift in Sources */,
+				DD2AB2942E4F1C8D00697F05 /* AlertManager.swift in Sources */,
 				DD728B8A2E1EA3DF00984BD5 /* StorageLocation.swift in Sources */,
 				DDD764DB2E27F85900EE5A1F /* View+verticalColumnDivider.swift in Sources */,
 				DD728AC42E1D8E2B00984BD5 /* MapView.swift in Sources */,

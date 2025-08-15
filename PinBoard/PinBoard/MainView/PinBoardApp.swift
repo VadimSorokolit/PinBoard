@@ -10,11 +10,12 @@ import SwiftUI
 import SwiftData
 
 @main
-struct PinBoardApp: App {
-    
+struct PinBoardApp: App, AuthenticatorDelegate {
+
     // MARK: - Properties. Private
     
     @State private var viewModel: PinBoardViewModel
+    @State private var alertManager: AlertManager
     @State private var isOverlayShown: Bool = false
     @AppStorage(GlobalConstants.userDefaultPasscodeKey) private var passcode: String?
     private let sharedModelContainer: ModelContainer
@@ -30,15 +31,23 @@ struct PinBoardApp: App {
             self.sharedModelContainer = container
             
             let authenticator = Authenticator()
+            let alertManager = AlertManager()
             let networkService = NetworkService()
             let viewModel = PinBoardViewModel(authenticator: authenticator, networkService: networkService)
             
             self.viewModel = viewModel
+            self.alertManager = alertManager
+            
+            authenticator.delegate = self
+            AESEncryptionService.onError = { message in
+                alertManager.showError(Text(message))
+            }
         } catch {
             fatalError("Could not create ModelContainer: \(error)")
         }
     }
     
+
     // MARK: - Root Scene
     
     var body: some Scene {
@@ -67,9 +76,37 @@ struct PinBoardApp: App {
                     SignUpView()
                 }
             }
-            .statusBar(hidden: true)
-            .environment(viewModel)
+            .modifier(LoadViewModifier(viewModel: $viewModel, alertManager: $alertManager))
         }
     }
     
+    // MARK: - Methods. Public
+    
+    func authenticator(_ authenticator: any AuthenticatorProtocol, didFailWith message: String) {
+        alertManager.showError(Text(message))
+    }
+    
+    // MARK: - Modifiers
+
+    private struct LoadViewModifier: ViewModifier {
+        @Binding var viewModel: PinBoardViewModel
+        @Binding var alertManager: AlertManager
+        
+        func body(content: Content) -> some View {
+            content
+                .statusBar(hidden: true)
+                .environment(viewModel)
+                .environment(alertManager)
+                .overlay(alignment: .center) {
+                    if alertManager.isPresented {
+                        AlertView(
+                            message: alertManager.message,
+                            layout: alertManager.layout,
+                            onConfirm: alertManager.onConfirm,
+                            onCancel: alertManager.onCancel
+                        )
+                    }
+                }
+        }
+    }
 }

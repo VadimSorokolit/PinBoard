@@ -4,40 +4,39 @@
 //
 //  Created by Vadim Sorokolit on 04.08.2025.
 //
-    
+
 import SwiftUI
 
 struct AlertView: View {
+    enum Layout {
+        case informational, confirmation
+    }
+    
     let message: Text
+    let layout: Layout
     let confirmTitle: String
     let cancelTitle: String?
     let onConfirm: () -> Void
     let onCancel: (() -> Void)?
     
-    init(
-        message: Text,
-        okTitle: String = "OK",
-        onOk: @escaping () -> Void
-    ) {
+    init(message: Text,
+         layout: Layout,
+         onConfirm: @escaping () -> Void,
+         onCancel: (() -> Void)? = nil) {
+        
         self.message = message
-        self.confirmTitle = okTitle
-        self.cancelTitle = nil
-        self.onConfirm = onOk
-        self.onCancel = nil
-    }
-    
-    init(
-        message: Text,
-        confirmTitle: String = "Add",
-        cancelTitle: String = "Cancel",
-        onConfirm: @escaping () -> Void,
-        onCancel: @escaping () -> Void
-    ) {
-        self.message = message
-        self.confirmTitle = confirmTitle
-        self.cancelTitle = cancelTitle
+        self.layout = layout
         self.onConfirm = onConfirm
         self.onCancel = onCancel
+        
+        switch layout {
+            case .informational:
+                self.confirmTitle = "OK"
+                self.cancelTitle = nil
+            case .confirmation:
+                self.confirmTitle = "Add"
+                self.cancelTitle = "Cancel"
+        }
     }
     
     var body: some View {
@@ -48,28 +47,39 @@ struct AlertView: View {
                 message
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.primary)
+                    .font(.custom(GlobalConstants.regularFont, size: 16.0))
                     .lineSpacing(6.0)
                     .padding(.horizontal, 16.0)
                     .padding(.vertical, 12.0)
                 
                 Divider()
                 
-                if let cancel = cancelTitle, let onCancel = onCancel {
-                    HStack(spacing: 0) {
-                        Button(cancel, action: onCancel)
-                            .frame(maxWidth: .infinity, minHeight: 44.0)
-                            .font(.custom(GlobalConstants.regularFont, size: 16.0))
-                        Rectangle()
-                            .fill(Color.gray.opacity(0.3))
-                            .frame(width: 0.5)
-                        Button(confirmTitle, action: onConfirm)
-                            .frame(maxWidth: .infinity, minHeight: 44.0)
-                            .font(.custom(GlobalConstants.semiBoldFont, size: 16.0))
-                    }
-                } else {
-                    Button(confirmTitle, action: onConfirm)
+                switch layout {
+                    case .informational:
+                        Button(confirmTitle) {
+                            onConfirm()
+                        }
                         .frame(maxWidth: .infinity, minHeight: 44.0)
                         .font(.custom(GlobalConstants.mediumFont, size: 16.0))
+                        
+                    case .confirmation:
+                        HStack(spacing: .zero) {
+                            Button(cancelTitle ?? "Cancel") {
+                                onCancel?()
+                            }
+                            .frame(maxWidth: .infinity, minHeight: 44.0)
+                            .font(.custom(GlobalConstants.mediumFont, size: 16.0))
+                            
+                            Rectangle()
+                                .fill(Color.gray.opacity(0.3))
+                                .frame(width: 0.5)
+                            
+                            Button(confirmTitle) {
+                                onConfirm()
+                            }
+                            .frame(maxWidth: .infinity, minHeight: 44.0)
+                            .font(.custom(GlobalConstants.semiBoldFont, size: 16.0))
+                        }
                 }
             }
             .background(Color.white)
@@ -80,5 +90,4 @@ struct AlertView: View {
         }
         .transition(.opacity.combined(with: .scale))
     }
-    
 }

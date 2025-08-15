@@ -10,6 +10,10 @@ import CryptoKit
 
 class AESEncryptionService {
     
+    // MARK: - Properties. Public
+    
+    static var onError: ((String) -> Void)?
+    
     // MARK: - Methods
     
     static func encrypt(plainText: String, key: String, keySize: Int = 32) -> String? {
@@ -21,7 +25,7 @@ class AESEncryptionService {
             let sealedBox = try AES.GCM.seal(data, using: symmetricKey, nonce: AES.GCM.Nonce()).combined
             return sealedBox?.base64EncodedString() ?? nil
         } catch {
-            print("AESEncryption: Encryption failed with error \(error)")
+            onError?("Encryption failed with error \(error.localizedDescription)")
             return nil
         }
     }
@@ -36,7 +40,7 @@ class AESEncryptionService {
             let decryptedData = try AES.GCM.open(sealedBox, using: symmetricKey)
             return String(data: decryptedData, encoding: .utf8)
         } catch let error {
-            print("AESEncryption: Decryption failed with error \(error)")
+            onError?("Encryption failed with error \(error.localizedDescription)")
             return nil
         }
     }

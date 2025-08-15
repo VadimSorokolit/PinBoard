@@ -27,6 +27,10 @@ protocol AuthenticatorProtocol: AnyObject {
     func logOut()
 }
 
+protocol AuthenticatorDelegate {
+    func authenticator(_ authenticator: AuthenticatorProtocol, didFailWith message: String)
+}
+
 @Observable
 class Authenticator: AuthenticatorProtocol {
     
@@ -47,6 +51,7 @@ class Authenticator: AuthenticatorProtocol {
                 return .none
         }
     }
+    var delegate: AuthenticatorDelegate?
     
     // MARK: - Properties. Private
     
@@ -178,7 +183,7 @@ class Authenticator: AuthenticatorProtocol {
                         return "Unidentified error"
                 }
             }
-            print("\(errorMessage)")
+            delegate?.authenticator(self, didFailWith: errorMessage)
         }
     }
     

@@ -56,8 +56,6 @@ struct ListView: View {
     @State private var isEditing: Bool = false
     @State private var isAnimation: Bool = false
     @State private var currentToast: Toast? = nil
-    @State private var isShowingAlert = false
-    @State private var alertMessage: Text = Text("")
     @AppStorage(GlobalConstants.selectedPaletteIndexKey) private var selectePaletteIndex: Int = 0
     private var selectedPalette: ColorGradient {
         ColorGradient.palette[selectePaletteIndex]
@@ -78,15 +76,12 @@ struct ListView: View {
                 isEditing: $isEditing,
                 currentToast: $currentToast,
                 isAnimation: $isAnimation,
-                isShowingAlert: $isShowingAlert,
-                alertMessage: $alertMessage,
                 modelContext: modelContext,
                 selectedPalette: selectedPalette,
                 locations: locations
             )
         }
         .modifier(ScreenBackgroundModifier(currentToast: $currentToast))
-        .modifier(AlertViewModifier(isShowingAlert: $isShowingAlert, alertMessage: $alertMessage))
     }
     
     // MARK: - Subviews
@@ -147,12 +142,11 @@ struct ListView: View {
     
     private struct GridView: View {
         @Environment(PinBoardViewModel.self) private var viewModel
+        @Environment(AlertManager.self) private var alertManager
         @Binding var targetedId: String?
         @Binding var isEditing: Bool
         @Binding var currentToast: Toast?
         @Binding var isAnimation: Bool
-        @Binding var isShowingAlert: Bool
-        @Binding var alertMessage: Text
         let modelContext: ModelContext
         let selectedPalette: ColorGradient
         let locations: [StorageLocation]
@@ -387,7 +381,7 @@ struct ListView: View {
             do {
                 try modelContext.save()
             } catch {
-                showErrorAlert(message: error.localizedDescription)
+                alertManager.showError(Text(error.localizedDescription))
                 
             }
         }
@@ -412,19 +406,12 @@ struct ListView: View {
             do {
                 try modelContext.save()
             } catch {
-                showErrorAlert(message: error.localizedDescription)
+                alertManager.showError(Text(error.localizedDescription))
             }
             
             targetedId = nil
             
             return true
-        }
-        
-        private func showErrorAlert(message: String) {
-            alertMessage = Text(message)
-                .font(.custom(GlobalConstants.mediumFont, size: GlobalConstants.alertMessageFontSize))
-            
-            isShowingAlert = true
         }
     }
     
@@ -437,25 +424,6 @@ struct ListView: View {
             content
                 .frame(maxHeight: .infinity, alignment: .top)
                 .toast($currentToast)
-        }
-    }
-    
-    private struct AlertViewModifier: ViewModifier {
-        @Binding var isShowingAlert: Bool
-        @Binding var alertMessage: Text
-        
-        func body(content: Content) -> some View {
-            content
-                .overlay(alignment: .center) {
-                    if isShowingAlert {
-                        AlertView(
-                            message: alertMessage,
-                            onOk: {
-                                isShowingAlert = false
-                            }
-                        )
-                    }
-                }
         }
     }
 }
