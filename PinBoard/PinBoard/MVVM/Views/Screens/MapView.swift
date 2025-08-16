@@ -42,6 +42,7 @@ struct MapView: View {
     @State private var selectedLocationId: String? = nil
     @State private var isShownInfoAlert: Bool = false
     @State private var isFirstScreenBoot: Bool = false
+    @State private var lastDragPoint: CGPoint? = nil
     @AppStorage(GlobalConstants.selectedPaletteIndexKey) private var selectedPaletteIndex: Int = 0
     @AppStorage(GlobalConstants.addLocationKey) private var isAutoAddingLocation: Bool = false
     private var selectedPalette: ColorGradient {
@@ -52,7 +53,7 @@ struct MapView: View {
             "\(location.latitude)-\(location.longitude)"
         }
         
-        return grouped.compactMap { (key, locations) in
+        return grouped.compactMap { key, locations in
             locations.max { $0.index < $1.index }
         }
         .sorted { $0.index < $1.index }
@@ -62,9 +63,17 @@ struct MapView: View {
     
     var body: some View {
         ZStack {
-            PinView(camera: $camera, selectedLocationId: $selectedLocationId, selectedPalette: selectedPalette, userCoordinate: userCoordinate, uniqueLocations: uniqueLocations, onPressAt: { coordinate in
-                handlePress(at: coordinate, isAutoAdding: isAutoAddingLocation)
-            })
+            PinView(
+                camera: $camera,
+                selectedLocationId: $selectedLocationId,
+                lastDragPoint: $lastDragPoint,
+                selectedPalette: selectedPalette,
+                userCoordinate: userCoordinate,
+                uniqueLocations: uniqueLocations,
+                onPressAt: { coordinate in
+                    handlePress(at: coordinate, isAutoAdding: isAutoAddingLocation)
+                }
+            )
             
             VStack(spacing: .zero) {
                 SpinnerView(isLoading: isLoading)
@@ -82,7 +91,8 @@ struct MapView: View {
             newLocation: $newLocation,
             selectedLocationId: $selectedLocationId,
             isFirstScreenBoot: $isFirstScreenBoot,
-            isShownInfoAlert: $isShownInfoAlert))
+            isShownInfoAlert: $isShownInfoAlert
+        ))
     }
     
     // MARK: - Subviews
@@ -90,6 +100,7 @@ struct MapView: View {
     private struct PinView: View {
         @Binding var camera: MapCameraPosition
         @Binding var selectedLocationId: String?
+        @Binding var lastDragPoint: CGPoint?
         let selectedPalette: ColorGradient
         let userCoordinate: CLLocationCoordinate2D?
         let uniqueLocations: [StorageLocation]
@@ -105,36 +116,40 @@ struct MapView: View {
                     }
                     
                     ForEach(uniqueLocations, id: \.id) { storage in
-                        Annotation("", coordinate: CLLocationCoordinate2D(latitude: storage.latitude, longitude: storage.longitude)) {
-                            CustomPinView(
-                                selectedLocationId: $selectedLocationId,
-                                locationId: storage.id,
-                                index: storage.index,
-                                title: storage.name,
-                                selectedPinGradient: selectedPalette
-                            )
-                            .zIndex(Double(storage.index))
-                        }
+                        Annotation(
+                            "Unique location",
+                            coordinate: CLLocationCoordinate2D(latitude: storage.latitude, longitude: storage.longitude)) {
+                                CustomPinView(
+                                    selectedLocationId: $selectedLocationId,
+                                    locationId: storage.id,
+                                    index: storage.index,
+                                    title: storage.name,
+                                    selectedPinGradient: selectedPalette
+                                )
+                                .zIndex(Double(storage.index))
+                            }
                     }
                 }
                 .ignoresSafeArea()
-                .gesture(
-                    LongPressGesture(minimumDuration: 1.0)
-                        .onEnded { _ in
-                            let generator = UIImpactFeedbackGenerator(style: .medium)
-                            generator.impactOccurred()
+                .simultaneousGesture(
+                    DragGesture(minimumDistance: .zero)
+                        .onChanged { drag in
+                            lastDragPoint = drag.location
                         }
-                        .sequenced(before: DragGesture(minimumDistance: .zero))
-                        .onEnded { value in
-                            switch value {
-                                case .second(true, let drag?):
-                                    let location = drag.location
-                                    
-                                    if let coordinate = proxy.convert(location, from: .local) {
-                                        onPressAt(coordinate)
-                                    }
-                                default:
-                                    break
+                        .onEnded { _ in
+                            lastDragPoint = nil
+                        }
+                )
+                .simultaneousGesture(
+                    LongPressGesture(minimumDuration: 0.5, maximumDistance: .infinity)
+                        .onChanged { _ in
+                            UIImpactFeedbackGenerator(style: .medium).prepare()
+                        }
+                        .onEnded { _ in
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            if let dragPoint = lastDragPoint,
+                               let coordinate = proxy.convert(dragPoint, from: .local) {
+                                onPressAt(coordinate)
                             }
                         }
                 )
@@ -214,9 +229,12 @@ struct MapView: View {
                     isSelected: isSelected
                 )
                 
-                BubbleView(title: title, pinSize: pinSize)
-                    .scaleEffect(isSelected ? 1.0 : 0.5, anchor: .center)
-                    .opacity(isSelected ? 1.0 : 0.0)
+                BubbleView(
+                    title: title,
+                    pinSize: pinSize
+                )
+                .scaleEffect(isSelected ? 1.0 : 0.5, anchor: .center)
+                .opacity(isSelected ? 1.0 : 0.0)
             }
             .onTapGesture {
                 withAnimation(.spring()) {
@@ -393,7 +411,6 @@ struct MapView: View {
                                     )
                                 )
                             }
-                            
                             userCoordinate = coordinate
                             hasCenteredOnUserLocation = true
                         }
