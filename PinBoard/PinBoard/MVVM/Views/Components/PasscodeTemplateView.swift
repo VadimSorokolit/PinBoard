@@ -62,5 +62,4 @@ struct PasscodeTemplateView<Content: View>: View {
         }
         
     }
-    
 }

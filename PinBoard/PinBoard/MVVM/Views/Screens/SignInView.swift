@@ -12,27 +12,32 @@ struct SignInView: View {
     // MARK: - Properties. Private
     
     @Environment(PinBoardViewModel.self) private var viewModel
-    @State private var isWrongPassword:Bool = false
+    @State private var isWrongPassword: Bool = false
     
     // MARK: - Main body
     
     var body: some View {
-        PasscodeTemplateView(isWrongPassword: $isWrongPassword, title: "Enter", titleText: "for Sign In", onComplete: {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                let success = viewModel.verifyPasscode()
-                
-                if !success {
-                    isWrongPassword = true
+        PasscodeTemplateView(
+            isWrongPassword: $isWrongPassword,
+            title: "Enter",
+            titleText: "for Sign In", onComplete: {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    let success = viewModel.verifyPasscode()
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
-                        isWrongPassword = false
+                    if !success {
+                        isWrongPassword = true
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                            isWrongPassword = false
+                            viewModel.passcode = ""
+                        }
+                    } else {
                         viewModel.passcode = ""
+                        isWrongPassword = false
                     }
-                } else {
-                    viewModel.passcode = ""
                 }
             }
-        }) {
+        ) {
             VStack {
                 HStack(spacing: 20.0) {
                     if !viewModel.isBiometricLocked {
@@ -47,9 +52,7 @@ struct SignInView: View {
                                 }
                         }
                         if viewModel.biometryType == .touchID {
-                            
                             Button(action: {
-                                
                                 viewModel.unlockWithFaceId() }) {
                                     Image(systemName: "touchid")
                                         .resizable()
@@ -60,7 +63,6 @@ struct SignInView: View {
                     }
                     
                     Button(action: {
-                        
                         withAnimation {
                             viewModel.showNumPad()
                         }

@@ -43,6 +43,7 @@ struct MapView: View {
     @State private var isShownInfoAlert: Bool = false
     @State private var isFirstScreenBoot: Bool = false
     @State private var lastDragPoint: CGPoint? = nil
+    @Binding var selectedTab: Tab
     @AppStorage(GlobalConstants.selectedPaletteIndexKey) private var selectedPaletteIndex: Int = 0
     @AppStorage(GlobalConstants.addLocationKey) private var isAutoAddingLocation: Bool = false
     private var selectedPalette: ColorGradient {
@@ -91,7 +92,8 @@ struct MapView: View {
             newLocation: $newLocation,
             selectedLocationId: $selectedLocationId,
             isFirstScreenBoot: $isFirstScreenBoot,
-            isShownInfoAlert: $isShownInfoAlert
+            isShownInfoAlert: $isShownInfoAlert,
+            selectedTab: selectedTab
         ))
     }
     
@@ -394,6 +396,7 @@ struct MapView: View {
         @Binding var selectedLocationId: String?
         @Binding var isFirstScreenBoot: Bool
         @Binding var isShownInfoAlert: Bool
+        let selectedTab: Tab
         
         func body(content: Content) -> some View {
             content
@@ -415,7 +418,7 @@ struct MapView: View {
                             hasCenteredOnUserLocation = true
                         }
                     }
-                    if isShownInfoAlert == false, locations.isEmpty, isFirstScreenBoot {
+                    if selectedTab == .map, isShownInfoAlert == false, locations.isEmpty, isFirstScreenBoot {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
                             alertManager.showError(Text(Constants.infoAlertMessage)) {
                                 isShownInfoAlert = true

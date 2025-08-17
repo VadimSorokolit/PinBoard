@@ -29,7 +29,7 @@ struct ListView: View {
         static let editTitleName: String = "Edit"
         static let menuTitleName: String = "Menu"
         static let indexTitleName: String = "Index"
-        static let NameTitleName: String = "Name"
+        static let nameTitleName: String = "Name"
         static let latitudeTitleName: String = "Latitude"
         static let longitudeTitleName: String = "Longitude"
         static let toastMessage: String = "centered on map"
@@ -136,7 +136,6 @@ struct ListView: View {
             }
             
         }
-        
     }
     
     
@@ -243,7 +242,7 @@ struct ListView: View {
                                 .frame(width: Constants.indexTitleWidth, alignment: .leading)
                                 .verticalColumnDivider()
                             
-                            Text(Constants.NameTitleName)
+                            Text(Constants.nameTitleName)
                                 .font(.custom(GlobalConstants.semiBoldFont, size: Constants.headerFontSize))
                                 .frame(width: Constants.nameTitleWidth, alignment: .leading)
                                 .verticalColumnDivider()
@@ -394,6 +393,7 @@ struct ListView: View {
                 from != to
             else {
                 targetedId = nil
+                
                 return false
             }
             var copy = locations
@@ -408,7 +408,6 @@ struct ListView: View {
             } catch {
                 alertManager.showError(Text(error.localizedDescription))
             }
-            
             targetedId = nil
             
             return true

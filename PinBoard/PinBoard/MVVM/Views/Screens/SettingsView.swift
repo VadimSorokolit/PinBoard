@@ -91,7 +91,6 @@ struct SettingsView: View {
                                 HStack(spacing: spacing) {
                                     ForEach(Array(ColorGradient.palette.indices), id: \.self) { idx in
                                         let palette = ColorGradient.palette[idx]
-                                        
                                         palette.gradient
                                             .mask(Image(GlobalConstants.pinImageName)
                                                 .resizable()

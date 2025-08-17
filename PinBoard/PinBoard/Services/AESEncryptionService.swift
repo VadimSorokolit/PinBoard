@@ -21,11 +21,13 @@ class AESEncryptionService {
             return nil
         }
         let symmetricKey = SymmetricKey(data: keyData.padWithZeros(targetSize: keySize))
+        
         do {
             let sealedBox = try AES.GCM.seal(data, using: symmetricKey, nonce: AES.GCM.Nonce()).combined
             return sealedBox?.base64EncodedString() ?? nil
         } catch {
-            onError?("Encryption failed with error \(error.localizedDescription)")
+            self.onError?("Encryption failed with error \(error.localizedDescription)")
+            
             return nil
         }
     }
@@ -35,12 +37,14 @@ class AESEncryptionService {
             return nil
         }
         let symmetricKey = SymmetricKey(data: keyData.padWithZeros(targetSize: keySize))
+        
         do {
             let sealedBox = try AES.GCM.SealedBox(combined: combinedData)
             let decryptedData = try AES.GCM.open(sealedBox, using: symmetricKey)
             return String(data: decryptedData, encoding: .utf8)
         } catch let error {
-            onError?("Encryption failed with error \(error.localizedDescription)")
+            self.onError?("Encryption failed with error \(error.localizedDescription)")
+            
             return nil
         }
     }

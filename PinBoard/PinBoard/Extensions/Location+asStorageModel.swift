@@ -8,7 +8,6 @@
 extension Location {
     
     var asStorageModel: StorageLocation {
-        
         let storageLocation = StorageLocation(
             index: 0,
             name: self.name,

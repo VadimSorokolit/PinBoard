@@ -11,30 +11,18 @@ import LocalAuthentication
 extension LAContext {
     
     var biometricType: BiometricType {
-        var error: NSError?
+        _ = canEvaluatePolicy(.deviceOwnerAuthentication, error: nil)
         
-        guard self.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) else {
-            return .none
+        switch biometryType {
+            case .touchID:
+                return .touchID
+            case .faceID:
+                return .faceID
+            case .opticID:
+                return .opticID
+            default:
+                return .none
         }
-        if #available(iOS 11.0, *) {
-            switch self.biometryType {
-                case .none:
-                    return .none
-                case .touchID:
-                    return .touchID
-                case .faceID:
-                    return .faceID
-                default:
-                    if #available(iOS 17.0, *) {
-                        if self.biometryType == .opticID {
-                            return .opticID
-                        } else {
-                            return .none
-                        }
-                    }
-            }
-        }
-        return  self.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) ? .touchID : .none
     }
     
 }

@@ -56,15 +56,14 @@ class Authenticator: AuthenticatorProtocol {
     // MARK: - Properties. Private
     
     private let context = LAContext()
-    private let userDefaultSecretKey: String = "secret_key"
+    private let userDefaultSecretKey: String = "secret key"
     private let maxFailedAttemptAllowed: Int = 3
-    private var failedAttempt: Int = 0
-    private let userDefault: UserDefaults = .standard
+    private var failedAttempt: Int = .zero
     
     // MARK: - Initializer
     
     init() {
-        self.context.touchIDAuthenticationAllowableReuseDuration = 10
+        self.context.touchIDAuthenticationAllowableReuseDuration = 10.0
         self.context.localizedFallbackTitle = ""
         
         self.isPassCodeSet = !self.context.isCredentialSet(.applicationPassword)
@@ -84,8 +83,8 @@ class Authenticator: AuthenticatorProtocol {
         let key = UUID().uuidString
         let encryptedPasscode = AESEncryptionService.encrypt(plainText: code, key: key)
         
-        self.userDefault.setValue(encryptedPasscode, forKey: GlobalConstants.userDefaultPasscodeKey)
-        self.userDefault.setValue(key, forKey: self.userDefaultSecretKey)
+        UserDefaults.standard.setValue(encryptedPasscode, forKey: GlobalConstants.userDefaultPasscodeKey)
+        UserDefaults.standard.setValue(key, forKey: self.userDefaultSecretKey)
         
         self.isAuthenticated = true
     }
@@ -108,8 +107,8 @@ class Authenticator: AuthenticatorProtocol {
     }
     
     func onResetPin() {
-        self.userDefault.removeObject(forKey: GlobalConstants.userDefaultPasscodeKey)
-        self.userDefault.removeObject(forKey: self.userDefaultSecretKey)
+        UserDefaults.standard.removeObject(forKey: GlobalConstants.userDefaultPasscodeKey)
+        UserDefaults.standard.removeObject(forKey: self.userDefaultSecretKey)
         
         self.resetFailCount()
     }
@@ -117,15 +116,15 @@ class Authenticator: AuthenticatorProtocol {
     // MARK: - Methods. Private
     
     private func authenticate() {
-        guard self.isBiometricAvailable(), !self.isBiometricLocked else {
+        guard self.isBiometricAvailable() else {
             return
         }
         var error: NSError?
         // check whether biometric authentication is possible
-        if self.context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+        if self.context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
             // it's possible, so go ahead and use it
             let reason = "We need to unlock your data."
-            self.context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { [weak self]
+            self.context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { [weak self]
                 success, authenticationError in
                 guard let self else { return }
                 // authentication has now completed
@@ -147,23 +146,24 @@ class Authenticator: AuthenticatorProtocol {
         }
     }
     
+    private func resetFailCount() {
+        self.failedAttempt = .zero
+        self.isBiometricLocked = false
+    }
+    
     private func decryptUserPasscode() -> String? {
-        guard let encryptedPasscode = self.userDefault.value(forKey: GlobalConstants.userDefaultPasscodeKey) as? String else {
+        guard let encryptedPasscode = UserDefaults.standard.value(forKey: GlobalConstants.userDefaultPasscodeKey) as? String else {
             return nil
         }
         var passcode: String?
         
-        if let key = self.userDefault.value(forKey: self.userDefaultSecretKey) as? String {
+        if let key = UserDefaults.standard.value(forKey: self.userDefaultSecretKey) as? String {
             passcode = AESEncryptionService.decrypt(encryptedText: encryptedPasscode, key: key)
         }
         
         return passcode
     }
     
-    private func resetFailCount() {
-        self.failedAttempt = 0
-        self.isBiometricLocked = false
-    }
     
     private func isBiometricAvailable() -> Bool {
         return self.context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil)
@@ -183,7 +183,7 @@ class Authenticator: AuthenticatorProtocol {
                         return "Unidentified error"
                 }
             }
-            delegate?.authenticator(self, didFailWith: errorMessage)
+            self.delegate?.authenticator(self, didFailWith: errorMessage)
         }
     }
     

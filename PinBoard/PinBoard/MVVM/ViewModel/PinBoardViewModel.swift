@@ -11,7 +11,8 @@ import Foundation
 class PinBoardViewModel {
     
     // MARK: - Properties. Public
-
+    
+    var selectedTab: Tab = .list
     var selectedLocation: StorageLocation? = nil
     var isAuthenticated: Bool {
         get { authenticator.isAuthenticated }
@@ -45,6 +46,7 @@ class PinBoardViewModel {
         guard self.passcode.count == GlobalConstants.passcodeLength else { return }
         
         self.authenticator.setPasscodeWith(self.passcode)
+        self.passcode = ""
     }
     
     func verifyPasscode() -> Bool {

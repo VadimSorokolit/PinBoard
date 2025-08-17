@@ -37,7 +37,6 @@ struct HomeView: View {
         guard let startIndex = tabs.firstIndex(of: activeTab) else {
             return
         }
-        
         for offset in 1...tabs.count {
             try? await Task.sleep(nanoseconds: 100_000_000)
             let next = tabs[(startIndex + offset) % tabs.count]
@@ -62,7 +61,11 @@ struct HomeView: View {
                     case .list:
                         ListView()
                     case .map:
-                        MapView()
+                        /*
+                         Need to fix Tab Bar animation
+                         Info alert should appear only during the first lauch
+                         */
+                        MapView(selectedTab: $activeTab)
                     case .settings:
                         SettingsView()
                 }

@@ -22,14 +22,14 @@ struct SignUpView: View {
             titleText: "for Sign Up",
             onComplete: {
                 viewModel.registerPasscode()
-            }) {
-                
-                NumberPadView(
-                    onAdd: viewModel.onAddValue,
-                    onRemoveLast: viewModel.onRemoveValue,
-                    onDissmis: viewModel.onDissmis
-                )
             }
+        ) {
+            NumberPadView(
+                onAdd: viewModel.onAddValue,
+                onRemoveLast: viewModel.onRemoveValue,
+                onDissmis: viewModel.onDissmis
+            )
+        }
     }
     
 }

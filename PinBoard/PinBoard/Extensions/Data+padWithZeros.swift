@@ -22,11 +22,12 @@ extension Data {
             let paddingSize = targetSize - dataSize
             
             // Create padding data filled with zeros
-            let padding = Data(repeating: 0, count: paddingSize)
+            let padding = Data(repeating: .zero, count: paddingSize)
             
             // Append the padding to the original data
             paddedData.append(padding)
         }
+        
         return paddedData
     }
     

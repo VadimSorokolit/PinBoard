@@ -34,10 +34,12 @@ class LocationService: NSObject, CLLocationManagerDelegate {
     // MARK: - Methods. Public
     
     func requestLocation() async -> CLLocationCoordinate2D {
-        if service.authorizationStatus == .notDetermined {
-            service.requestWhenInUseAuthorization()
+        if self.service.authorizationStatus == .notDetermined {
+            self.service.requestWhenInUseAuthorization()
         }
-        if let cached = service.location?.coordinate { return cached }
+        if let cached = self.service.location?.coordinate {
+            return cached
+        }
         
         return await withCheckedContinuation { continuation in
             self.locationContinuation = continuation

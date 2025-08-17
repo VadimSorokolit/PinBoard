@@ -20,14 +20,14 @@ struct PasscodeIndicatorView: View {
     
     var body: some View {
         HStack(spacing: 32.0) {
-            ForEach(0..<GlobalConstants.passcodeLength, id: \.self) { idx in
+            ForEach(.zero ..< GlobalConstants.passcodeLength, id: \.self) { index in
                 Circle()
                     .fill(baseColor.opacity(isWrongPassword ? 1.0 : 0.0))
                     .background(
                         
                         Circle()
                             .fill(
-                                !isWrongPassword && (viewModel.passcode.count > idx)
+                                !isWrongPassword && (viewModel.passcode.count > index)
                                 ? Color.primary
                                 : Color.clear
                             )
@@ -43,4 +43,3 @@ struct PasscodeIndicatorView: View {
     }
     
 }
-

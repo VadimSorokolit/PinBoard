@@ -17,7 +17,6 @@ struct NumberPadView: View {
         LazyVGrid(columns: columns){
             ForEach(1 ... 9, id: \.self) { index in
                 Button(action: {
-                    
                     onAdd(index)
                 }) {
                     Text("\(index)")
@@ -29,7 +28,6 @@ struct NumberPadView: View {
             }
             
             Button(action: {
-                
                 onRemoveLast()
             }) {
                 Image(systemName: "delete.backward")
@@ -40,7 +38,6 @@ struct NumberPadView: View {
             }
             
             Button(action: {
-                
                 onAdd(0)
             }) {
                 Text("0")
@@ -51,7 +48,6 @@ struct NumberPadView: View {
             }
             
             Button(action: {
-                
                 onDissmis()
             }) {
                 Image(systemName: "keyboard.chevron.compact.down")

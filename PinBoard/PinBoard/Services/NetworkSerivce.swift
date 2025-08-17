@@ -47,17 +47,16 @@ class NetworkService: NetworkServiceProtocol {
             URLQueryItem(name: Constants.parameterLimitName, value: "\(Constants.parameterLimitValue)"),
             URLQueryItem(name: Constants.parameterAPIKeyName, value: Constants.apiKey)
         ]
-        
         guard let url = components.url else {
             throw URLError(.badURL)
         }
         let (data, response) = try await self.session.data(from: url)
         
-        guard let httpResponse = response as? HTTPURLResponse, 200..<300 ~= httpResponse.statusCode else {
+        guard let httpResponse = response as? HTTPURLResponse, 200 ..< 300 ~= httpResponse.statusCode else {
             throw URLError(.badServerResponse)
         }
-        
         let decoded = try JSONDecoder().decode([Location].self, from: data)
+        
         return decoded.first
     }
     

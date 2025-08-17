@@ -33,11 +33,11 @@ struct ToastView: View {
             }
         }
         .padding()
-        .frame(minWidth: 0.0, maxWidth: toast.width)
+        .frame(minWidth: .zero, maxWidth: toast.width)
         .background(Color(hex: 0x80e3e5))
         .overlay(
             RoundedRectangle(cornerRadius: 8.0)
-                .stroke(Color.gray.opacity(0.5), lineWidth: 1)
+                .stroke(Color.gray.opacity(0.5), lineWidth: 1.0)
         )
         .cornerRadius(8.0)
         .padding(.horizontal, 16.0)
@@ -56,9 +56,10 @@ struct ToastModifier: ViewModifier {
                 if let toast = toast {
                     VStack {
                         Spacer()
+                        
                         ToastView(toast: toast)
                             .frame(maxWidth: .infinity)
-                            .offset(y: show ? 0 : 200)
+                            .offset(y: show ? 0.0 : 200.0)
                             .animation(
                                 .spring(response: 0.4, dampingFraction: 0.7),
                                 value: show
@@ -70,7 +71,8 @@ struct ToastModifier: ViewModifier {
             .onChange(of: toast) { oldValue, newToast in
                 show = false
                 workItem?.cancel()
-                guard newToast != nil else {
+                
+                if newToast == nil {
                     return
                 }
                 
@@ -78,8 +80,10 @@ struct ToastModifier: ViewModifier {
                     show = true
                 }
                 
-                if let duration = newToast?.duration, duration > 0.0 {
-                    let task = DispatchWorkItem { hideToast() }
+                if let duration = newToast?.duration, duration > .zero {
+                    let task = DispatchWorkItem {
+                        hideToast()
+                    }
                     workItem = task
                     
                     DispatchQueue.main.asyncAfter(
