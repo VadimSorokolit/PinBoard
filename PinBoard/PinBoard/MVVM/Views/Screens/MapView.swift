@@ -112,7 +112,7 @@ struct MapView: View {
             MapReader { proxy in
                 Map(position: $camera) {
                     if let userCoordinate {
-                        Annotation("Current user coordinate", coordinate: userCoordinate) {
+                        Annotation("", coordinate: userCoordinate) {
                             UserLocationView(coordinate: userCoordinate)
                         }
                     }

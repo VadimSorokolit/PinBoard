@@ -40,7 +40,10 @@ struct SettingsView: View {
             VStack(spacing: .zero) {
                 HeaderView(selectedPalette: selectedPalette)
                 
-                SectionsView(isAutoAddingLocation: $isAutoAddingLocation, selectedPaletteIndex: $selectedPaletteIndex, selectedPalette: selectedPalette)
+                SectionsView(
+                    isAutoAddingLocation: $isAutoAddingLocation,
+                    selectedPaletteIndex: $selectedPaletteIndex,
+                    selectedPalette: selectedPalette)
             }
             
             LogOutButtonView()
@@ -57,7 +60,7 @@ struct SettingsView: View {
                 .font(.custom(GlobalConstants.boldFont, size: 20.0))
                 .foregroundStyle(Color(hex: Constants.headerViewTitleColor))
                 .padding(.top, 10.0)
-                .padding(.bottom, 10)
+                .padding(.bottom, 10.0)
                 .frame(maxWidth: .infinity)
                 .background(
                     selectedPalette.gradient
