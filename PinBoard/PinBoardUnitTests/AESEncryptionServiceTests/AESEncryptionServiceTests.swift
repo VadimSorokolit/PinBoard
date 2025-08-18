@@ -13,48 +13,44 @@ import Testing
 struct AESEncryptionServiceTests {
     
     @Test
-    func encryptAndDecrypt_returnsOriginal() throws {
+    func testEncryptAndDecryptReturnsOriginal() throws {
         let text = "Hello world"
         let key = "my-secret-key"
         
-        let encrypted = AESEncryptionService.encrypt(plainText: text, key: key)
-        try #require(encrypted != nil)
-        
-        let decrypted = AESEncryptionService.decrypt(encryptedText: encrypted!, key: key)
-        #expect(decrypted == text)
+        if let encrypted = AESEncryptionService.encrypt(plainText: text, key: key) {
+            let decrypted = AESEncryptionService.decrypt(encryptedText: encrypted, key: key)
+            
+            #expect(decrypted == text)
+        }
     }
     
     @Test
-    func verifyDecryptFailsWithInvalidKey()  throws {
+    func testVerifyDecryptFailsWithInvalidKey()  throws {
         let text = "Top secret"
         let key = "correct-key"
         let wrongKey = "wrong-key"
         
-        let encrypted = AESEncryptionService.encrypt(plainText: text, key: key)
-        
-        try #require(encrypted != nil)
-        
-        let result = AESEncryptionService.decrypt(encryptedText: encrypted!, key: wrongKey)
-        
-        #expect(result == nil)
+        if let encrypted = AESEncryptionService.encrypt(plainText: text, key: key) {
+            let result = AESEncryptionService.decrypt(encryptedText: encrypted, key: wrongKey)
+            
+            #expect(result == nil)
+        }
     }
     
     @Test
-    func checkEncryptDecryptWithEmptyPlainText() throws {
+    func testCheckEncryptDecryptWithEmptyPlainText() throws {
         let text = ""
         let key = "any-key"
         
-        let encrypted = AESEncryptionService.encrypt(plainText: text, key: key)
-        
-        try #require(encrypted != nil)
-        
-        let decrypted = AESEncryptionService.decrypt(encryptedText: encrypted!, key: key)
-        
-        #expect(decrypted == "")
+        if let encrypted = AESEncryptionService.encrypt(plainText: text, key: key) {
+            let decrypted = AESEncryptionService.decrypt(encryptedText: encrypted, key: key)
+            
+            #expect(decrypted == "")
+        }
     }
     
     @Test
-    func verifyInvalidBase64FailsDecryption() throws {
+    func testVerifyInvalidBase64FailsDecryption() throws {
         let key = "any-key"
         let notBase64 = "***not-base64***"
         
@@ -64,31 +60,28 @@ struct AESEncryptionServiceTests {
     }
     
     @Test
-    func verifyShortKeyEncryptionDecryption() throws {
+    func testVerifyShortKeyEncryptionDecryption() throws {
         let text = "Short key test"
         let shortKey = "abc"
         
-        let encrypted = AESEncryptionService.encrypt(plainText: text, key: shortKey)
-        
-        try #require(encrypted != nil)
-        
-        let decrypted = AESEncryptionService.decrypt(encryptedText: encrypted!, key: shortKey)
-        
-        #expect(decrypted == text)
+        if let encrypted = AESEncryptionService.encrypt(plainText: text, key: shortKey) {
+            let decrypted = AESEncryptionService.decrypt(encryptedText: encrypted, key: shortKey)
+            
+            #expect(decrypted == text)
+        }
     }
     
     @Test
-    func verifyLongKeyEncryptionDecryption()  throws {
+    func testVerifyLongKeyEncryptionDecryption()  throws {
         let text = "Long key test"
         let longKey = String(repeating: "x", count: 100)
         
-        let encrypted = AESEncryptionService.encrypt(plainText: text, key: longKey)
         
-        try #require(encrypted != nil)
-        
-        let decrypted = AESEncryptionService.decrypt(encryptedText: encrypted!, key: longKey)
-        
-        #expect(decrypted == text)
+        if let encrypted = AESEncryptionService.encrypt(plainText: text, key: longKey) {
+            let decrypted = AESEncryptionService.decrypt(encryptedText: encrypted, key: longKey)
+            
+            #expect(decrypted == text)
+        }
     }
     
 }

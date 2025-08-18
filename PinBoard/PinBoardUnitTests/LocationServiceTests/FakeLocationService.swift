@@ -17,7 +17,7 @@ final class FakeLocationService: LocationServiceProtocol {
     weak var delegate: CLLocationManagerDelegate?
     var authorizationStatus: CLAuthorizationStatus = .authorizedWhenInUse
     var location: CLLocation? = nil
-    var testCoordinate = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
+    var testCoordinate = CLLocationCoordinate2D(latitude: .zero, longitude: .zero)
     var shouldFail = false
     
     // MARK: - Methods. Public

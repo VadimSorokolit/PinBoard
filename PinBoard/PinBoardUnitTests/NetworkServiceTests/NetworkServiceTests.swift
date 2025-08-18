@@ -44,7 +44,7 @@ struct NetworkServiceTests {
     // MARK: - Methods. Test
     
     @Test
-    func getLocation() async throws {
+    func testGetLocation() async throws {
         let json = Constants.json
 
         if let sucessResponse = createResponse(statusCode: Constants.successStatusCode, urlString: Constants.urlString) {
@@ -68,7 +68,7 @@ struct NetworkServiceTests {
     }
     
     @Test
-    func checkFailureOnBadStatus() async {
+    func testCheckFailureOnBadStatus() async {
         if let failureResponse = createResponse(statusCode: Constants.invalidStatusCode, urlString: Constants.urlString) {
             let fakeSession = FakeSession(data: Data(), response: failureResponse)
             let service = NetworkService(session: fakeSession)
@@ -80,7 +80,7 @@ struct NetworkServiceTests {
     }
     
     @Test
-    func verifyInvalidJson() async {
+    func testVerifyInvalidJson() async {
         if let sucessResponse = createResponse(statusCode: Constants.successStatusCode, urlString: Constants.urlString) {
             let fakeSession = FakeSession(data: Data(Constants.invalidJson.utf8), response: sucessResponse)
             let service = NetworkService(session: fakeSession)
@@ -92,7 +92,7 @@ struct NetworkServiceTests {
     }
     
     @Test
-    func verifyEmptyArray() async throws {
+    func testVerifyEmptyArray() async throws {
         if let sucessResponse = createResponse(statusCode: Constants.successStatusCode, urlString: Constants.urlString) {
             let fakeSession = FakeSession(data: Data(Constants.emptyLocationsJson.utf8), response: sucessResponse)
             let service = NetworkService(session: fakeSession)

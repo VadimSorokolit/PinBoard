@@ -282,7 +282,9 @@ struct ListView: View {
                     GridRow {
                         Menu(content: {
                             if !isEditing {
-                                Button(role: .destructive) { onDelete() } label: {
+                                Button(role: .destructive) {
+                                    onDelete()
+                                } label: {
                                     Label(Constants.contentMenuLabelName, systemImage: Constants.contentMenuIconName)
                                 }
                             }

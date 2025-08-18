@@ -34,7 +34,7 @@ final class FakeSession: URLSessionProtocol {
     func data(from url: URL) async throws -> (Data, URLResponse) {
         self.lastRequestedURL = url
         
-        if let error = nextError {
+        if let error = self.nextError {
             throw error
         }
         
