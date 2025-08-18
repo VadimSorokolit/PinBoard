@@ -7,6 +7,12 @@
  
 import Foundation
 
+enum LocationError: Error {
+    case server
+    case network
+    case unknown(Error)
+}
+
 protocol NetworkServiceProtocol: AnyObject {
     func fetchLocation(lat: Double, lon: Double) async throws -> Location?
 }
@@ -17,7 +23,7 @@ class NetworkService: NetworkServiceProtocol {
     // MARK: - Objects
     
     private struct Constants {
-        static let baseURL: String  = "https://api.openweathermap.org"
+        static let baseURL: String = "https://api.openweathermap.org"
         static let reversePath: String = "/geo/1.0/reverse"
         static let apiKey: String = "f3693c0928d03b567396ceb6cbf03e8c"
         static let parameterLatitudeName: String = "lat"

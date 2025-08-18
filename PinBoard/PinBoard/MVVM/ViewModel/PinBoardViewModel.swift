@@ -15,11 +15,11 @@ class PinBoardViewModel {
     var selectedTab: Tab = .list
     var selectedLocation: StorageLocation? = nil
     var isAuthenticated: Bool {
-        get { authenticator.isAuthenticated }
-        set { authenticator.isAuthenticated = newValue }
+        get { self.authenticator.isAuthenticated }
+        set { self.authenticator.isAuthenticated = newValue }
     }
     var isBiometricLocked: Bool {
-        get { authenticator.isBiometricLocked }
+        get { self.authenticator.isBiometricLocked }
     }
     var biometryType: BiometricType? {
         get { authenticator.biometryType }
@@ -53,7 +53,6 @@ class PinBoardViewModel {
         guard self.passcode.count == GlobalConstants.passcodeLength else {
             return false
         }
-        
         let success = self.authenticator.verifyPin(pin: self.passcode)
         
         return success
@@ -70,7 +69,7 @@ class PinBoardViewModel {
     }
     
     func onRemoveValue() {
-        if !self.passcode.isEmpty{
+        if self.passcode.isEmpty == false {
             self.passcode.removeLast()
         }
     }
@@ -93,24 +92,24 @@ class PinBoardViewModel {
         self.authenticator.isAuthenticated = false
     }
     
-    func loadLocation(for latitude: Double, longitude: Double) async -> Location? {
-        isLoading = true
-        defer { isLoading = false }
+    func loadLocation(for latitude: Double, longitude: Double) async throws -> Location? {
+        self.isLoading = true
+        defer { self.isLoading = false }
         
         do {
-            let location = try await networkService.fetchLocation(lat: latitude, lon: longitude)
+            let location = try await self.networkService.fetchLocation(lat: latitude, lon: longitude)
+            
             return location
-        } catch let error as URLError {
-            if case URLError.badServerResponse = error {
-                print("Server error")
-            } else {
-                print(error.localizedDescription)
+        } catch let urlError as URLError {
+            switch urlError.code {
+                case .badServerResponse:
+                    throw LocationError.server
+                case .notConnectedToInternet, .timedOut, .cannotFindHost, .cannotConnectToHost:
+                    throw LocationError.network
+                default:
+                    throw LocationError.unknown(urlError)
             }
-        } catch {
-            print("Error: Unexpected error")
         }
-        
-        return nil
     }
-    
+
 }

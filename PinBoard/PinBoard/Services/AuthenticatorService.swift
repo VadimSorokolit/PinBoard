@@ -94,7 +94,7 @@ class Authenticator: AuthenticatorProtocol {
     }
     
     func verifyPin(pin: String) -> Bool {
-        guard let storedPasscode = decryptUserPasscode() else {
+        guard let storedPasscode = self.decryptUserPasscode() else {
             self.isAuthenticated = false
             
             return false

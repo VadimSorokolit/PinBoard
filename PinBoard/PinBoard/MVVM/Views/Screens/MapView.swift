@@ -18,6 +18,8 @@ struct MapView: View {
         static let alertPrefixTitleName: String = "Do you want to add location\n"
         static let alertSuffixTitleName: String = "?"
         static let storageConversionErrorMessage: String = "Error: Failed to convert location to storage model"
+        static let serverErrorMessage: String = "Server error\n Try again"
+        static let networkErrorMessage: String = "No Internet connection\n Try again later"
         static let warningAlertMessage: String = "Location not found"
         static let infoAlertMessage: String = "Long press on map to add new location"
     }
@@ -110,7 +112,7 @@ struct MapView: View {
             MapReader { proxy in
                 Map(position: $camera) {
                     if let userCoordinate {
-                        Annotation("", coordinate: userCoordinate) {
+                        Annotation("Current user coordinate", coordinate: userCoordinate) {
                             UserLocationView(coordinate: userCoordinate)
                         }
                     }
@@ -322,38 +324,49 @@ struct MapView: View {
         Task {
             defer { isLoading = false }
             
-            if let location = await viewModel.loadLocation(for: coordinate.latitude, longitude: coordinate.longitude) {
-                if isAutoAdding {
-                    newLocation = location
-                    handleAddLocation()
+            do {
+                if let location = try await viewModel.loadLocation(for: coordinate.latitude, longitude: coordinate.longitude) {
+                    if isAutoAdding {
+                        newLocation = location
+                        handleAddLocation()
+                    } else {
+                        let space = Text(" ")
+                        
+                        let prefix = Text(Constants.alertPrefixTitleName)
+                            .font(.custom(GlobalConstants.mediumFont, size: GlobalConstants.alertMessageFontSize))
+                        
+                        let name = Text(location.name)
+                            .font(.custom(GlobalConstants.boldFont, size: GlobalConstants.alertMessageFontSize))
+                            .foregroundStyle(selectedPalette.gradient)
+                        
+                        let suffix = Text(Constants.alertSuffixTitleName)
+                            .font(.custom(GlobalConstants.mediumFont, size: GlobalConstants.alertMessageFontSize))
+                        
+                        let message = prefix + space + name + suffix
+                        
+                        appAlert.complete(
+                            message,
+                            onConfirm:{
+                                newLocation = location
+                                handleAddLocation()
+                            },
+                            onCancel: {
+                                newLocation = nil
+                            }
+                        )
+                    }
                 } else {
-                    let space = Text(" ")
-                    
-                    let prefix = Text(Constants.alertPrefixTitleName)
-                        .font(.custom(GlobalConstants.mediumFont, size: GlobalConstants.alertMessageFontSize))
-                    
-                    let name = Text(location.name)
-                        .font(.custom(GlobalConstants.boldFont, size: GlobalConstants.alertMessageFontSize))
-                        .foregroundStyle(selectedPalette.gradient)
-                    
-                    let suffix = Text(Constants.alertSuffixTitleName)
-                        .font(.custom(GlobalConstants.mediumFont, size: GlobalConstants.alertMessageFontSize))
-                    
-                    let message = prefix + space + name + suffix
-                    
-                    appAlert.complete(
-                        message,
-                        onConfirm:{
-                            newLocation = location
-                            handleAddLocation()
-                        },
-                        onCancel: {
-                            newLocation = nil
-                        }
-                    )
+                    appAlert.warning(Text(Constants.warningAlertMessage))
                 }
-            } else {
-                appAlert.warning(Text(Constants.warningAlertMessage))
+            } catch let error as LocationError {
+                switch error{
+                    case .server:
+                        appAlert.error(Text(Constants.serverErrorMessage))
+                    case .network:
+                        appAlert.error(Text(Constants.networkErrorMessage))
+                    case .unknown(let error):
+                        appAlert.error(Text("\(error.localizedDescription)"))
+                }
             }
         }
     }

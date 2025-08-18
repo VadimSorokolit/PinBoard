@@ -138,7 +138,7 @@ struct HomeView: View {
         guard let startIndex = tabs.firstIndex(of: activeTab) else {
             return
         }
-        for offset in 1...tabs.count {
+        for offset in 1 ... tabs.count {
             try? await Task.sleep(nanoseconds: 100_000_000)
             let next = tabs[(startIndex + offset) % tabs.count]
             await MainActor.run { activeTab = next }

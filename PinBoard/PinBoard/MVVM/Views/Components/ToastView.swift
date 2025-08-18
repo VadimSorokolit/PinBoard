@@ -34,7 +34,7 @@ struct ToastView: View {
         }
         .padding()
         .frame(minWidth: .zero, maxWidth: toast.width)
-        .background(Color(hex: 0x80e3e5))
+        .background(Color(hex: 0x80E3E5))
         .overlay(
             RoundedRectangle(cornerRadius: 8.0)
                 .stroke(Color.gray.opacity(0.5), lineWidth: 1.0)

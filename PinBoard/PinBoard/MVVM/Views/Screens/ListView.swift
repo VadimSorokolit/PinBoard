@@ -390,7 +390,7 @@ struct ListView: View {
             guard
                 let droppedId = droppedIds.first,
                 let from = locations.firstIndex(where: { $0.id == droppedId }),
-                let to   = locations.firstIndex(of: location),
+                let to = locations.firstIndex(of: location),
                 from != to
             else {
                 targetedId = nil
@@ -400,8 +400,8 @@ struct ListView: View {
             var copy = locations
             copy.move(fromOffsets: IndexSet(integer: from), toOffset: to > from ? to + 1 : to)
             
-            for (i, loc) in copy.enumerated() {
-                loc.index = i + 1
+            for (index, location) in copy.enumerated() {
+                location.index = index + 1
             }
             
             do {

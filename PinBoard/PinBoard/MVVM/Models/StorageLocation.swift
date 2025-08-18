@@ -25,7 +25,7 @@ final class StorageLocation: Identifiable {
         index:Int = 1,
         name: String = "",
         longitude: Double = 0.0,
-        latitude: Double  = 0.0
+        latitude: Double = 0.0
     ) {
         self.index = index
         self.name = name
