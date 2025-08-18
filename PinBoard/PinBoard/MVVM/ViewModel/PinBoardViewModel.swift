@@ -83,8 +83,8 @@ class PinBoardViewModel {
         self.hideNumberPad = false
     }
     
-    func unlockWithFaceId() {
-        self.authenticator.unlockWithFaceId()
+    func unlockBiometry() {
+        self.authenticator.unlockBiometry()
     }
     
     func resetAuthenticationState() {

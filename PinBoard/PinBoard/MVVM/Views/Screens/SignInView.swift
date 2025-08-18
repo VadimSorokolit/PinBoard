@@ -42,26 +42,26 @@ struct SignInView: View {
                 HStack(spacing: 20.0) {
                     if !viewModel.isBiometricLocked {
                         if viewModel.biometryType == .faceID {
-                            
                             Button(action: {
-                                viewModel.unlockWithFaceId() }) {
-                                    Image(systemName: "faceid")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 40.0)
-                                }
+                                viewModel.unlockBiometry()
+                            }) {
+                                Image(systemName: "faceid")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 40.0)
+                            }
                         }
                         if viewModel.biometryType == .touchID {
                             Button(action: {
-                                viewModel.unlockWithFaceId() }) {
-                                    Image(systemName: "touchid")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 40.0)
-                                }
+                                viewModel.unlockBiometry()
+                            }) {
+                                Image(systemName: "touchid")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 40.0)
+                            }
                         }
                     }
-                    
                     Button(action: {
                         withAnimation {
                             viewModel.showNumPad()

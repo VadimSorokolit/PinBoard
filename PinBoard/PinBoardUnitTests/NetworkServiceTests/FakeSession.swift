@@ -16,6 +16,9 @@ final class FakeSession: URLSessionProtocol {
     private var nextData: Data
     private var nextResponse: URLResponse
     private var nextError: Error?
+    
+    // MARK: - Properties. Public
+    
     private(set) var lastRequestedURL: URL?
     
     // MARK: - Initializer

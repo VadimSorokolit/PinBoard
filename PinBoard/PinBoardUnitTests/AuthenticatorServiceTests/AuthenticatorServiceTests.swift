@@ -11,9 +11,11 @@ import Testing
 @testable import PinBoard
 @Test
 func testSetPasscodeStoresData() {
+    let testPasscode = "1234"
     let uthenticator = Authenticator()
-    uthenticator.setPasscodeWith("1234")
+    uthenticator.setPasscodeWith(testPasscode)
     let stored = UserDefaults.standard.value(forKey: GlobalConstants.userDefaultPasscodeKey) as? String
+    
     #expect(stored != nil)
 }
 

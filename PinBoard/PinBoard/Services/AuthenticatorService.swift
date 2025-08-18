@@ -22,7 +22,7 @@ protocol AuthenticatorProtocol: AnyObject {
     var biometryType: BiometricType { get }
     
     func setPasscodeWith(_ code: String)
-    func unlockWithFaceId()
+    func unlockBiometry()
     func verifyPin(pin: String) -> Bool
     func logOut()
 }
@@ -89,7 +89,7 @@ class Authenticator: AuthenticatorProtocol {
         self.isAuthenticated = true
     }
     
-    func unlockWithFaceId() {
+    func unlockBiometry() {
         self.authenticate()
     }
     

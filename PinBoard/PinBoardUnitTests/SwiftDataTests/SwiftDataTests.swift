@@ -40,90 +40,126 @@ struct SwiftDataTests {
     
     init() {
         let schema = Schema([TestLocation.self])
-        container = try? ModelContainer(
+        self.container = try? ModelContainer(
             for: schema,
             configurations: [ModelConfiguration(isStoredInMemoryOnly: true)]
         )
-        context = ModelContext(container)
+        self.context = ModelContext(self.container)
     }
     
     // MARK: - Methods. Test
     
     @Test
-    func getLocation() throws {
-        let location = TestLocation(name: "Lviv", latitude: 49.84, longitude: 24.03)
+    func testGetLocation() throws {
+        let testLocationName: String = "Lviv"
+        let testLocationLatitude: Double = 49.84
+        let testLocationLongitude: Double = 24.03
         
-        context.insert(location)
-        try context.save()
+        let testLocation = TestLocation(name: testLocationName, latitude: testLocationLatitude , longitude: testLocationLongitude)
+        
+        self.context.insert(testLocation)
+        try self.context.save()
         
         
         let fetchRequest = FetchDescriptor<TestLocation>(
-            predicate: #Predicate { $0.name == "Lviv" }
+            predicate: #Predicate { $0.name == testLocationName }
         )
-        let results = try context.fetch(fetchRequest)
+        let results = try self.context.fetch(fetchRequest)
         
         #expect(results.count == 1)
-        #expect(results.first?.latitude == 49.84)
+        #expect(results.first?.latitude == testLocation.latitude)
+        #expect(results.first?.longitude == testLocation.longitude)
     }
     
     @Test
-    func createLocation() throws {
-        let location = TestLocation(name: "Kyiv", latitude: 50.45, longitude: 30.52)
+    func testCreateLocation() throws {
+        let testLocationName: String = "Kyiv"
+        let testLocationLatitude: Double = 50.45
+        let testLocationLongitude: Double = 30.52
+        let unexpectedLatitude: Double = 49.84
         
-        context.insert(location)
+        let testLocation = TestLocation(name: testLocationName, latitude: testLocationLatitude , longitude: testLocationLongitude)
+        
+        self.context.insert(testLocation)
         try self.context.save()
         
         let fetchRequest = FetchDescriptor<TestLocation>(
-            predicate: #Predicate { $0.name == "Kyiv" }
+            predicate: #Predicate { $0.name == testLocationName }
         )
         let results = try context.fetch(fetchRequest)
         
-        #expect(results.first?.name == "Kyiv")
-        #expect(results.first?.latitude == 50.45)
+        #expect(results.first?.name == testLocation.name)
+        #expect(results.first?.latitude == testLocation.latitude)
+        #expect(results.first?.latitude == testLocationLatitude)
+        #expect(results.first?.longitude == testLocation.longitude)
+        #expect(results.first?.latitude != unexpectedLatitude)
     }
     
     @Test
-    func updateLocation() throws {
-        let location = TestLocation(name: "Odesa", latitude: 46.48, longitude: 30.72)
+    func testUpdateLocation() throws {
+        let testLocationName: String = "Odesa"
+        let testLocationNewName: String = "Odesa Updated"
+        let testLocationLatitude: Double = 46.48
+        let testLocationLongitude: Double = 30.72
+        let unexpectedLocationLatitude: Double = 49.84
+        let newLocationLatitude: Double = 50.00
         
-        context.insert(location)
-        try context.save()
+        let testLocation = TestLocation(name: testLocationName, latitude: testLocationLatitude, longitude: testLocationLongitude)
+        
+        self.context.insert(testLocation)
+        try self.context.save()
         
         let fetchRequest = FetchDescriptor<TestLocation>(
-            predicate: #Predicate { $0.name == "Odesa" }
+            predicate: #Predicate { $0.name == testLocationName }
         )
-        let createdResults = try context.fetch(fetchRequest)
+        let createdResults = try self.context.fetch(fetchRequest)
         
-        #expect(createdResults.first?.name == "Odesa")
-        #expect(createdResults.first?.latitude != 49.84)
-        #expect(createdResults.first?.latitude == 46.48)
+        #expect(createdResults.first?.name == testLocation.name)
+        #expect(createdResults.first?.latitude != unexpectedLocationLatitude)
+        #expect(createdResults.first?.latitude == testLocation.latitude)
         
-        location.name = "Odesa Updated"
-        try context.save()
+        let oldLatitude: Double = testLocation.latitude
+        testLocation.name = testLocationNewName
+        testLocation.latitude = newLocationLatitude
+        
+        try self.context.save()
         
         let results = try context.fetch(FetchDescriptor<TestLocation>())
         
-        #expect(results.first?.name == "Odesa Updated")
+        #expect(results.first?.name == testLocation.name)
+        #expect(testLocationName != testLocation.name)
+        #expect(testLocation.name == testLocationNewName)
+        #expect(results.first?.latitude != unexpectedLocationLatitude)
+        #expect(results.first?.latitude == newLocationLatitude)
+        #expect(oldLatitude != newLocationLatitude)
     }
     
     @Test
     func deleteLocation() throws {
-        let location = TestLocation(name: "Dnipro", latitude: 48.45, longitude: 34.98)
+        let testLocationName: String = "Dnipro"
+        let unexpectedLocationName: String = "Odessa"
+        let testLocationLatitude: Double = 48.45
+        let testLocationLongitude: Double = 34.98
+        let unexpectedLocationLatitude: Double = 49.84
         
-        context.insert(location)
-        try context.save()
+        let location = TestLocation(name: testLocationName, latitude: testLocationLatitude, longitude: testLocationLongitude)
+        
+        self.context.insert(location)
+        try self.context.save()
         
         let fetchRequest = FetchDescriptor<TestLocation>(
-            predicate: #Predicate { $0.name == "Dnipro" }
+            predicate: #Predicate { $0.name == testLocationName }
         )
         let createdResults = try context.fetch(fetchRequest)
         
-        #expect(createdResults.first?.name != "Odessa")
-        #expect(createdResults.first?.name == "Dnipro")
-        #expect(createdResults.first?.longitude == 34.98)
+        #expect(createdResults.first?.name != unexpectedLocationName)
+        #expect(createdResults.first?.name == testLocationName)
+        #expect(createdResults.first?.longitude == testLocationLongitude)
+        #expect(createdResults.first?.latitude == testLocationLatitude)
+        #expect(createdResults.first?.latitude != unexpectedLocationLatitude)
         
-        context.delete(location)
-        try context.save()
+        self.context.delete(location)
+        try self.context.save()
         
         let results = try context.fetch(FetchDescriptor<TestLocation>())
         
