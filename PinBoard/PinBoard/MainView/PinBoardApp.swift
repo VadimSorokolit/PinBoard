@@ -11,11 +11,11 @@ import SwiftData
 
 @main
 struct PinBoardApp: App, AuthenticatorDelegate {
-
+    
     // MARK: - Properties. Private
     
     @State private var viewModel: PinBoardViewModel
-    @State private var alertManager: AlertManager
+    @State private var appAlert: AppAlertType?
     @State private var isOverlayShown: Bool = false
     @AppStorage(GlobalConstants.userDefaultPasscodeKey) private var passcode: String?
     private let sharedModelContainer: ModelContainer
@@ -31,23 +31,15 @@ struct PinBoardApp: App, AuthenticatorDelegate {
             self.sharedModelContainer = container
             
             let authenticator = Authenticator()
-            let alertManager = AlertManager()
             let networkService = NetworkService()
             let viewModel = PinBoardViewModel(authenticator: authenticator, networkService: networkService)
-            
             self.viewModel = viewModel
-            self.alertManager = alertManager
-            
             authenticator.delegate = self
-            AESEncryptionService.onError = { message in
-                alertManager.showError(Text(message))
-            }
         } catch {
             fatalError("Could not create ModelContainer: \(error)")
         }
     }
     
-
     // MARK: - Root Scene
     
     var body: some Scene {
@@ -76,35 +68,42 @@ struct PinBoardApp: App, AuthenticatorDelegate {
                     SignUpView()
                 }
             }
-            .modifier(LoadViewModifier(viewModel: $viewModel, alertManager: $alertManager))
+            .modifier(LoadViewModifier(viewModel: $viewModel, appAlert: $appAlert))
         }
     }
     
     // MARK: - Methods. Public
     
     func authenticator(_ authenticator: any AuthenticatorProtocol, didFailWith message: String) {
-        alertManager.showError(Text(message))
+        Task { @MainActor in
+            appAlert = .init(
+                type: .error,
+                message: Text(message),
+                onConfirm: {}
+            )
+        }
     }
     
     // MARK: - Modifiers
-
+    
     private struct LoadViewModifier: ViewModifier {
         @Binding var viewModel: PinBoardViewModel
-        @Binding var alertManager: AlertManager
+        @Binding var appAlert: AppAlertType?
         
         func body(content: Content) -> some View {
             content
                 .statusBar(hidden: true)
                 .environment(viewModel)
-                .environment(alertManager)
-                .overlay(alignment: .center) {
-                    if alertManager.isPresented {
-                        AlertView(
-                            message: alertManager.message,
-                            layout: alertManager.layout,
-                            onConfirm: alertManager.onConfirm,
-                            onCancel: alertManager.onCancel
-                        )
+                .environmentAlert($appAlert)
+                .task { [appAlertBinding = $appAlert] in
+                    AESEncryptionService.onError = { message in
+                        Task { @MainActor in
+                            appAlertBinding.wrappedValue = .init(
+                                type: .error,
+                                message: Text(message),
+                                onConfirm: {}
+                            )
+                        }
                     }
                 }
         }

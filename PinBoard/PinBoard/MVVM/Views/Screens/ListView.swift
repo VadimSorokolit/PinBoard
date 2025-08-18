@@ -14,6 +14,7 @@ struct ListView: View {
     // MARK: - Objects
     
     private struct Constants {
+        static let activeCellOpacity: Double = 0.3
         static let gridWidth: CGFloat = 400.0
         static let gridImageWidth: CGFloat = 16.0
         static let gridIndexTitleWidth: CGFloat = 42.0
@@ -23,7 +24,6 @@ struct ListView: View {
         static let longitudeTitleWidth: CGFloat = 100.0
         static let cellFontSize: CGFloat = 14.0
         static let headerFontSize: CGFloat = 16.0
-        static let activeCellOpacity: Double = 0.3
         static let editButtonTrailingPadding: CGFloat = 16.0
         static let headerViewTitleFontSize: CGFloat = 20.0
         static let editTitleName: String = "Edit"
@@ -141,7 +141,7 @@ struct ListView: View {
     
     private struct GridView: View {
         @Environment(PinBoardViewModel.self) private var viewModel
-        @Environment(AlertManager.self) private var alertManager
+        @Environment(\.appAlert) private var appAlert
         @Binding var targetedId: String?
         @Binding var isEditing: Bool
         @Binding var currentToast: Toast?
@@ -380,8 +380,7 @@ struct ListView: View {
             do {
                 try modelContext.save()
             } catch {
-                alertManager.showError(Text(error.localizedDescription))
-                
+                appAlert.error((Text(error.localizedDescription)))
             }
         }
         
@@ -406,7 +405,7 @@ struct ListView: View {
             do {
                 try modelContext.save()
             } catch {
-                alertManager.showError(Text(error.localizedDescription))
+                appAlert.error((Text(error.localizedDescription)))
             }
             targetedId = nil
             

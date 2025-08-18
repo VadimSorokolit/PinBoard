@@ -14,11 +14,11 @@ struct MapView: View {
     // MARK: - Objects
     
     private struct Constants {
-        static let bubbleViewTriangleIconName = "arrowtriangle.down.fill"
-        static let alertPrefixTitleName: String = "Do you want to add location"
+        static let bubbleViewTriangleIconName: String = "arrowtriangle.down.fill"
+        static let alertPrefixTitleName: String = "Do you want to add location\n"
         static let alertSuffixTitleName: String = "?"
-        static let storageConversionErrorMessage = "Error: Failed to convert location to storage model"
-        static let loadLocationErrorMessage = "Could not load location"
+        static let storageConversionErrorMessage: String = "Error: Failed to convert location to storage model"
+        static let warningAlertMessage: String = "Location not found"
         static let infoAlertMessage: String = "Long press on map to add new location"
     }
     
@@ -26,7 +26,7 @@ struct MapView: View {
     
     @Environment(\.modelContext) private var modelContext
     @Environment(PinBoardViewModel.self) private var viewModel
-    @Environment(AlertManager.self) private var alertManager
+    @Environment(\.appAlert) private var appAlert
     @Query(sort: \StorageLocation.index) private var locations: [StorageLocation]
     @State private var camera = MapCameraPosition.region(
         MKCoordinateRegion(
@@ -341,23 +341,26 @@ struct MapView: View {
                     
                     let message = prefix + space + name + suffix
                     
-                    alertManager.showConfirmWith(message) {
-                        newLocation = location
-                        handleAddLocation()
-                    } onCancel: {
-                        newLocation = nil
-                    }
-                    
+                    appAlert.complete(
+                        message,
+                        onConfirm:{
+                            newLocation = location
+                            handleAddLocation()
+                        },
+                        onCancel: {
+                            newLocation = nil
+                        }
+                    )
                 }
             } else {
-                alertManager.showInfoWith(Text(Constants.loadLocationErrorMessage))
+                appAlert.warning(Text(Constants.warningAlertMessage))
             }
         }
     }
     
     private func handleAddLocation() {
         guard let storageLocation = newLocation?.asStorageModel else {
-            alertManager.showInfoWith(Text(Constants.storageConversionErrorMessage))
+            appAlert.error((Text(Constants.storageConversionErrorMessage)))
             
             return
         }
@@ -376,7 +379,7 @@ struct MapView: View {
             
             newLocation = nil
         } catch {
-            alertManager.showInfoWith(Text(error.localizedDescription))
+            appAlert.error(Text(error.localizedDescription))
         }
     }
     
@@ -384,7 +387,7 @@ struct MapView: View {
     
     private struct LoadViewModifier: ViewModifier {
         let viewModel: PinBoardViewModel
-        @Environment(AlertManager.self) private var alertManager
+        @Environment(\.appAlert) private var appAlert
         @Query(sort: \StorageLocation.index) private var locations: [StorageLocation]
         @Binding var camera: MapCameraPosition
         @Binding var locationManager: LocationService
@@ -417,9 +420,9 @@ struct MapView: View {
                     }
                     if viewModel.selectedTab == .map, isInfoAlertShown == false, locations.isEmpty, isFirstScreenBoot {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-                            alertManager.showError(Text(Constants.infoAlertMessage)) {
+                            appAlert.info(Text(Constants.infoAlertMessage), onConfirm: {
                                 isInfoAlertShown = true
-                            }
+                            })
                         }
                     }
                     // Need to fix Tab Bar animation

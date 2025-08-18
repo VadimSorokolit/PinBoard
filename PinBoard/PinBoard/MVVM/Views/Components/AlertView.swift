@@ -7,87 +7,146 @@
 
 import SwiftUI
 
-struct AlertView: View {
-    enum Layout {
-        case informational, confirmation
+struct AppAlertType: Identifiable {
+    
+    enum AlertCategory {
+        case error
+        case info
+        case warning
+        case complete
+        
+        var titleColor: Color {
+            switch self {
+                case .error:
+                    return .red
+                case .warning:
+                    return .orange
+                case .info:
+                    return .blue
+                case .complete:
+                    return .green
+            }
+        }
+        
+        var titleIcon: String {
+            switch self {
+                case .error:
+                    return "xmark.octagon.fill"
+                case .warning:
+                    return "exclamationmark.triangle.fill"
+                case .info:
+                    return "info.circle.fill"
+                case .complete:
+                    return "checkmark.circle.fill"
+            }
+        }
     }
-
+    
+    let id = UUID()
+    let type: AlertCategory
     let message: Text
-    let layout: Layout
-    let confirmTitle: String
-    let cancelTitle: String?
     let onConfirm: () -> Void
     let onCancel: (() -> Void)?
-
-    init(message: Text,
-         layout: Layout,
-         onConfirm: @escaping () -> Void,
-         onCancel: (() -> Void)? = nil) {
-
+    
+    init(
+        type: AlertCategory,
+        message: Text,
+        onConfirm: @escaping () -> Void,
+        onCancel: (() -> Void)? = nil
+    ) {
+        self.type = type
         self.message = message
-        self.layout = layout
         self.onConfirm = onConfirm
         self.onCancel = onCancel
-
-        switch layout {
-            case .informational:
-                self.confirmTitle = "OK"
-                self.cancelTitle = nil
-            case .confirmation:
-                self.confirmTitle = "Add"
-                self.cancelTitle = "Cancel"
-        }
     }
+}
 
-    var body: some View {
-        ZStack {
-            Color(hex: 0xEFEFF0).opacity(0.01).ignoresSafeArea()
-
-            VStack(spacing: .zero) {
-                message
-                    .multilineTextAlignment(.center)
-                    .foregroundStyle(.primary)
-                    .font(.custom(GlobalConstants.regularFont, size: 16.0))
-                    .lineSpacing(6.0)
-                    .padding(.horizontal, 16.0)
-                    .padding(.vertical, 12.0)
-
-                Divider()
-
-                switch layout {
-                    case .informational:
-                        Button(confirmTitle) {
-                            onConfirm()
-                        }
-                        .frame(maxWidth: .infinity, minHeight: 44.0)
-                        .font(.custom(GlobalConstants.mediumFont, size: 16.0))
-
-                    case .confirmation:
-                        HStack(spacing: .zero) {
-                            Button(cancelTitle ?? "Cancel") {
-                                onCancel?()
+enum Alert {
+    
+    struct Key: EnvironmentKey {
+        static let defaultValue: Binding<AppAlertType?> = .constant(nil)
+    }
+    
+    struct AlertOverlayModifier: ViewModifier {
+        @Binding var type: AppAlertType?
+        
+        func body(content: Content) -> some View {
+            ZStack {
+                content
+                if let alert = type {
+                    Color.black.opacity(0.25)
+                        .ignoresSafeArea()
+                    
+                    VStack(spacing: .zero) {
+                        Image(systemName: alert.type.titleIcon)
+                            .font(.system(size: 40.0, weight: .semibold))
+                            .foregroundStyle(alert.type.titleColor)
+                            .padding(.top, 16.0)
+                        
+                        alert.message
+                            .font(.custom(GlobalConstants.regularFont, size: 16.0))
+                            .multilineTextAlignment(.center)
+                            .lineSpacing(6.0)
+                            .lineLimit(3)
+                            .foregroundStyle(.primary)
+                            .padding(.top, 16.0)
+                            .padding(.bottom, 18.0)
+                            .padding(.horizontal, 16.0)
+                        
+                        Divider()
+                            .frame(maxWidth: .infinity)
+                        
+                        if let cancel = alert.onCancel {
+                            HStack {
+                                Button(action: {
+                                    type = nil
+                                    cancel()
+                                }) {
+                                    Text("Cancel")
+                                        .font(.custom(GlobalConstants.mediumFont, size: 16.0))
+                                        .frame(maxWidth: .infinity, minHeight: 44.0)
+                                        .contentShape(Rectangle())
+                                }
+                                
+                                Rectangle()
+                                    .fill(Color.gray.opacity(0.3))
+                                    .frame(width: 0.5)
+                                
+                                Button(action: {
+                                    let action = alert.onConfirm
+                                    type = nil
+                                    action()
+                                }) {
+                                    Text("Submit")
+                                        .font(.custom(GlobalConstants.semiBoldFont, size: 16.0))
+                                        .frame(maxWidth: .infinity, minHeight: 44.0)
+                                        .contentShape(Rectangle())
+                                }
                             }
-                            .frame(maxWidth: .infinity, minHeight: 44.0)
-                            .font(.custom(GlobalConstants.mediumFont, size: 16.0))
-
-                            Rectangle()
-                                .fill(Color.gray.opacity(0.3))
-                                .frame(width: 0.5)
-
-                            Button(confirmTitle) {
-                                onConfirm()
+                            .background(alert.type.titleColor.opacity(0.05))
+                        } else {
+                            Button(action: {
+                                let action = alert.onConfirm
+                                type = nil
+                                action()
+                            }) {
+                                Text("OK")
+                                    .font(.custom(GlobalConstants.mediumFont, size: 16.0))
+                                    .frame(maxWidth: .infinity, minHeight: 44.0)
+                                    .contentShape(Rectangle())
+                                    .background(alert.type.titleColor.opacity(0.05))
                             }
-                            .frame(maxWidth: .infinity, minHeight: 44.0)
-                            .font(.custom(GlobalConstants.semiBoldFont, size: 16.0))
                         }
+                    }
+                    .frame(maxWidth: 300.0)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .background(Color(hex: 0xEFF1F1))
+                    .clipShape(RoundedRectangle(cornerRadius: 20.0, style: .continuous))
+                    .shadow(color: .black.opacity(0.2), radius: 20.0, x: 0.0, y: 10.0)
+                    .transition(.scale.combined(with: .opacity))
+                    .animation(.spring(response: 0.35, dampingFraction: 0.88), value: type != nil)
                 }
             }
-            .background(Color.white)
-            .cornerRadius(13.0)
-            .fixedSize(horizontal: false, vertical: true)
-            .frame(maxWidth: 270.0)
-            .shadow(radius: 20.0)
         }
-        .transition(.opacity.combined(with: .scale))
     }
 }
