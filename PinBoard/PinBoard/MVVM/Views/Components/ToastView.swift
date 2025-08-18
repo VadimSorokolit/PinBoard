@@ -22,13 +22,13 @@ struct ToastView: View {
         VStack(alignment: .center, spacing: 4.0) {
             Text(parts[0])
                 .font(.custom(GlobalConstants.mediumFont, size: 16.0))
-                .foregroundColor(.primary)
+                .foregroundColor(Color(hex: 0xCB1397))
                 .multilineTextAlignment(.center)
             
             if parts.count > 1 {
                 Text(parts[1])
-                    .font(.custom(GlobalConstants.semiBoldFont, size: 16.0))
-                    .foregroundColor(Color(hex: 0xcb1397))
+                    .font(.custom(GlobalConstants.regularFont, size: 16.0))
+                    .foregroundColor(.primary)
                     .multilineTextAlignment(.center)
             }
         }

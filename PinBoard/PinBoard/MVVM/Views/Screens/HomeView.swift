@@ -11,6 +11,7 @@ struct HomeView: View {
     
     // MARK: - Properties. Private
     
+    @Environment(PinBoardViewModel.self) private var viewModel
     @State var activeTab: Tab = .list
     @State var allTabs: [AnimatedTab] = Tab.allCases.map(AnimatedTab.init)
     
@@ -28,23 +29,14 @@ struct HomeView: View {
                 await showEachTab()
             }
         }
-    }
-    
-    // Fix sharing view model state between tabs
-    private func showEachTab() async {
-        let tabs = Tab.allCases
-        
-        guard let startIndex = tabs.firstIndex(of: activeTab) else {
-            return
-        }
-        for offset in 1...tabs.count {
-            try? await Task.sleep(nanoseconds: 100_000_000)
-            let next = tabs[(startIndex + offset) % tabs.count]
-            await MainActor.run { activeTab = next }
+        .onChange(of: activeTab) { oldValue, newValue in
+            viewModel.selectedTab = newValue
         }
     }
     
-    struct TabContentView: View {
+    // MARK: - SubViews
+    
+    private struct TabContentView: View {
         @Binding var activeTab: Tab
         
         var body: some View {
@@ -61,11 +53,7 @@ struct HomeView: View {
                     case .list:
                         ListView()
                     case .map:
-                        /*
-                         Need to fix Tab Bar animation
-                         Info alert should appear only during the first lauch
-                         */
-                        MapView(selectedTab: $activeTab)
+                        MapView()
                     case .settings:
                         SettingsView()
                 }
@@ -73,7 +61,7 @@ struct HomeView: View {
         }
     }
     
-    struct CustomTabBar: View {
+    private struct CustomTabBar: View {
         @AppStorage(GlobalConstants.selectedPaletteIndexKey) private var selectedPaletteIndex: Int = 0
         private var selectedPalette: ColorGradient {
             ColorGradient.palette[selectedPaletteIndex]
@@ -141,4 +129,19 @@ struct HomeView: View {
         }
     }
     
+    // MARK: - Methods. Private
+    
+    // Fix sharing view model state between tabs
+    private func showEachTab() async {
+        let tabs = Tab.allCases
+        
+        guard let startIndex = tabs.firstIndex(of: activeTab) else {
+            return
+        }
+        for offset in 1...tabs.count {
+            try? await Task.sleep(nanoseconds: 100_000_000)
+            let next = tabs[(startIndex + offset) % tabs.count]
+            await MainActor.run { activeTab = next }
+        }
+    }
 }

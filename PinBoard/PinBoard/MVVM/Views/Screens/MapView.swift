@@ -40,10 +40,9 @@ struct MapView: View {
     @State private var userCoordinate: CLLocationCoordinate2D? = nil
     @State private var newLocation: Location? = nil
     @State private var selectedLocationId: String? = nil
-    @State private var isShownInfoAlert: Bool = false
+    @State private var isInfoAlertShown: Bool = false
     @State private var isFirstScreenBoot: Bool = false
     @State private var lastDragPoint: CGPoint? = nil
-    @Binding var selectedTab: Tab
     @AppStorage(GlobalConstants.selectedPaletteIndexKey) private var selectedPaletteIndex: Int = 0
     @AppStorage(GlobalConstants.addLocationKey) private var isAutoAddingLocation: Bool = false
     private var selectedPalette: ColorGradient {
@@ -92,8 +91,7 @@ struct MapView: View {
             newLocation: $newLocation,
             selectedLocationId: $selectedLocationId,
             isFirstScreenBoot: $isFirstScreenBoot,
-            isShownInfoAlert: $isShownInfoAlert,
-            selectedTab: selectedTab
+            isInfoAlertShown: $isInfoAlertShown
         ))
     }
     
@@ -395,8 +393,7 @@ struct MapView: View {
         @Binding var newLocation: Location?
         @Binding var selectedLocationId: String?
         @Binding var isFirstScreenBoot: Bool
-        @Binding var isShownInfoAlert: Bool
-        let selectedTab: Tab
+        @Binding var isInfoAlertShown: Bool
         
         func body(content: Content) -> some View {
             content
@@ -418,10 +415,10 @@ struct MapView: View {
                             hasCenteredOnUserLocation = true
                         }
                     }
-                    if selectedTab == .map, isShownInfoAlert == false, locations.isEmpty, isFirstScreenBoot {
+                    if viewModel.selectedTab == .map, isInfoAlertShown == false, locations.isEmpty, isFirstScreenBoot {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
                             alertManager.showError(Text(Constants.infoAlertMessage)) {
-                                isShownInfoAlert = true
+                                isInfoAlertShown = true
                             }
                         }
                     }
