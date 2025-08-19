@@ -55,7 +55,7 @@ class Authenticator: AuthenticatorProtocol {
     
     // MARK: - Properties. Private
     
-    private let context = LAContext()
+    private var context = LAContext()
     private let userDefaultSecretKey: String = "secret key"
     private let maxFailedAttemptAllowed: Int = 3
     private var failedAttempt: Int = .zero
@@ -149,6 +149,8 @@ class Authenticator: AuthenticatorProtocol {
     private func resetFailCount() {
         self.failedAttempt = .zero
         self.isBiometricLocked = false
+        self.context.invalidate()
+        self.context = LAContext()
     }
     
     private func decryptUserPasscode() -> String? {
