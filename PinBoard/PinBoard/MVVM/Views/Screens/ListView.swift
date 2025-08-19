@@ -384,7 +384,7 @@ struct ListView: View {
             do {
                 try modelContext.save()
             } catch {
-                appAlert.error((Text(error.localizedDescription)))
+                appAlert.error(Text(error.localizedDescription))
             }
         }
         
@@ -409,7 +409,7 @@ struct ListView: View {
             do {
                 try modelContext.save()
             } catch {
-                appAlert.error((Text(error.localizedDescription)))
+                appAlert.error(Text(error.localizedDescription))
             }
             targetedId = nil
             

@@ -14,7 +14,7 @@ class AESEncryptionService {
     
     static var onError: ((String) -> Void)?
     
-    // MARK: - Methods
+    // MARK: - Methods. Public
     
     static func encrypt(plainText: String, key: String, keySize: Int = 32) -> String? {
         guard let data = plainText.data(using: .utf8), let keyData = key.data(using: .utf8)?.prefix(keySize) else {

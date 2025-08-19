@@ -36,6 +36,7 @@ struct MapView: View {
             span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
         )
     )
+    @State private var isBlockingMap = false
     @State private var locationManager = LocationService()
     @State private var hasCenteredOnUserLocation: Bool = false
     @State private var isLoading: Bool = false
@@ -69,6 +70,7 @@ struct MapView: View {
                 camera: $camera,
                 selectedLocationId: $selectedLocationId,
                 lastDragPoint: $lastDragPoint,
+                isBlockingMap: $isBlockingMap,
                 selectedPalette: selectedPalette,
                 userCoordinate: userCoordinate,
                 uniqueLocations: uniqueLocations,
@@ -103,6 +105,7 @@ struct MapView: View {
         @Binding var camera: MapCameraPosition
         @Binding var selectedLocationId: String?
         @Binding var lastDragPoint: CGPoint?
+        @Binding var isBlockingMap: Bool
         let selectedPalette: ColorGradient
         let userCoordinate: CLLocationCoordinate2D?
         let uniqueLocations: [StorageLocation]
@@ -119,7 +122,7 @@ struct MapView: View {
                     
                     ForEach(uniqueLocations, id: \.id) { storage in
                         Annotation(
-                            "Unique location",
+                            "",
                             coordinate: CLLocationCoordinate2D(latitude: storage.latitude, longitude: storage.longitude)) {
                                 CustomPinView(
                                     selectedLocationId: $selectedLocationId,
@@ -132,6 +135,7 @@ struct MapView: View {
                             }
                     }
                 }
+                .disabled(isBlockingMap)
                 .ignoresSafeArea()
                 .simultaneousGesture(
                     DragGesture(minimumDistance: .zero)
@@ -143,7 +147,7 @@ struct MapView: View {
                         }
                 )
                 .simultaneousGesture(
-                    LongPressGesture(minimumDuration: 0.5, maximumDistance: .infinity)
+                    LongPressGesture()
                         .onChanged { _ in
                             UIImpactFeedbackGenerator(style: .medium).prepare()
                         }
@@ -151,6 +155,7 @@ struct MapView: View {
                             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                             if let dragPoint = lastDragPoint,
                                let coordinate = proxy.convert(dragPoint, from: .local) {
+                                isBlockingMap = true
                                 onPressAt(coordinate)
                             }
                         }
@@ -349,9 +354,11 @@ struct MapView: View {
                             onConfirm:{
                                 newLocation = location
                                 handleAddLocation()
+                                isBlockingMap = false
                             },
                             onCancel: {
                                 newLocation = nil
+                                isBlockingMap = false
                             }
                         )
                     }
@@ -365,7 +372,7 @@ struct MapView: View {
                     case .network:
                         appAlert.error(Text(Constants.networkErrorMessage))
                     case .unknown(let error):
-                        appAlert.error(Text("\(error.localizedDescription)"))
+                        appAlert.error(Text(error.localizedDescription))
                 }
             }
         }

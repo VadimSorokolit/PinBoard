@@ -117,7 +117,7 @@ enum Alert {
                                     type = nil
                                     action()
                                 }) {
-                                    Text("Submit")
+                                    Text("Add")
                                         .font(.custom(GlobalConstants.semiBoldFont, size: 16.0))
                                         .frame(maxWidth: .infinity, minHeight: 44.0)
                                         .contentShape(Rectangle())

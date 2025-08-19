@@ -25,7 +25,9 @@ struct PasscodeTemplateView<Content: View>: View {
             guard newValue.count == GlobalConstants.passcodeLength else {
                 return
             }
-            onComplete()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                onComplete()
+            }
         }
     }
     

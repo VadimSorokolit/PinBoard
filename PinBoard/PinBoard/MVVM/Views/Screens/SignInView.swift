@@ -21,20 +21,18 @@ struct SignInView: View {
             isWrongPassword: $isWrongPassword,
             title: "Enter",
             titleText: "for Sign In", onComplete: {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    let success = viewModel.verifyPasscode()
+                let success = viewModel.verifyPasscode()
+                
+                if !success {
+                    isWrongPassword = true
                     
-                    if !success {
-                        isWrongPassword = true
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
-                            isWrongPassword = false
-                            viewModel.passcode = ""
-                        }
-                    } else {
-                        viewModel.passcode = ""
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
                         isWrongPassword = false
+                        viewModel.passcode = ""
                     }
+                } else {
+                    viewModel.passcode = ""
+                    isWrongPassword = false
                 }
             }
         ) {

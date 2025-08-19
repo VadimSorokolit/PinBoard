@@ -92,8 +92,8 @@ struct SettingsView: View {
                             
                             ZStack(alignment: .leading) {
                                 HStack(spacing: spacing) {
-                                    ForEach(Array(ColorGradient.palette.indices), id: \.self) { idx in
-                                        let palette = ColorGradient.palette[idx]
+                                    ForEach(Array(ColorGradient.palette.indices), id: \.self) { index in
+                                        let palette = ColorGradient.palette[index]
                                         palette.gradient
                                             .mask(Image(GlobalConstants.pinImageName)
                                                 .resizable()
@@ -103,7 +103,7 @@ struct SettingsView: View {
                                             .contentShape(Rectangle())
                                             .onTapGesture {
                                                 withAnimation(.spring(response: 0.4, dampingFraction: 1.0)) {
-                                                    selectedPaletteIndex = idx
+                                                    selectedPaletteIndex = index
                                                 }
                                             }
                                     }
