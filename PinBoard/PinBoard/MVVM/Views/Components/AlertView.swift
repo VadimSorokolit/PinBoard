@@ -9,9 +9,9 @@ import SwiftUI
 
 enum Alert {
     
-    struct AppAlertType: Identifiable {
+    struct Notice: Identifiable {
         
-        enum AlertCategory {
+        enum Category {
             case error
             case info
             case warning
@@ -45,13 +45,13 @@ enum Alert {
         }
         
         let id = UUID()
-        let type: AlertCategory
+        let type: Category
         let message: Text
         let onConfirm: () -> Void
         let onCancel: (() -> Void)?
         
         init(
-            type: AlertCategory,
+            type: Category,
             message: Text,
             onConfirm: @escaping () -> Void,
             onCancel: (() -> Void)? = nil
@@ -64,11 +64,11 @@ enum Alert {
     }
     
     struct Key: EnvironmentKey {
-        static let defaultValue: Binding<AppAlertType?> = .constant(nil)
+        static let defaultValue: Binding<Notice?> = .constant(nil)
     }
     
     struct AlertOverlayModifier: ViewModifier {
-        @Binding var type: AppAlertType?
+        @Binding var type: Notice?
         
         func body(content: Content) -> some View {
             ZStack {

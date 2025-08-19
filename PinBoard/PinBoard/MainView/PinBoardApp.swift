@@ -15,7 +15,7 @@ struct PinBoardApp: App, AuthenticatorDelegate {
     // MARK: - Properties. Private
     
     @State private var viewModel: PinBoardViewModel
-    @State private var appAlert: AppAlertType?
+    @State private var appAlert: Alert.Notice?
     @State private var isOverlayShown: Bool = false
     @AppStorage(GlobalConstants.userDefaultPasscodeKey) private var passcode: String?
     private let sharedModelContainer: ModelContainer
@@ -88,7 +88,7 @@ struct PinBoardApp: App, AuthenticatorDelegate {
     
     private struct LoadViewModifier: ViewModifier {
         @Binding var viewModel: PinBoardViewModel
-        @Binding var appAlert: AppAlertType?
+        @Binding var appAlert: Alert.Notice?
         
         func body(content: Content) -> some View {
             content
