@@ -303,15 +303,17 @@ struct ListView: View {
                                 )
                             )
                             .frame(width: Constants.gridImageWidth, height: Constants.gridImageWidth)
+                            .padding(.horizontal, 10.0)
+                            .padding(.vertical, 10.0)
                         }
                         .frame(height: Constants.gridIndexTitleWidth)
-                        .padding(.leading, Constants.editButtonTrailingPadding + Constants.gridIndexTitleWidth / 3.0)
+                        .padding(.leading, 1.3 * Constants.editButtonTrailingPadding)
                         
                         Text("\(Constants.numberPrefixName) \(location.index)")
                             .font(.custom(GlobalConstants.mediumFont, size: Constants.cellFontSize))
                             .foregroundColor(Color(hex:Constants.indexTextColor))
                             .frame(width: Constants.indexTitleWidth, alignment: .leading)
-                            .padding(.leading, GlobalConstants.gridHorizontalSpacing / 2.6)
+                            .padding(.leading, Constants.editButtonTrailingPadding / 6.2)
                         
                         Text(location.name)
                             .font(.custom(GlobalConstants.mediumFont, size: Constants.cellFontSize))

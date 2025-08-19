@@ -7,61 +7,61 @@
 
 import SwiftUI
 
-struct AppAlertType: Identifiable {
-    
-    enum AlertCategory {
-        case error
-        case info
-        case warning
-        case complete
-        
-        var titleColor: Color {
-            switch self {
-                case .error:
-                    return .red
-                case .warning:
-                    return .orange
-                case .info:
-                    return .blue
-                case .complete:
-                    return .green
-            }
-        }
-        
-        var titleIcon: String {
-            switch self {
-                case .error:
-                    return "xmark.octagon.fill"
-                case .warning:
-                    return "exclamationmark.triangle.fill"
-                case .info:
-                    return "info.circle.fill"
-                case .complete:
-                    return "checkmark.circle.fill"
-            }
-        }
-    }
-    
-    let id = UUID()
-    let type: AlertCategory
-    let message: Text
-    let onConfirm: () -> Void
-    let onCancel: (() -> Void)?
-    
-    init(
-        type: AlertCategory,
-        message: Text,
-        onConfirm: @escaping () -> Void,
-        onCancel: (() -> Void)? = nil
-    ) {
-        self.type = type
-        self.message = message
-        self.onConfirm = onConfirm
-        self.onCancel = onCancel
-    }
-}
-
 enum Alert {
+    
+    struct AppAlertType: Identifiable {
+        
+        enum AlertCategory {
+            case error
+            case info
+            case warning
+            case complete
+            
+            var titleColor: Color {
+                switch self {
+                    case .error:
+                        return .red
+                    case .warning:
+                        return .orange
+                    case .info:
+                        return .blue
+                    case .complete:
+                        return .green
+                }
+            }
+            
+            var titleIcon: String {
+                switch self {
+                    case .error:
+                        return "xmark.octagon.fill"
+                    case .warning:
+                        return "exclamationmark.triangle.fill"
+                    case .info:
+                        return "info.circle.fill"
+                    case .complete:
+                        return "checkmark.circle.fill"
+                }
+            }
+        }
+        
+        let id = UUID()
+        let type: AlertCategory
+        let message: Text
+        let onConfirm: () -> Void
+        let onCancel: (() -> Void)?
+        
+        init(
+            type: AlertCategory,
+            message: Text,
+            onConfirm: @escaping () -> Void,
+            onCancel: (() -> Void)? = nil
+        ) {
+            self.type = type
+            self.message = message
+            self.onConfirm = onConfirm
+            self.onCancel = onCancel
+        }
+    }
     
     struct Key: EnvironmentKey {
         static let defaultValue: Binding<AppAlertType?> = .constant(nil)
