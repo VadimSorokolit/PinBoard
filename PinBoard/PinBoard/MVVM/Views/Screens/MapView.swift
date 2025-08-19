@@ -354,7 +354,6 @@ struct MapView: View {
                             onConfirm:{
                                 newLocation = location
                                 handleAddLocation()
-                                isBlockingMap = false
                             },
                             onCancel: {
                                 newLocation = nil
@@ -363,16 +362,24 @@ struct MapView: View {
                         )
                     }
                 } else {
-                    appAlert.warning(Text(Constants.warningAlertMessage))
+                    appAlert.warning(Text(Constants.warningAlertMessage), onConfirm: {
+                        isBlockingMap = false
+                    })
                 }
             } catch let error as LocationError {
                 switch error{
                     case .server:
-                        appAlert.error(Text(Constants.serverErrorMessage))
+                        appAlert.error(Text(Constants.serverErrorMessage), onConfirm: {
+                            isBlockingMap = false
+                        })
                     case .network:
-                        appAlert.error(Text(Constants.networkErrorMessage))
+                        appAlert.error(Text(Constants.networkErrorMessage), onConfirm: {
+                            isBlockingMap = false
+                        })
                     case .unknown(let error):
-                        appAlert.error(Text(error.localizedDescription))
+                        appAlert.error(Text(error.localizedDescription), onConfirm: {
+                            isBlockingMap = false
+                        })
                 }
             }
         }
@@ -380,7 +387,9 @@ struct MapView: View {
     
     private func handleAddLocation() {
         guard let storageLocation = newLocation?.asStorageModel else {
-            appAlert.error((Text(Constants.storageConversionErrorMessage)))
+            appAlert.error(Text(Constants.storageConversionErrorMessage), onConfirm: {
+                isBlockingMap = false
+            })
             
             return
         }
@@ -396,10 +405,12 @@ struct MapView: View {
         
         do {
             try modelContext.save()
-            
             newLocation = nil
+            isBlockingMap = false
         } catch {
-            appAlert.error(Text(error.localizedDescription))
+            appAlert.error(Text(error.localizedDescription), onConfirm: {
+                isBlockingMap = false
+            })
         }
     }
     
