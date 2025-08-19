@@ -10,7 +10,6 @@
 * Map — **MapKit**
 * Local Storage — **SwiftData**, **AppStorage**
 * Animations — **SwiftUI Animations**
-* Dependencies — **Swift Package Manager**
 * Unit Tests — **Swift Testing**
 
 <br />
